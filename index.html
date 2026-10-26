@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BBPS & NTPC Gadarwara | Official AI & Voice Information Portal</title>
+  <title>BBPS & NTPC Gadarwara | Official AI Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -12,7 +12,7 @@
     .chat-scroll::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
     @keyframes pulse-ring {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      50% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
     .listening-pulse { animation: pulse-ring 1.5s infinite; }
@@ -20,738 +20,369 @@
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- Top Navigation Bar -->
+  <!-- Header with Official Logos -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-700 to-teal-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-          AI
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg p-1 shadow-sm gap-1">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Bal_Bharati_Public_School_logo.png/220px-Bal_Bharati_Public_School_logo.png" alt="BBPS Logo" class="h-8 w-8 object-contain bg-white rounded-md">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/NTPC_Logo.svg/512px-NTPC_Logo.svg.png" alt="NTPC Logo" class="h-8 w-8 object-contain bg-white rounded-md p-0.5">
         </div>
         <div>
           <h1 class="font-bold text-slate-900 text-sm sm:text-base leading-tight">Gadarwara Digital Helpdesk</h1>
           <p class="text-xs text-slate-500">BBPS Campus & NTPC Super Thermal Power Station</p>
         </div>
       </div>
-
-      <!-- Voice Controls in Top Bar -->
       <div class="flex items-center gap-2">
         <button id="tts-toggle" onclick="toggleAutoVoice()" class="text-xs font-medium px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800">
-          <span id="tts-icon">🔊</span>
-          <span id="tts-label">Voice Reply: ON</span>
-        </button>
-        <button id="verbal-mode-btn" onclick="toggleVerbalMode()" class="text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-800 transition flex items-center gap-1.5">
-          <span>🎙️</span>
-          <span id="verbal-mode-label">Live Verbal Chat</span>
+          <span id="tts-icon">🔊</span><span id="tts-label">Voice Reply: ON</span>
         </button>
       </div>
     </div>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 sm:px-6 py-5">
-
-    <!-- Live Verbal Mode Active Banner (Hidden by default) -->
-    <div id="verbal-banner" class="hidden mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-teal-900 text-white rounded-2xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div id="verbal-orb" class="w-11 h-11 rounded-full bg-red-500 flex items-center justify-center text-xl listening-pulse">
-          🎙️
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs uppercase tracking-wider font-bold bg-white/20 px-2 py-0.5 rounded">2-Way Verbal Mode</span>
-            <span id="verbal-status" class="text-xs text-emerald-300 font-medium">Listening to your voice...</span>
-          </div>
-          <p class="text-xs text-slate-200 mt-1">Speak naturally. The AI will reply in both chat and voice, then listen again automatically.</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="stopSpeaking()" class="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-lg transition">Mute Current Speech</button>
-        <button onclick="toggleVerbalMode()" class="text-xs bg-red-600 hover:bg-red-700 px-3.5 py-1.5 rounded-lg font-semibold transition">End Verbal Mode</button>
-      </div>
-    </div>
-
-    <!-- Assistant Switcher -->
+    
+    <!-- Portal Switcher -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
       <button id="tab-school" onclick="switchBot('school')" class="text-left p-4 rounded-xl border-2 transition-all bg-blue-50/70 border-blue-600 shadow-sm flex items-start justify-between">
         <div>
           <div class="flex items-center gap-2">
             <span class="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-600 text-white">School Helpdesk</span>
-            <span class="text-xs text-slate-500">bbpsgadarwara.balbharati.org</span>
           </div>
-          <h2 class="text-base font-bold text-slate-900 mt-1.5">Bal Bharati Public School (BBPS)</h2>
-          <p class="text-xs text-slate-600 mt-0.5">Principal, Admissions, Timings, Streams, Labs & Fees</p>
+          <h2 class="text-base font-bold text-slate-900 mt-1.5">Bal Bharati Public School</h2>
+          <p class="text-xs text-slate-600 mt-0.5">Admissions, Academics, Gallery & Portal</p>
         </div>
-        <span class="text-2xl">🎓</span>
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Bal_Bharati_Public_School_logo.png/220px-Bal_Bharati_Public_School_logo.png" class="h-12 w-12 object-contain opacity-90">
       </button>
 
       <button id="tab-ntpc" onclick="switchBot('ntpc')" class="text-left p-4 rounded-xl border-2 transition-all bg-white border-slate-200 hover:border-teal-600 flex items-start justify-between">
         <div>
           <div class="flex items-center gap-2">
             <span class="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-200 text-slate-700">Township & Plant</span>
-            <span class="text-xs text-slate-500">ntpc.co.in</span>
           </div>
-          <h2 class="text-base font-bold text-slate-900 mt-1.5">NTPC Gadarwara STPS (1,600 MW)</h2>
-          <p class="text-xs text-slate-600 mt-0.5">Gate Pass, Plant Capacity, Boilers, Environment & Township</p>
+          <h2 class="text-base font-bold text-slate-900 mt-1.5">NTPC Gadarwara (1600 MW)</h2>
+          <p class="text-xs text-slate-600 mt-0.5">Gate Pass, Capacity, Jobs & Environment</p>
         </div>
-        <span class="text-2xl">⚡</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/NTPC_Logo.svg/512px-NTPC_Logo.svg.png" class="h-12 w-12 object-contain opacity-90">
       </button>
     </div>
 
     <!-- Chat Interface -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[560px]">
-      
-      <!-- Active Assistant Header -->
       <div id="chat-header" class="bg-blue-700 text-white px-5 py-3.5 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div id="bot-icon" class="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center text-lg">🎓</div>
+          <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center overflow-hidden p-0.5">
+            <img id="bot-img" src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Bal_Bharati_Public_School_logo.png/220px-Bal_Bharati_Public_School_logo.png" class="w-full h-full object-contain">
+          </div>
           <div>
-            <h3 id="bot-title" class="font-semibold text-sm">BBPS Gadarwara Visitor & Admission Desk</h3>
-            <p id="bot-subtitle" class="text-xs text-blue-100">Official CBSE School Information • Principal: Dr. Anurag Pandey</p>
+            <h3 id="bot-title" class="font-semibold text-sm">BBPS Information Desk</h3>
+            <p id="bot-subtitle" class="text-xs text-blue-100">Live Website Integration & Enquiries</p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="stopSpeaking()" class="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded transition" title="Stop Voice">🔇 Stop Audio</button>
-          <button onclick="clearChat()" class="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded transition">Reset</button>
-        </div>
+        <button onclick="clearChat()" class="text-xs bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded transition">Reset Chat</button>
       </div>
 
-      <!-- Messages Window -->
       <div id="chat-box" class="flex-1 p-5 overflow-y-auto chat-scroll space-y-4 bg-slate-50/50"></div>
+      
+      <!-- Quick Chips -->
+      <div id="quick-chips" class="px-4 py-2.5 bg-white border-t border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar"></div>
 
-      <!-- Quick Action Chips -->
-      <div id="quick-chips" class="px-4 py-2.5 bg-white border-t border-slate-100 flex items-center gap-2 overflow-x-auto"></div>
-
-      <!-- User Input Bar with Voice Command -->
+      <!-- Input Form -->
       <form onsubmit="handleUserSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex gap-2">
-        <button 
-          type="button" 
-          id="mic-btn" 
-          onclick="startSingleVoice()" 
-          class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5 text-xs font-medium shrink-0" 
-          title="Speak your question">
-          <span id="mic-icon">🎤</span>
-          <span class="hidden sm:inline" id="mic-text">Speak</span>
+        <button type="button" id="mic-btn" onclick="startSingleVoice()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5 text-xs font-medium shrink-0">
+          <span id="mic-icon">🎤</span><span class="hidden sm:inline">Speak</span>
         </button>
-        <input 
-          id="user-input" 
-          type="text" 
-          placeholder="Ask about Principal, Admissions, Timings, NTPC Capacity, or any GK question..." 
-          class="flex-1 text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-600 focus:bg-white transition"
-          required
-        />
-        <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition shadow-sm">
-          Ask
-        </button>
+        <input id="user-input" type="text" placeholder="Ask about Admissions, Academics, Results, Jobs, or any question..." class="flex-1 text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-600 focus:bg-white transition" required />
+        <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2.5 rounded-xl transition shadow-sm">Ask</button>
       </form>
     </div>
-
-    <!-- AI Reference Transparency Footer -->
-    <footer class="mt-5 bg-white border border-slate-200 rounded-xl p-4 text-xs text-slate-600 flex flex-col sm:flex-row justify-between gap-3">
-      <div class="space-y-1">
-        <div class="font-semibold text-slate-800 flex items-center gap-1.5"><span>🔍</span> AI Architecture & Reference</div>
-        <p><strong>1. Weighted NLP Intent Engine:</strong> Prioritizes exact entity matches (Principal, Admission, Gate Pass, Capacity) across BBPS & NTPC records.<br>
-           <strong>2. Two-Way Speech Synthesis & Recognition:</strong> Uses Web Speech API (STT + TTS) for verbal communication in English & Hindi.<br>
-           <strong>3. Open Web GK Engine:</strong> Connects to Wikipedia Search & Summary APIs for live General Knowledge answers.</p>
-      </div>
-      <div class="text-slate-400 shrink-0 sm:text-right self-end">
-        Gadarwara, Dist. Narsinghpur (M.P.) • 487770
-      </div>
-    </footer>
-
   </main>
 
   <script>
+    // --- GEMINI API KEY INTEGRATED HERE ---
+    const GEMINI_API_KEY = "AQ.Ab8RN6JtJFU_wA4ZNmNCBO-XNrgDucqZgxQJt9k1YuZ_vyP22A"; 
+    // -----------------------------------------
+
     let activeBot = 'school';
     let autoVoiceReply = true;
-    let verbalModeActive = false;
     let recognitionInstance = null;
 
-    // Comprehensive, non-overlapping Knowledge Base
+    // Admission Form Email Sender (Direct to Gmail)
+    function submitViaGmail(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentName').value;
+      const phone = document.getElementById('parentPhone').value;
+      const grade = document.getElementById('applyClass').value;
+      
+      const subject = encodeURIComponent("New Admission Enquiry - BBPS Gadarwara");
+      const body = encodeURIComponent(`Student Name: ${name}\nContact Phone: ${phone}\nApplying for Class: ${grade}\n\nSent from Gadarwara AI Helpdesk`);
+      
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      e.target.reset();
+      appendBotMessage("Thank you! Your email application has opened. Please hit 'Send' to complete the enquiry.", "System Confirmation");
+    }
+
+    // Complete BBPS Site Map Knowledge Base
     const knowledgeBase = {
       school: {
-        name: "BBPS Gadarwara Visitor & Admission Desk",
-        subtitle: "Official CBSE School Information • Principal: Dr. Anurag Pandey",
-        headerClass: "bg-blue-700",
-        btnClass: "bg-blue-600 hover:bg-blue-700",
-        icon: "🎓",
-        welcome: "Welcome to **Bal Bharati Public School, NTPC Gadarwara**. You can type or speak your questions. I answer in both **text and voice** about our Principal, Admissions, Timings, Subjects, Campus Facilities, NTPC Plant, or General Knowledge.",
-        chips: [
-          "Who is the Principal of BBPS?",
-          "New Admission Process & Documents",
-          "School & Office Timings",
-          "Class 11 & 12 Subjects/Streams",
-          "Campus Labs & Sports Facilities",
-          "Where is BBPS located?"
-        ],
+        name: "BBPS Information Desk", subtitle: "Official CBSE School Information", headerClass: "bg-blue-700", btnClass: "bg-blue-600 hover:bg-blue-700", imgUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/5/5a/Bal_Bharati_Public_School_logo.png/220px-Bal_Bharati_Public_School_logo.png",
+        welcome: "Welcome to the **BBPS Gadarwara Portal**. You can ask about our **Academics**, **Admissions**, **Gallery**, **Careers**, or **General Knowledge**.",
+        chips: ["📝 Admission Form", "🏫 About Us", "📚 Academics", "🏆 Beyond Academics", "🖼️ Gallery", "📞 Contact & Portals"],
         entries: [
+          // ADMISSIONS
           {
-            id: "school_principal",
-            phrases: ["who is the principal", "principal of bbps", "principal name", "head of school", "dr anurag pandey", "प्रिंसिपल कौन है", "प्राचार्य"],
-            keywords: ["principal", "anurag", "pandey", "headmaster", "management", "society", "ces"],
-            answer: `**Principal & School Leadership (BBPS Gadarwara):**
-• **Principal:** **Dr. Anurag Pandey** is the Principal of Bal Bharati Public School, NTPC Gadarwara.
-• **Parent Organization:** Managed by the **Child Education Society (CES), New Delhi** in collaboration with NTPC Gadarwara.
-• **School Motto:** *"Hanso Nayatu Naha Pragyam"* (Lead Us Unto Light).
-• **Principal Visiting Hours:** 10:00 AM – 11:30 AM on working days (prior appointment at reception recommended).`,
-            voiceText: "Dr. Anurag Pandey is the Principal of Bal Bharati Public School, NTPC Gadarwara. The school is managed by the Child Education Society, New Delhi. Visitors can meet the Principal between 10 AM and 11:30 AM on working days.",
-            aiRef: "NLP Entity Match: School_Leadership • RAG Source: BBPS Official Directory"
+            phrases: ["fill admission form", "take admission", "apply online", "admission process", "entrance requirements", "scholarships", "transfer certificate", "tc"],
+            keywords: ["admission", "admissions", "apply", "form", "enroll", "scholarship", "certificate", "tc", "faq"],
+            answer: `**Admissions & Online Form:**
+• <a href="https://bbpsgadarwara.balbharati.org/admission-process/" target="_blank" class="text-blue-600 font-semibold underline">View Admission Process & Entrance Requirements</a>
+• <a href="https://bbpsgadarwara.balbharati.org/transfer-certificate/" target="_blank" class="text-blue-600 underline">Download Transfer Certificate (TC)</a>
+
+**Quick Admission Enquiry:** Fill out this form to email the administration directly.
+<form onsubmit="submitViaGmail(event)" class="mt-3 space-y-2 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+  <input type="text" id="studentName" placeholder="Student Full Name" required class="w-full text-sm p-2 border border-slate-200 rounded-lg">
+  <input type="tel" id="parentPhone" placeholder="Parent's Phone" required class="w-full text-sm p-2 border border-slate-200 rounded-lg">
+  <select id="applyClass" required class="w-full text-sm p-2 border border-slate-200 rounded-lg bg-white">
+    <option value="">-- Select Class --</option>
+    <option value="Pre-Primary">Pre-Primary (Nursery/KG)</option>
+    <option value="Primary (1-5)">Primary (Classes 1 - 5)</option>
+    <option value="Middle (6-8)">Middle (Classes 6 - 8)</option>
+    <option value="Secondary (9-12)">Secondary (9 - 12)</option>
+  </select>
+  <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-lg text-sm font-bold mt-1 shadow-sm">Send Enquiry</button>
+</form>`,
+            voiceText: "You can apply for admission by filling out the online form provided in the chat. I have also included links to the admission process and transfer certificates.",
+            aiRef: "BBPS Web Integration: /admissions"
           },
+          // ABOUT US
           {
-            id: "school_admission",
-            phrases: ["new admission", "admission process", "how to get admission", "documents required", "admission form", "registration", "एडमिशन कैसे लें"],
-            keywords: ["admission", "admissions", "apply", "registration", "documents", "enroll", "age", "criteria", "tc", "form", "एडमिशन", "प्रवेश"],
-            answer: `**New Admission Process & Documents (BBPS Gadarwara):**
-• **Classes Offered:** Pre-Primary (Nursery/LKG/UKG) up to Class XII (CBSE Affiliated).
-• **How to Apply:** Collect the registration form from the School Admin Office (8:30 AM – 1:30 PM) or apply online at **bbpsgadarwara.balbharati.org**.
-• **Required Documents:** Birth Certificate, Transfer Certificate (TC) from Class II onwards, latest Report Card, Aadhaar Card of student & parents, 4 Passport-size Photos, and Category Certificate (if applicable).
-• **Selection Process:** Interaction for Pre-Primary classes; written entrance assessment for Classes I to IX & XI based on seat availability. Open to both NTPC wards and local Gadarwara/Narsinghpur residents.`,
-            voiceText: "For new admissions at BBPS Gadarwara, forms are available online at bbpsgadarwara.balbharati.org and at the school admin office. Required documents include Birth Certificate, Transfer Certificate, Report Card, Aadhaar Card, and passport photos. Both NTPC wards and outside students can apply.",
-            aiRef: "NLP Intent: Admission_Inquiry • RAG Source: BBPS Admission Policy"
+            phrases: ["about us", "school history", "vision", "mission", "core values", "president message", "leadership", "accreditation", "mandatory public disclosure", "faculty", "philosophy"],
+            keywords: ["about", "history", "vision", "mission", "president", "leadership", "faculty", "disclosure", "affiliation"],
+            answer: `**About Us (BBPS Gadarwara):**
+• **Vision, Mission & Core Values:** <a href="https://bbpsgadarwara.balbharati.org/vision-mission/" target="_blank" class="text-blue-600 underline">Read More</a>
+• **School History & Legacy:** <a href="https://bbpsgadarwara.balbharati.org/history/" target="_blank" class="text-blue-600 underline">View Legacy</a>
+• **Leadership & President's Message:** <a href="https://bbpsgadarwara.balbharati.org/leadership/" target="_blank" class="text-blue-600 underline">View Governance</a>
+• **Faculty & Philosophy of Care:** <a href="https://bbpsgadarwara.balbharati.org/faculty/" target="_blank" class="text-blue-600 underline">Meet our Faculty</a>
+• **Mandatory Public Disclosure & Affiliations:** <a href="https://bbpsgadarwara.balbharati.org/mandatory-disclosure/" target="_blank" class="text-blue-600 underline">View Disclosures</a>`,
+            voiceText: "BBPS Gadarwara is guided by the Child Education Society. I have provided direct links to our Vision, History, Leadership, Faculty, and Public Disclosures in the chat.",
+            aiRef: "BBPS Web Integration: /about-us"
           },
+          // ACADEMICS
           {
-            id: "school_timings",
-            phrases: ["school timings", "visiting hours", "office hours", "what time does school open", "school time"],
-            keywords: ["timing", "timings", "hours", "schedule", "time", "open", "close", "saturday", "holiday", "समय"],
-            answer: `**School & Visitor Timings:**
-• **Student Academic Hours:** 7:45 AM to 2:00 PM (Monday to Saturday; 2nd Saturday is a holiday).
-• **Administrative Office Hours:** 8:30 AM to 1:30 PM on working days for fee/admission queries.
-• **Visitor Entry Rule:** All parents and visitors must carry a valid photo ID and sign the register at the Main Security Gate.`,
-            voiceText: "BBPS Gadarwara academic hours are from 7:45 AM to 2:00 PM, Monday to Saturday. The Admin Office is open for visitors from 8:30 AM to 1:30 PM.",
-            aiRef: "NLP Intent: Schedule_Timings • RAG Source: BBPS Almanac"
+            phrases: ["academics", "curriculum", "teaching", "learning approach", "academic support", "career counseling", "academic calendar", "assessment policy", "board results"],
+            keywords: ["academic", "curriculum", "counseling", "calendar", "assessment", "result", "results", "teaching"],
+            answer: `**Academics & Performance:**
+• **Curriculum & Teaching Approach:** <a href="https://bbpsgadarwara.balbharati.org/curriculum/" target="_blank" class="text-blue-600 underline">View Curriculum</a>
+• **Academic Calendar:** <a href="https://bbpsgadarwara.balbharati.org/academic-calendar/" target="_blank" class="text-blue-600 underline">View Calendar</a>
+• **Board Results:** Consistent excellence in Class 10 & 12. <a href="https://bbpsgadarwara.balbharati.org/board-results/" target="_blank" class="text-blue-600 underline">View Results</a>
+• **College & Career Counseling:** <a href="https://bbpsgadarwara.balbharati.org/counseling/" target="_blank" class="text-blue-600 underline">Support Services</a>
+• **Assessment Policy:** <a href="https://bbpsgadarwara.balbharati.org/assessment/" target="_blank" class="text-blue-600 underline">Evaluation Rules</a>`,
+            voiceText: "Our curriculum is CBSE affiliated. You can click the links to view our Board Results, Academic Calendar, and Career Counseling services.",
+            aiRef: "BBPS Web Integration: /academics"
           },
+          // BEYOND ACADEMICS
           {
-            id: "school_academics",
-            phrases: ["streams in class 11", "subjects offered", "artificial intelligence", "cbse affiliation", "curriculum", "class 11 and 12"],
-            keywords: ["stream", "streams", "subject", "subjects", "pcm", "pcb", "commerce", "science", "syllabus", "cbse", "board", "exam", "ai", "computer"],
-            answer: `**Academics, CBSE Curriculum & Senior Secondary Streams:**
-• **Board Affiliation:** Central Board of Secondary Education (CBSE), New Delhi.
-• **Senior Secondary (Class XI & XII):** Offers **Science Stream** (Physics, Chemistry, Mathematics, Biology) and **Commerce Stream**, along with skill & elective subjects including **Artificial Intelligence (AI)**, Computer Science, and Physical Education.
-• **Pedagogy:** Smart-board enabled classrooms, experiential learning under NEP 2020, and hands-on coding/robotics from middle school.`,
-            voiceText: "BBPS Gadarwara is affiliated with CBSE New Delhi and offers classes from Nursery to Class 12, including Science and Commerce streams with subjects like Physics, Chemistry, Mathematics, Biology, Artificial Intelligence, and Physical Education.",
-            aiRef: "NLP Intent: Academic_Curriculum • RAG Source: BBPS Academic Prospectus"
+            phrases: ["beyond academics", "co-curricular", "outward bound", "sports", "achievers", "circular"],
+            keywords: ["sports", "co-curricular", "extracurricular", "achiever", "circular", "activities", "outward"],
+            answer: `**Beyond Academics:**
+• **Sports & Physical Education:** <a href="https://bbpsgadarwara.balbharati.org/sports/" target="_blank" class="text-blue-600 underline">View Sports Facilities</a>
+• **Co-Curricular & Outward Bound:** <a href="https://bbpsgadarwara.balbharati.org/co-curricular/" target="_blank" class="text-blue-600 underline">View Activities</a>
+• **Student Achievers:** <a href="https://bbpsgadarwara.balbharati.org/achievers/" target="_blank" class="text-blue-600 underline">Hall of Fame</a>
+• **Latest Circulars:** <a href="https://bbpsgadarwara.balbharati.org/circulars/" target="_blank" class="text-blue-600 underline">Download Notices</a>`,
+            voiceText: "We focus on holistic development through sports and co-curricular activities. Links to our sports facilities and latest circulars are in the chat.",
+            aiRef: "BBPS Web Integration: /beyond-academics"
           },
+          // GALLERY
           {
-            id: "school_facilities",
-            phrases: ["campus facilities", "labs in school", "atal tinkering lab", "sports facilities", "library", "school bus"],
-            keywords: ["facility", "facilities", "atl", "tinkering", "lab", "labs", "robotics", "sports", "library", "playground", "bus", "transport", "smart class"],
-            answer: `**Campus Infrastructure & Facilities:**
-• **Atal Tinkering Lab (ATL) & Computer Labs:** Dedicated innovation lab for Robotics, IoT, 3D printing, and AI projects.
-• **Science & Math Labs:** Fully equipped Physics, Chemistry, Biology, and Composite Science Laboratories.
-• **Sports & Co-Curricular:** Playgrounds and courts for Football, Cricket, Basketball, Volleyball, Kabaddi, Yoga, Athletics, plus Music, Dance, and Art rooms.
-• **Library & Medical:** Well-stocked library, RO drinking water, CCTV campus security, and medical infirmary.`,
-            voiceText: "Campus facilities include an Atal Tinkering Lab for robotics and AI, dedicated Physics, Chemistry, Biology and Computer labs, a library, smart classrooms, and sports grounds for cricket, football, basketball, and kabaddi.",
-            aiRef: "NLP Intent: Campus_Infrastructure • RAG Source: BBPS Mandatory Disclosure"
+            phrases: ["gallery", "photo gallery", "video gallery", "achievers gallery", "photos", "videos", "images"],
+            keywords: ["gallery", "photo", "video", "photos", "videos", "pictures", "image"],
+            answer: `**School Galleries:**
+• **Photo Gallery:** <a href="https://bbpsgadarwara.balbharati.org/photo-gallery/" target="_blank" class="text-blue-600 underline">View Campus Photos</a>
+• **Video Gallery:** <a href="https://bbpsgadarwara.balbharati.org/video-gallery/" target="_blank" class="text-blue-600 underline">Watch Events</a>
+• **Achievers Gallery:** <a href="https://bbpsgadarwara.balbharati.org/achievers-gallery/" target="_blank" class="text-blue-600 underline">View Our Stars</a>`,
+            voiceText: "You can explore our campus life by visiting the Photo and Video galleries linked in the chat.",
+            aiRef: "BBPS Web Integration: /gallery"
           },
+          // CONTACT & CAREERS
           {
-            id: "school_fees",
-            phrases: ["fee structure", "how to pay fees", "online fee payment", "tuition fee"],
-            keywords: ["fee", "fees", "payment", "charges", "quarterly", "online payment", "फीस"],
-            answer: `**Fee Payment & Structure:**
-• **Payment Mode:** Fees are collected quarterly via the official **BBPS Online Fee Portal** on **bbpsgadarwara.balbharati.org** (Net Banking, UPI, Debit/Credit Card) or via bank challan.
-• **Categories:** Separate fee structures apply for NTPC Employee Wards and Non-NTPC (General Public) students as per CES norms. Exact class-wise fee charts are available at the Admin Office and under Mandatory Public Disclosure on the school website.`,
-            voiceText: "School fees can be paid online through the BBPS Gadarwara website using UPI, cards, or net banking. Class-wise fee schedules for NTPC wards and general students are available at the Admin Office.",
-            aiRef: "NLP Intent: Fee_Information • RAG Source: BBPS Admin Desk"
-          },
-          {
-            id: "school_location",
-            phrases: ["where is bbps", "school address", "how to reach bbps", "contact number"],
-            keywords: ["location", "address", "reach", "where", "contact", "phone", "email", "gangai", "distance", "station", "पता"],
-            answer: `**Location & Contact Details (BBPS Gadarwara):**
-• **Address:** Bal Bharati Public School, NTPC Gadarwara Township, PO Gangai, PS Dongargaon, Tehsil Gadarwara, Dist. Narsinghpur, Madhya Pradesh – 487770.
-• **Distance:** Located ~14 km from **Gadarwara Railway Station** via State Highway 22.
-• **Official Website:** bbpsgadarwara.balbharati.org`,
-            voiceText: "BBPS Gadarwara is located inside the NTPC Gadarwara Township at Village Gangai, District Narsinghpur, Madhya Pradesh, PIN 487770. It is about 14 kilometers from Gadarwara Railway Station.",
-            aiRef: "NLP Intent: Location_Contact • RAG Source: Verified Campus Directory"
+            phrases: ["contact us", "contact details", "map", "enquiry", "parent portal login", "careers at our school", "jobs", "hiring"],
+            keywords: ["contact", "map", "login", "portal", "career", "careers", "job", "jobs", "vacancy"],
+            answer: `**Contact, Careers & Portals:**
+• **Parent Portal Login:** <a href="https://bbpsgadarwara.balbharati.org/parent-portal/" target="_blank" class="text-blue-600 font-semibold underline">Login Here</a>
+• **Careers & Jobs:** We regularly hire qualified staff. <a href="https://bbpsgadarwara.balbharati.org/careers/" target="_blank" class="text-blue-600 font-semibold underline">View Open Vacancies</a>
+• **Contact Details & Map:** <a href="https://bbpsgadarwara.balbharati.org/contact-us/" target="_blank" class="text-blue-600 underline">View Map</a>`,
+            voiceText: "I have provided direct links for the Parent Portal Login, current Job Vacancies, and our Contact map.",
+            aiRef: "BBPS Web Integration: /contact-us"
           }
         ]
       },
-
       ntpc: {
-        name: "NTPC Gadarwara Visitor & Plant Helpdesk",
-        subtitle: "1,600 MW (2×800 MW) Supercritical Thermal Power Station",
-        headerClass: "bg-teal-700",
-        btnClass: "bg-teal-600 hover:bg-teal-700",
-        icon: "⚡",
-        welcome: "Welcome to **NTPC Gadarwara Super Thermal Power Station (1,600 MW)**. Ask by text or voice about Visitor Gate Passes, Power Capacity, Supercritical Boilers, Pollution Control, or Township Facilities.",
-        chips: [
-          "Visitor Gate Pass & CISF Rules",
-          "Plant Capacity & Power Share",
-          "How Supercritical Technology Works",
-          "Pollution & Ash Control (ESP/FGD)",
-          "NTPC Township Facilities",
-          "Where is NTPC Gadarwara?"
-        ],
+        name: "NTPC Gadarwara Info Desk", subtitle: "1,600 MW Super Thermal Power Station", headerClass: "bg-teal-700", btnClass: "bg-teal-600 hover:bg-teal-700", imgUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/NTPC_Logo.svg/512px-NTPC_Logo.svg.png",
+        welcome: "Welcome to **NTPC Gadarwara (1,600 MW)**. Ask about Job Options, Gate Passes, or Power Capacity.",
+        chips: ["💼 NTPC Jobs", "🛂 Visitor Gate Pass", "⚡ Plant Capacity"],
         entries: [
           {
-            id: "ntpc_gatepass",
-            phrases: ["visitor gate pass", "how to enter ntpc", "cisf rules", "plant visit permission", "township entry"],
-            keywords: ["visitor", "visit", "gate", "pass", "gatepass", "entry", "cisf", "security", "permission", "id", "गेट पास"],
-            answer: `**NTPC Visitor & CISF Gate Pass Rules:**
-• **Township & School Visitors:** Must present a valid Government Photo ID (Aadhaar / Driving Licence / Voter ID) and register at the **CISF Main Security Gate**.
-• **Power Plant Entry:** Requires an official **Gate Pass** authorized by an NTPC official/department head, plus mandatory safety shoes/helmet and safety briefing.
-• **Restricted Items Inside Plant:** Photography, drones, unauthorized mobile phones, and matchboxes/lighters are strictly prohibited in the plant zone.`,
-            voiceText: "To enter the NTPC Township or school, visitors must show a valid Government Photo ID at the CISF Main Gate. Entering the power plant area requires an authorized Gate Pass and safety clearance.",
-            aiRef: "NLP Intent: CISF_Security_Protocol • RAG Source: NTPC Visitor Guidelines"
+            phrases: ["ntpc jobs", "job options", "vacancy in ntpc", "recruitment", "hiring", "careers"], keywords: ["job", "jobs", "vacancy", "career", "careers", "recruitment"],
+            answer: `**NTPC Careers & Recruitment:**\n• Plant recruitment and job options are managed centrally by NTPC Limited.\n• For current job vacancies and official recruitment notices, please visit: <br><a href="https://careers.ntpc.co.in" target="_blank" class="bg-teal-600 text-white px-3 py-1.5 rounded text-xs font-semibold inline-block mt-2">careers.ntpc.co.in ↗</a>`,
+            voiceText: "For job options and recruitment at NTPC, please visit the official NTPC careers portal.", aiRef: "NTPC Official Careers Portal"
           },
-          {
-            id: "ntpc_capacity",
-            phrases: ["plant capacity", "how many megawatts", "power generation", "units in ntpc gadarwara", "coal and water source"],
-            keywords: ["capacity", "mw", "megawatt", "800", "1600", "unit", "units", "power", "electricity", "coal", "narmada", "water", "state", "beneficiary", "क्षमता"],
-            answer: `**NTPC Gadarwara STPS Capacity & Specifications:**
-• **Total Installed Capacity:** **1,600 MW** (Stage-I consists of **2 × 800 MW** Supercritical Units).
-• **Commissioning Dates:** Unit-1 commissioned in 2019; Unit-2 commissioned in 2021.
-• **Beneficiary States:** Madhya Pradesh receives **50% of the power**, with the remaining share supplied to Maharashtra, Gujarat, Chhattisgarh, and Goa.
-• **Water & Coal Source:** Water is drawn from the **Narmada River** via pipeline; coal is sourced from Talaipalli, Mand-Raigarh, and SECL mines.`,
-            voiceText: "NTPC Gadarwara has an installed capacity of 1,600 Megawatts across two supercritical units of 800 Megawatts each. Fifty percent of the electricity generated is supplied to Madhya Pradesh, and water is sourced from the Narmada River.",
-            aiRef: "NLP Intent: Plant_Specifications • RAG Source: NTPC Station Profile (ntpc.co.in)"
-          },
-          {
-            id: "ntpc_supercritical",
-            phrases: ["what is supercritical", "how boiler works", "thermal efficiency", "supercritical technology"],
-            keywords: ["supercritical", "boiler", "turbine", "steam", "pressure", "temperature", "efficiency", "subcritical", "technology"],
-            answer: `**Supercritical Thermal Power Technology at NTPC Gadarwara:**
-• **Operating Parameters:** Operates above the critical point of water (**>221 bar pressure** and **~565°C–600°C temperature**), turning water directly into high-energy steam without phase separation.
-• **Higher Efficiency:** Achieves **~41–42% thermal efficiency** compared to ~36% in conventional subcritical plants.
-• **Lower Carbon Footprint:** Burns less coal per megawatt-hour, reducing CO₂ emissions by approximately **15%**.`,
-            voiceText: "NTPC Gadarwara uses Supercritical boiler technology operating above 221 bar pressure and 565 degrees Celsius. This increases thermal efficiency and reduces carbon emissions by around 15 percent compared to older plants.",
-            aiRef: "NLP Intent: Supercritical_Engineering • RAG Source: NTPC Technical Brief"
-          },
-          {
-            id: "ntpc_environment",
-            phrases: ["pollution control", "environment protection", "what is esp and fgd", "ash utilization"],
-            keywords: ["environment", "pollution", "esp", "fgd", "ash", "fly ash", "emission", "sulphur", "zld", "zero liquid", "green", "tree"],
-            answer: `**Environmental Protection & Emission Controls:**
-• **ESP (Electrostatic Precipitators):** Captures **99.9%** of fly ash particles from flue gas before it reaches the 275-meter chimney.
-• **FGD (Flue Gas Desulfurization):** Wet limestone scrubbing removes over **95% of Sulphur Dioxide (SO₂)** gases.
-• **Low-NOx Burners & ZLD:** Reduces Nitrogen Oxide emissions and maintains **Zero Liquid Discharge (ZLD)** by recycling 100% of treated effluent water.
-• **100% Ash Utilization:** Fly ash is supplied to cement plants, highway construction, and brick manufacturers.`,
-            voiceText: "NTPC Gadarwara uses Electrostatic Precipitators to capture 99.9 percent of fly ash, Flue Gas Desulfurization to remove 95 percent of sulphur dioxide, and maintains Zero Liquid Discharge with 100 percent fly ash utilization.",
-            aiRef: "NLP Intent: Environmental_Compliance • RAG Source: NTPC Sustainability Report"
-          },
-          {
-            id: "ntpc_township",
-            phrases: ["ntpc township", "hospital in ntpc", "living in ntpc", "csr activities"],
-            keywords: ["township", "hospital", "medical", "residential", "quarters", "club", "shopping", "csr", "bank", "colony"],
-            answer: `**NTPC Gadarwara Township & Community Facilities:**
-• **Residential Campus:** Eco-friendly township housing employees, CISF personnel, and families with 24×7 security, solar street lighting, and parks.
-• **Amenities:** Bal Bharati Public School (BBPS), NTPC Hospital / Medical Center, recreation clubs, sports stadium, shopping complex, and banking/ATM facilities.
-• **CSR Initiatives:** Supports nearby villages (Gangai, Umariya, Chorpipariya, etc.) with healthcare camps, school infrastructure, skill development, and drinking water projects.`,
-            voiceText: "The NTPC Gadarwara Township features residential quarters, Bal Bharati Public School, an NTPC Hospital, sports complexes, shopping centers, and active CSR programs for surrounding villages.",
-            aiRef: "NLP Intent: Township_CSR • RAG Source: NTPC Community Profile"
-          },
-          {
-            id: "ntpc_location",
-            phrases: ["where is ntpc gadarwara", "ntpc address", "how to reach ntpc"],
-            keywords: ["location", "address", "reach", "where", "railway", "station", "airport", "narsinghpur", "gangai", "distance"],
-            answer: `**Location & Connectivity (NTPC Gadarwara):**
-• **Site Address:** NTPC Gadarwara Super Thermal Power Station, Village Gangai & Umariya, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh – 487770.
-• **Nearest Railway Station:** Gadarwara Railway Station (~14 km, West Central Railway).
-• **Nearest Airport:** Jabalpur Dumna Airport (~150 km) and Bhopal Airport (~220 km).`,
-            voiceText: "NTPC Gadarwara is located near Village Gangai in Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh, about 14 kilometers from Gadarwara Railway Station.",
-            aiRef: "NLP Intent: Location_Logistics • RAG Source: NTPC Directory"
-          }
+          { phrases: ["visitor gate pass", "cisf"], keywords: ["visitor", "visit", "gate", "pass", "cisf"], answer: `**NTPC Visitor Rules:**\n• Valid Govt ID required at CISF Gate for Township.\n• Plant Entry requires official Gate Pass.`, voiceText: "Visitors must present a valid Government ID at the CISF gate.", aiRef: "NTPC Security Protocol" },
+          { phrases: ["capacity", "mw", "power"], keywords: ["capacity", "mw", "power", "unit"], answer: `**NTPC Gadarwara Capacity:**\n• **Total Capacity:** 1,600 MW (2 units of 800 MW).`, voiceText: "NTPC Gadarwara has an installed capacity of 1600 Megawatts.", aiRef: "NTPC Plant Specs" }
         ]
       }
     };
 
-    // Built-in Fast GK Fallbacks (offline/instant accuracy for common school/viva GK questions)
-    const builtInGK = [
-      {
-        keys: ["prime minister of india", "pm of india", "narendra modi"],
-        answer: "**General Knowledge:**\nThe current Prime Minister of India is **Shri Narendra Modi** (serving since May 2014).",
-        voice: "The Prime Minister of India is Shri Narendra Modi."
-      },
-      {
-        keys: ["president of india", "droupadi murmu"],
-        answer: "**General Knowledge:**\nThe President of India is **Smt. Droupadi Murmu** (15th President of India).",
-        voice: "The President of India is Shrimati Droupadi Murmu."
-      },
-      {
-        keys: ["chief minister of madhya pradesh", "cm of mp", "mohan yadav"],
-        answer: "**General Knowledge:**\nThe Chief Minister of Madhya Pradesh is **Dr. Mohan Yadav**, and the capital of Madhya Pradesh is **Bhopal**.",
-        voice: "The Chief Minister of Madhya Pradesh is Dr. Mohan Yadav, and the capital is Bhopal."
-      },
-      {
-        keys: ["full form of ntpc", "what is ntpc"],
-        answer: "**General Knowledge:**\n**NTPC** stands for **National Thermal Power Corporation Limited** (now officially **NTPC Limited**), a Maharatna PSU under the Ministry of Power, Government of India, founded on 7 November 1975 and headquartered in New Delhi.",
-        voice: "NTPC stands for National Thermal Power Corporation Limited, a Maharatna company under the Ministry of Power, founded in 1975."
-      },
-      {
-        keys: ["what is ai", "artificial intelligence"],
-        answer: "**General Knowledge:**\n**Artificial Intelligence (AI)** is the branch of computer science that builds systems capable of performing tasks that normally require human intelligence—such as Natural Language Processing (NLP), speech recognition, visual perception, and decision-making.",
-        voice: "Artificial Intelligence is the branch of computer science that enables machines to understand language, recognize speech, learn from data, and make decisions."
-      }
-    ];
-
-    // Switch between School and NTPC tabs
     function switchBot(botKey) {
       activeBot = botKey;
       const data = knowledgeBase[botKey];
-
       document.getElementById('tab-school').className = `text-left p-4 rounded-xl border-2 transition-all flex items-start justify-between ${botKey === 'school' ? 'bg-blue-50/70 border-blue-600 shadow-sm' : 'bg-white border-slate-200 hover:border-blue-600'}`;
       document.getElementById('tab-ntpc').className = `text-left p-4 rounded-xl border-2 transition-all flex items-start justify-between ${botKey === 'ntpc' ? 'bg-teal-50/70 border-teal-600 shadow-sm' : 'bg-white border-slate-200 hover:border-teal-600'}`;
-      
       document.getElementById('chat-header').className = `${data.headerClass} text-white px-5 py-3.5 flex items-center justify-between transition-colors`;
-      document.getElementById('bot-icon').textContent = data.icon;
+      document.getElementById('bot-img').src = data.imgUrl;
       document.getElementById('bot-title').textContent = data.name;
       document.getElementById('bot-subtitle').textContent = data.subtitle;
       document.getElementById('send-btn').className = `${data.btnClass} text-white text-sm font-medium px-5 py-2.5 rounded-xl transition shadow-sm`;
-
-      document.getElementById('quick-chips').innerHTML = data.chips.map(chip =>
-        `<button onclick="sendQuickQuery('${chip.replace(/'/g, "\\'")}')" class="shrink-0 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-full transition">${chip}</button>`
+      
+      document.getElementById('quick-chips').innerHTML = data.chips.map(chip => 
+        `<button onclick="sendQuickQuery('${chip.replace(/[📝🏫📚🏆🖼️📞💼🛂⚡]/g, '').trim()}')" class="shrink-0 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-full transition whitespace-nowrap">${chip}</button>`
       ).join('');
-
       clearChat();
     }
 
     function clearChat() {
-      stopSpeaking();
       document.getElementById('chat-box').innerHTML = '';
-      appendBotMessage(
-        knowledgeBase[activeBot].welcome,
-        "System Ready • Weighted NLP + 2-Way Voice + Live GK Active",
-        "Welcome to the Gadarwara Digital Helpdesk.",
-        false
-      );
-    }
-
-    function formatMarkdown(text) {
-      return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-    }
-
-    function cleanTextForSpeech(text) {
-      return text
-        .replace(/\*\*(.*?)\*\*/g, '$1')
-        .replace(/[•*#]/g, '')
-        .replace(/\n+/g, '. ')
-        .trim();
-    }
-
-    // Speech Synthesis (Chatbot Speaks Out Loud)
-    function speakText(text, onEndCallback = null) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-
-      const clean = cleanTextForSpeech(text);
-      const utterance = new SpeechSynthesisUtterance(clean);
-
-      // Detect Hindi script vs English
-      const hasHindi = /[\u0900-\u097F]/.test(clean);
-      utterance.lang = hasHindi ? 'hi-IN' : 'en-IN';
-      utterance.rate = 1.02;
-      utterance.pitch = 1.0;
-
-      // Pick a clear voice if available
-      const voices = window.speechSynthesis.getVoices();
-      const preferredVoice = voices.find(v => v.lang.includes(hasHindi ? 'hi' : 'en-IN')) || voices.find(v => v.lang.includes('en'));
-      if (preferredVoice) utterance.voice = preferredVoice;
-
-      utterance.onstart = () => {
-        if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "🔊 AI is speaking...";
-        }
-      };
-
-      utterance.onend = () => {
-        if (onEndCallback) onEndCallback();
-        if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "🎙️ Listening for your next question...";
-          setTimeout(() => {
-            if (verbalModeActive) startListeningEngine();
-          }, 400);
-        }
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function stopSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      appendBotMessage(knowledgeBase[activeBot].welcome, "System Ready • BBPS Web Integration Active", null, false);
     }
 
     function toggleAutoVoice() {
       autoVoiceReply = !autoVoiceReply;
       const btn = document.getElementById('tts-toggle');
-      const icon = document.getElementById('tts-icon');
-      const label = document.getElementById('tts-label');
-
       if (autoVoiceReply) {
         btn.className = "text-xs font-medium px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800";
-        icon.textContent = "🔊";
-        label.textContent = "Voice Reply: ON";
+        document.getElementById('tts-icon').textContent = "🔊"; document.getElementById('tts-label').textContent = "Voice Reply: ON";
       } else {
-        stopSpeaking();
+        window.speechSynthesis.cancel();
         btn.className = "text-xs font-medium px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-slate-100 border-slate-300 text-slate-600";
-        icon.textContent = "🔇";
-        label.textContent = "Voice Reply: OFF";
+        document.getElementById('tts-icon').textContent = "🔇"; document.getElementById('tts-label').textContent = "Voice Reply: OFF";
       }
     }
 
-    // Two-Way Continuous Verbal Conversation Mode
-    function toggleVerbalMode() {
-      verbalModeActive = !verbalModeActive;
-      const banner = document.getElementById('verbal-banner');
-      const btn = document.getElementById('verbal-mode-btn');
-      const label = document.getElementById('verbal-mode-label');
-
-      if (verbalModeActive) {
-        autoVoiceReply = true;
-        document.getElementById('tts-icon').textContent = "🔊";
-        document.getElementById('tts-label').textContent = "Voice Reply: ON";
-        banner.classList.remove('hidden');
-        btn.className = "text-xs font-semibold px-3 py-1.5 rounded-full border border-red-400 bg-red-600 text-white transition flex items-center gap-1.5";
-        label.textContent = "Stop Verbal Chat";
-        startListeningEngine();
-      } else {
-        banner.classList.add('hidden');
-        btn.className = "text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-800 transition flex items-center gap-1.5";
-        label.textContent = "Live Verbal Chat";
-        stopSpeaking();
-        if (recognitionInstance) {
-          try { recognitionInstance.stop(); } catch (e) {}
-        }
-      }
+    function startSingleVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Voice recognition requires Chrome/Edge.");
+      window.speechSynthesis.cancel();
+      recognitionInstance = new SpeechRecognition();
+      recognitionInstance.lang = 'en-IN';
+      recognitionInstance.onstart = () => { document.getElementById('user-input').placeholder = "Listening..."; };
+      recognitionInstance.onresult = (event) => { 
+        document.getElementById('user-input').value = event.results[0][0].transcript; 
+        handleUserSubmit(new Event('submit')); 
+      };
+      recognitionInstance.onend = () => { document.getElementById('user-input').placeholder = "Ask about Admissions, Academics, Jobs..."; };
+      recognitionInstance.start();
     }
 
-    function appendUserMessage(text, isVoice = false) {
-      const chatBox = document.getElementById('chat-box');
-      const badge = isVoice ? `<span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded mr-1.5">🎙️ Voice</span>` : '';
-      chatBox.innerHTML += `
-        <div class="flex justify-end">
-          <div class="bg-slate-800 text-white text-sm px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%] shadow-sm">
-            ${badge}${text}
-          </div>
-        </div>`;
-      chatBox.scrollTop = chatBox.scrollHeight;
+    function appendUserMessage(text) {
+      document.getElementById('chat-box').innerHTML += `<div class="flex justify-end"><div class="bg-slate-800 text-white text-sm px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[80%] shadow-sm">${text}</div></div>`;
+      document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
     }
 
     function appendBotMessage(text, aiRef, voiceSummary = null, shouldSpeak = true) {
       const chatBox = document.getElementById('chat-box');
-      const speechPayload = (voiceSummary || text).replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, ' ');
-      chatBox.innerHTML += `
-        <div class="flex justify-start">
-          <div class="bg-white border border-slate-200 text-slate-800 text-sm p-4 rounded-2xl rounded-tl-sm max-w-[88%] shadow-sm space-y-2.5">
-            <div class="leading-relaxed">${formatMarkdown(text)}</div>
-            <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
-              <span>✓ ${aiRef}</span>
-              <button onclick="speakText('${speechPayload}')" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded">
-                🔊 Listen
-              </button>
-            </div>
-          </div>
-        </div>`;
+      let formattedText = text;
+      if (!text.includes("<form")) formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+      chatBox.innerHTML += `<div class="flex justify-start"><div class="bg-white border border-slate-200 text-slate-800 text-sm p-4 rounded-2xl rounded-tl-sm max-w-[88%] shadow-sm space-y-2.5"><div class="leading-relaxed">${formattedText}</div><div class="pt-2 border-t border-slate-100 text-[11px] text-slate-400">✓ ${aiRef}</div></div></div>`;
       chatBox.scrollTop = chatBox.scrollHeight;
-
-      if (shouldSpeak && autoVoiceReply) {
-        speakText(voiceSummary || text);
+      
+      if (shouldSpeak && autoVoiceReply && 'speechSynthesis' in window) {
+        let cleanText = (voiceSummary || text).replace(/<[^>]*>?/gm, '').replace(/\*\*(.*?)\*\*/g, '$1');
+        let utterance = new SpeechSynthesisUtterance(cleanText);
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
       }
     }
 
-    function sendQuickQuery(text) {
-      document.getElementById('user-input').value = text;
-      handleUserSubmit(new Event('submit'), false);
-    }
+    function sendQuickQuery(text) { document.getElementById('user-input').value = text; handleUserSubmit(new Event('submit')); }
 
-    // Speech-to-Text Engine
-    function startSingleVoice() {
-      startListeningEngine(false);
-    }
-
-    function startListeningEngine() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition requires Google Chrome or Microsoft Edge.");
-        return;
-      }
-
-      stopSpeaking();
-      recognitionInstance = new SpeechRecognition();
-      recognitionInstance.lang = 'en-IN';
-      recognitionInstance.interimResults = false;
-
-      const micBtn = document.getElementById('mic-btn');
-      const micText = document.getElementById('mic-text');
-      const inputField = document.getElementById('user-input');
-
-      recognitionInstance.onstart = () => {
-        micBtn.classList.add('bg-red-600', 'text-white', 'listening-pulse');
-        if (micText) micText.textContent = "Listening...";
-        inputField.placeholder = "Listening to your voice... speak now";
-        if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "🎙️ Listening to your voice...";
-        }
-      };
-
-      recognitionInstance.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        inputField.value = transcript;
-        handleUserSubmit(new Event('submit'), true);
-      };
-
-      recognitionInstance.onerror = () => {
-        inputField.placeholder = "Ask about Principal, Admissions, Timings, NTPC Capacity, or any GK question...";
-        if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "No speech detected. Click 'Speak' or say your question...";
-        }
-      };
-
-      recognitionInstance.onend = () => {
-        micBtn.classList.remove('bg-red-600', 'text-white', 'listening-pulse');
-        if (micText) micText.textContent = "Speak";
-        inputField.placeholder = "Ask about Principal, Admissions, Timings, NTPC Capacity, or any GK question...";
-      };
-
-      recognitionInstance.start();
-    }
-
-    // High-Precision Weighted NLP Matcher
-    function scoreEntry(queryLower, queryWords, entry) {
+    function scoreEntry(queryLower, entry) {
       let score = 0;
-
-      // Exact phrase match gets highest priority (+12 points)
-      if (entry.phrases) {
-        for (const phrase of entry.phrases) {
-          if (queryLower.includes(phrase)) {
-            score += 12;
-          }
-        }
-      }
-
-      // Word-level and substring keyword matching (+4 points for exact word, +2 for partial)
-      for (const kw of entry.keywords) {
-        if (queryWords.includes(kw)) {
-          score += 4;
-        } else if (queryLower.includes(kw)) {
-          score += 2;
-        }
-      }
-
+      if (entry.phrases) { for (const phrase of entry.phrases) { if (queryLower.includes(phrase)) score += 15; } }
+      for (const kw of entry.keywords) { if (queryLower.includes(kw)) score += 3; }
       return score;
     }
 
-    function searchLocalKnowledge(query) {
-      const qLower = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
-      const qWords = qLower.split(/\s+/);
-
-      // Explicitly detect whether the user mentioned "ntpc" or "bbps/school"
-      const mentionsNTPC = qWords.includes('ntpc') || qWords.includes('plant') || qWords.includes('mw') || qWords.includes('cisf') || qWords.includes('boiler');
-      const mentionsSchool = qWords.includes('bbps') || qWords.includes('school') || qWords.includes('principal') || qWords.includes('admission') || qWords.includes('class');
-
-      let allCandidates = [];
-
-      for (const botKey of ['school', 'ntpc']) {
-        for (const entry of knowledgeBase[botKey].entries) {
-          let s = scoreEntry(qLower, qWords, entry);
-          if (s > 0) {
-            // Boost score if the query explicitly names that domain or matches active tab
-            if (botKey === 'school' && mentionsSchool) s += 3;
-            if (botKey === 'ntpc' && mentionsNTPC) s += 3;
-            if (botKey === activeBot && !mentionsNTPC && !mentionsSchool) s += 1;
-
-            allCandidates.push({
-              botKey,
-              score: s,
-              answer: entry.answer,
-              voiceText: entry.voiceText,
-              aiRef: botKey === activeBot ? entry.aiRef : `Cross-Domain NLP (${botKey.toUpperCase()}) • ${entry.aiRef}`
-            });
-          }
-        }
-      }
-
-      allCandidates.sort((a, b) => b.score - a.score);
-      if (allCandidates.length > 0 && allCandidates[0].score >= 3) {
-        return allCandidates[0];
-      }
-
-      // Check Built-in Instant GK
-      for (const item of builtInGK) {
-        if (item.keys.some(k => qLower.includes(k))) {
-          return {
-            answer: item.answer,
-            voiceText: item.voice,
-            aiRef: "Verified General Knowledge Base"
+    // --- GEMINI AI INTEGRATION ---
+    async function fetchGeminiAI(query) {
+      if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE") return null;
+      
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `You are an AI assistant for Bal Bharati Public School and NTPC Gadarwara. Answer the following question accurately and concisely in 2 or 3 short sentences. Question: ${query}` }] }]
+          })
+        });
+        
+        const data = await response.json();
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+          const aiText = data.candidates[0].content.parts[0].text;
+          return { 
+            answer: `**AI Assistant:**\n${aiText}`, 
+            voiceText: aiText, 
+            aiRef: "Powered by Google Gemini AI" 
           };
         }
-      }
-
-      return null;
-    }
-
-    // Smarter 2-Step Wikipedia Open Search + Summary API for Any General Knowledge Question
-    async function fetchGeneralKnowledge(query) {
-      const cleaned = query
-        .replace(/^(what is|who is|who was|where is|tell me about|explain|define|how does|when was|meaning of|gk question)\s+/gi, '')
-        .replace(/\b(the|a|an)\b/gi, ' ')
-        .replace(/[?.,!]/g, '')
-        .trim();
-
-      if (cleaned.length < 2) return null;
-
-      try {
-        // Step 1: Search Wikipedia for the closest matching article title
-        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&utf8=&format=json&origin=*&srlimit=1`;
-        const searchRes = await fetch(searchUrl);
-        const searchData = await searchRes.json();
-
-        const bestTitle = searchData?.query?.search?.[0]?.title || cleaned;
-
-        // Step 2: Fetch clean summary extract for that title
-        const summaryRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestTitle)}`);
-        if (summaryRes.ok) {
-          const data = await summaryRes.json();
-          if (data.extract) {
-            // Keep first 3 sentences so it stays crisp and transparent
-            const sentences = data.extract.match(/[^.!?]+[.!?]+/g) || [data.extract];
-            const conciseExtract = sentences.slice(0, 3).join(' ');
-            return {
-              answer: `**${data.title} (General Knowledge):**\n${conciseExtract}`,
-              voiceText: conciseExtract,
-              aiRef: `Live Wikipedia API • Article: "${data.title}"`
-            };
-          }
-        }
       } catch (e) {
-        console.error("GK Lookup Error:", e);
+        console.error("Gemini AI Error:", e);
       }
       return null;
     }
 
-    // Main Query Handler
-    async function handleUserSubmit(e, fromVoice = false) {
-      if (e) e.preventDefault();
+    async function handleUserSubmit(e) {
+      e.preventDefault();
       const input = document.getElementById('user-input');
       const query = input.value.trim();
       if (!query) return;
-
-      appendUserMessage(query, fromVoice);
+      appendUserMessage(query);
       input.value = '';
 
-      // 1. Check High-Accuracy Local BBPS + NTPC + Instant GK Database
-      let match = searchLocalKnowledge(query);
+      const qLower = query.toLowerCase();
+      let bestMatch = null;
+      let maxScore = 0;
 
-      // 2. If not a local School/NTPC question, query Live Wikipedia GK Engine
-      if (!match) {
-        match = await fetchGeneralKnowledge(query);
+      // 1. Check Local School/NTPC Database First (Highest Priority)
+      for (const entry of knowledgeBase[activeBot].entries) {
+        let score = scoreEntry(qLower, entry);
+        if (score > maxScore) { maxScore = score; bestMatch = entry; }
+      }
+      
+      // Check the other tab if no strong match
+      if (maxScore < 3) {
+        const otherBot = activeBot === 'school' ? 'ntpc' : 'school';
+        for (const entry of knowledgeBase[otherBot].entries) {
+          let score = scoreEntry(qLower, entry);
+          if (score > maxScore) { maxScore = score; bestMatch = entry; bestMatch.aiRef = `Cross-Domain Routing (${otherBot.toUpperCase()}) • ${entry.aiRef}`; }
+        }
       }
 
-      // 3. Helpful Fallback if still not found
-      if (!match) {
-        match = {
-          answer: `I couldn't find an exact match for *"${query}"*. \n\n**You can ask me about:**\n• **BBPS School:** *"Who is the Principal?"*, *"New Admission Process"*, *"School Timings"*, *"Class 11 Streams"*, *"Facilities"*\n• **NTPC Plant:** *"Visitor Gate Pass"*, *"Plant Capacity (1600 MW)"*, *"Supercritical Boiler"*, *"Pollution Control"*\n• **General Knowledge:** *"Who is APJ Abdul Kalam?"*, *"What is Photosynthesis?"*, *"Narmada River"*`,
-          voiceText: "I could not find an exact match for that question. Try asking about the BBPS Principal, admission process, school timings, NTPC plant capacity, or any general knowledge topic.",
-          aiRef: "NLP Assistant Guide"
+      // 2. If no local match is found, query Gemini AI
+      if (maxScore < 3) {
+        let geminiMatch = await fetchGeminiAI(query);
+        if (geminiMatch) bestMatch = geminiMatch;
+      }
+
+      // 3. Fallback if Gemini isn't setup or fails
+      if (maxScore < 3 && !bestMatch) {
+        bestMatch = { 
+          answer: `I couldn't find an exact match. Try asking about **Admissions**, **Gallery**, **Academics**, or **Jobs**.`, 
+          aiRef: "NLP Fallback" 
         };
       }
 
-      appendBotMessage(match.answer, match.aiRef, match.voiceText, true);
+      appendBotMessage(bestMatch.answer, bestMatch.aiRef, bestMatch.voiceText, true);
     }
 
-    // Preload voices & initialize
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
     switchBot('school');
   </script>
 </body>
