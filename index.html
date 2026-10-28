@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BBPS & NTPC Gadarwara | Official AI & Voice Digital Portal</title>
+  <title>BBPS Gadarwara | Official AI Helpdesk & User Analytics Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at top left, #eff6ff 0%, #f8fafc 45%, #f0fdfa 100%);
+      background: radial-gradient(circle at top left, #eff6ff 0%, #f8fafc 50%, #eef2ff 100%);
       min-height: 100vh;
     }
     .chat-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -17,7 +17,6 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Animated Pulse Ring for Voice Mode */
     @keyframes pulse-ring {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
       70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
@@ -25,7 +24,6 @@
     }
     .listening-pulse { animation: pulse-ring 1.5s infinite; }
 
-    /* Animated Soundwave Bars when Bot Speaks */
     @keyframes soundwave {
       0%, 100% { height: 4px; }
       50% { height: 16px; }
@@ -33,7 +31,7 @@
     .wave-bar {
       width: 3px;
       height: 4px;
-      background-color: #10b981;
+      background-color: #2563eb;
       border-radius: 999px;
       transition: height 0.2s ease;
     }
@@ -42,964 +40,1029 @@
     .speaking-active .wave-bar:nth-child(3) { animation: soundwave 0.6s infinite 0.4s; }
     .speaking-active .wave-bar:nth-child(4) { animation: soundwave 0.6s infinite 0.15s; }
 
-    /* Subtle Floating Graphic Animation */
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
-    }
-    .float-card { animation: floatSlow 5s ease-in-out infinite; }
     .glass-panel {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
     }
   </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- TOP NAVIGATION BAR (Original Classic Badges + Upgraded Voice Controls) -->
-  <header class="glass-panel border-b border-slate-200/80 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+  <!-- TOP NAVIGATION BAR WITH PAGE SWITCHER (CHATBOT PAGE vs USER DATA PAGE) -->
+  <header class="glass-panel border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
       
-      <!-- Classic Original Logos that Never Break -->
+      <!-- School Brand Identity -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white font-extrabold text-sm shadow-md ring-2 ring-blue-100">
-          AI
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 via-indigo-700 to-blue-500 flex items-center justify-center text-white font-extrabold text-lg shadow-md ring-2 ring-blue-100">
+          🎓
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">Gadarwara Digital Helpdesk</h1>
+            <h1 class="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">BBPS Gadarwara AI Helpdesk</h1>
             <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> Online
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> CBSE Active
             </span>
           </div>
-          <p class="text-xs text-slate-500 font-medium">BBPS Campus & NTPC Super Thermal Power Station</p>
+          <p class="text-xs text-slate-500 font-medium">Bal Bharati Public School • Child Education Society (New Delhi)</p>
         </div>
       </div>
 
-      <!-- Upgraded Natural Voice Controls & Equalizer -->
+      <!-- Page Navigation Tabs + Voice Controls -->
       <div class="flex items-center gap-2">
-        <!-- Live Audio Equalizer Graphic -->
-        <div id="voice-wave" class="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-slate-100 border border-slate-200" title="AI Voice Equalizer">
+        <!-- PAGE 1 BUTTON: Chatbot -->
+        <button id="nav-chat-btn" onclick="switchPage('chat')" class="text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-blue-600 text-white shadow-sm">
+          <span>💬</span>
+          <span>School Chatbot</span>
+        </button>
+
+        <!-- PAGE 2 BUTTON: User Data & Review Dashboard -->
+        <button id="nav-data-btn" onclick="switchPage('data')" class="text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200">
+          <span>📊</span>
+          <span>User Data & Review</span>
+          <span id="log-count-badge" class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+
+        <!-- Audio Equalizer -->
+        <div id="voice-wave" class="hidden md:flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-slate-100 border border-slate-200" title="Voice Equalizer">
           <div class="wave-bar"></div>
           <div class="wave-bar"></div>
           <div class="wave-bar"></div>
           <div class="wave-bar"></div>
         </div>
 
-        <!-- Natural Voice Selector Dropdown -->
-        <select id="voice-select" onchange="changePreferredVoice()" class="hidden lg:block text-xs bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1.5 font-medium focus:outline-none focus:border-blue-500 shadow-sm" title="Choose AI Voice">
-          <option value="auto">✨ Best Natural Voice (Auto)</option>
-        </select>
-
-        <!-- Voice Reply ON/OFF -->
-        <button id="tts-toggle" onclick="toggleAutoVoice()" class="text-xs font-semibold px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm">
+        <!-- Voice Reply Toggle -->
+        <button id="tts-toggle" onclick="toggleAutoVoice()" class="hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-full border transition items-center gap-1 bg-emerald-50 border-emerald-300 text-emerald-800">
           <span id="tts-icon">🔊</span>
           <span id="tts-label">Voice: ON</span>
         </button>
 
-        <!-- 2-Way Live Verbal Mode -->
-        <button id="verbal-mode-btn" onclick="toggleVerbalMode()" class="text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-300 bg-blue-600 hover:bg-blue-700 text-white transition flex items-center gap-1.5 shadow-sm">
+        <!-- 2-Way Verbal Chat -->
+        <button id="verbal-mode-btn" onclick="toggleVerbalMode()" class="hidden sm:flex text-xs font-bold px-3 py-1.5 rounded-full border border-indigo-300 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 transition items-center gap-1">
           <span>🎙️</span>
-          <span id="verbal-mode-label">Verbal Chat</span>
+          <span id="verbal-mode-label">Verbal Mode</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+  <!-- ========================================================================== -->
+  <!-- PAGE 1: BBPS SCHOOL AI CHATBOT PORTAL                                      -->
+  <!-- ========================================================================== -->
+  <main id="page-chat" class="max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-    <!-- ATTRACTIVE GRAPHIC HERO BANNER WITH STATS CARDS -->
-    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-teal-900 text-white p-6 sm:p-8 shadow-xl border border-white/10">
-      <!-- Decorative SVG Background Graphics -->
-      <svg class="absolute right-0 top-0 h-full w-1/2 opacity-10 pointer-events-none" viewBox="0 0 400 400" fill="none">
-        <circle cx="300" cy="100" r="180" stroke="white" stroke-width="2" stroke-dasharray="8 8"/>
-        <circle cx="300" cy="100" r="120" stroke="white" stroke-width="1.5"/>
-        <path d="M50 350 L350 50 M150 380 L380 150" stroke="white" stroke-width="1"/>
-      </svg>
-
+    <!-- School Hero Banner -->
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-950 via-indigo-900 to-blue-800 text-white p-6 sm:p-7 shadow-xl">
       <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        <div class="lg:col-span-7 space-y-3">
+        <div class="lg:col-span-8 space-y-2.5">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-blue-200">
-            <span>⚡ Powered by NLP, Neural Voice AI & Verified Campus Knowledge</span>
+            <span>🏫 Official School Helpdesk • Motto: "Hanso Nayatu Naha Pragyam" (Lead Us Unto Light)</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
-            Interactive AI Portal for <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-emerald-300">BBPS School & NTPC Gadarwara</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Bal Bharati Public School, <span class="text-blue-300">Gadarwara</span>
           </h2>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-            Get instant, complete answers in <strong>chat and natural voice</strong>—covering Admissions, Curriculum, Principal & Faculty, Sports, Galleries, Gate Passes, 1,600 MW Supercritical Plant Specs, and General Knowledge.
+          <p class="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-2xl">
+            Ask any question by <strong>text or voice</strong> about Admissions, Fee Structure, Principal Dr. Anurag Pandey, Class 11 & 12 Streams, Board Results, Atal Tinkering Lab, Sports, or Transfer Certificates. Every query is logged in our <strong>User Data Review Dashboard</strong>.
           </p>
-          <!-- Quick Interactive Action Bar -->
           <div class="pt-2 flex flex-wrap gap-2.5">
-            <button onclick="triggerDirectTopic('Fill Admission Form')" class="bg-blue-500 hover:bg-blue-400 text-white text-xs font-bold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-              📝 Apply for Admission
+            <button onclick="triggerDirectTopic('Fill Admission Form')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-4 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+              📝 Apply for Admission (Form)
             </button>
-            <button onclick="openDirectoryModal()" class="bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl border border-white/20 transition flex items-center gap-1.5">
-              📂 Browse All 35+ School & Plant Topics
-            </button>
-            <button onclick="triggerDirectTopic('Photo & Video Gallery')" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 text-xs font-semibold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-              🖼️ View Campus Gallery
+            <button onclick="switchPage('data')" class="bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-4 py-2 rounded-xl border border-white/20 transition flex items-center gap-1.5">
+              📊 Open User Data & Query Review Page
             </button>
           </div>
         </div>
 
-        <!-- Graphic Stat Badges -->
-        <div class="lg:col-span-5 grid grid-cols-2 gap-3">
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 float-card">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">🎓</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-500/30 text-blue-200">CBSE Affiliated</span>
-            </div>
-            <div class="mt-2 text-lg font-extrabold">Nursery – XII</div>
-            <div class="text-[11px] text-slate-300">100% Board Result • ATL & Smart Labs</div>
+        <div class="lg:col-span-4 grid grid-cols-2 gap-2.5">
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+            <div class="text-xl">👨‍🏫</div>
+            <div class="mt-1 text-sm font-extrabold">Dr. Anurag Pandey</div>
+            <div class="text-[11px] text-blue-200">Principal, BBPS Gadarwara</div>
           </div>
-
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5 float-card" style="animation-delay: 1s;">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">⚡</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-teal-500/30 text-teal-200">Maharatna PSU</span>
-            </div>
-            <div class="mt-2 text-lg font-extrabold">1,600 MW</div>
-            <div class="text-[11px] text-slate-300">2×800 MW Supercritical Thermal Plant</div>
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+            <div class="text-xl">🏅</div>
+            <div class="mt-1 text-sm font-extrabold">100% Result</div>
+            <div class="text-[11px] text-blue-200">CBSE Class X & XII Boards</div>
           </div>
-
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">🎙️</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/30 text-purple-200">2-Way Voice</span>
-            </div>
-            <div class="mt-1.5 text-sm font-bold">Speak & Listen</div>
-            <div class="text-[11px] text-slate-300">English & Hindi Neural Speech</div>
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+            <div class="text-xl">🔬</div>
+            <div class="mt-1 text-sm font-extrabold">ATL & AI Labs</div>
+            <div class="text-[11px] text-blue-200">Robotics, Science & Coding</div>
           </div>
-
-          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3.5">
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">🌱</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-200">Eco Campus</span>
-            </div>
-            <div class="mt-1.5 text-sm font-bold">99.9% ESP & ZLD</div>
-            <div class="text-[11px] text-slate-300">Zero Liquid Discharge Township</div>
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3">
+            <div class="text-xl">📊</div>
+            <div class="mt-1 text-sm font-extrabold">Live Analytics</div>
+            <div class="text-[11px] text-blue-200">Tracks Visitor Questions</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 2-WAY VERBAL CONVERSATION BANNER (Hidden until clicked) -->
-    <div id="verbal-banner" class="hidden bg-gradient-to-r from-red-600 via-rose-600 to-orange-600 text-white rounded-2xl p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3.5">
-        <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-2xl listening-pulse">
-          🎙️
-        </div>
+    <!-- 2-Way Verbal Mode Active Banner -->
+    <div id="verbal-banner" class="hidden bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-2xl p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl listening-pulse">🎙️</div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs uppercase tracking-wider font-extrabold bg-black/25 px-2.5 py-0.5 rounded-full">Live 2-Way Verbal Mode Active</span>
+            <span class="text-xs uppercase font-extrabold bg-black/25 px-2.5 py-0.5 rounded-full">2-Way Verbal Conversation</span>
             <span id="verbal-status" class="text-xs text-yellow-200 font-semibold">Listening to your voice...</span>
           </div>
-          <p class="text-xs text-white/90 mt-1">Speak naturally. The chatbot will reply in both text and voice, then automatically listen for your next question.</p>
+          <p class="text-xs text-white/90 mt-0.5">Speak your question naturally. The chatbot will reply in text + voice, then listen again.</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="stopSpeaking()" class="text-xs bg-black/20 hover:bg-black/30 px-3 py-1.5 rounded-lg font-medium transition">Mute Current Reply</button>
-        <button onclick="toggleVerbalMode()" class="text-xs bg-white text-red-700 hover:bg-red-50 px-4 py-1.5 rounded-lg font-bold transition shadow">Exit Verbal Mode</button>
+        <button onclick="stopSpeaking()" class="text-xs bg-black/20 hover:bg-black/30 px-3 py-1.5 rounded-lg font-medium">Mute Audio</button>
+        <button onclick="toggleVerbalMode()" class="text-xs bg-white text-red-700 px-3.5 py-1.5 rounded-lg font-bold">End Verbal Mode</button>
       </div>
     </div>
 
-    <!-- DUAL ASSISTANT SWITCHER CARDS (With Original Classic Badges) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <button id="tab-school" onclick="switchBot('school')" class="text-left p-4 rounded-2xl border-2 transition-all bg-blue-50/90 border-blue-600 shadow-md flex items-center justify-between group">
-        <div class="space-y-1">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-blue-600 text-white">School Helpdesk</span>
-            <span class="text-xs text-slate-500 font-medium">CBSE Affiliation • CES New Delhi</span>
-          </div>
-          <h2 class="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition">Bal Bharati Public School (BBPS)</h2>
-          <p class="text-xs text-slate-600">About Us, Academics, Admissions, Results, Sports, Gallery & Form</p>
-        </div>
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center text-3xl shadow-md shrink-0">
-          🎓
-        </div>
-      </button>
-
-      <button id="tab-ntpc" onclick="switchBot('ntpc')" class="text-left p-4 rounded-2xl border-2 transition-all bg-white border-slate-200 hover:border-teal-600 shadow-sm flex items-center justify-between group">
-        <div class="space-y-1">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-teal-700 text-white">Plant & Township</span>
-            <span class="text-xs text-slate-500 font-medium">Gadarwara STPS • 1,600 MW</span>
-          </div>
-          <h2 class="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-teal-700 transition">NTPC Super Thermal Power Station</h2>
-          <p class="text-xs text-slate-600">CISF Gate Pass, 2×800 MW Specs, Supercritical Tech, Environment & Jobs</p>
-        </div>
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-600 to-emerald-700 text-white flex items-center justify-center text-3xl shadow-md shrink-0">
-          ⚡
-        </div>
-      </button>
-    </div>
-
-    <!-- MAIN WORKSPACE: LEFT SIDEBAR EXPLORER + RIGHT CHAT INTERFACE -->
+    <!-- Main Workspace: Left School Topics Menu + Right Chatbot -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-      
-      <!-- Left Interactive Topic Explorer (All School & NTPC Categories) -->
+
+      <!-- Left Sidebar: Complete BBPS Topics -->
       <aside class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col justify-between space-y-4">
         <div class="space-y-3">
           <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
             <div>
-              <h3 class="font-extrabold text-slate-900 text-sm">📚 Complete Knowledge Menu</h3>
-              <p class="text-[11px] text-slate-500">Click any section for instant full details</p>
+              <h3 class="font-extrabold text-slate-900 text-sm">📚 BBPS School Directory</h3>
+              <p class="text-[11px] text-slate-500">Click any topic for instant verified details</p>
             </div>
-            <span class="text-xs font-bold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">Direct Data</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">22+ Sections</span>
           </div>
 
-          <!-- Category Accordion Buttons -->
-          <div class="space-y-2 max-h-[430px] overflow-y-auto chat-scroll pr-1">
-            
+          <div class="space-y-2.5 max-h-[430px] overflow-y-auto chat-scroll pr-1">
+            <!-- Category 1 -->
             <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-extrabold text-blue-800 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">🏫 1. About BBPS</div>
+              <div class="text-xs font-extrabold text-blue-800 uppercase tracking-wider mb-1.5">🏫 1. About Us & Leadership</div>
               <div class="flex flex-wrap gap-1.5">
+                <button onclick="triggerDirectTopic('Who is the Principal of BBPS?')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Principal Info</button>
                 <button onclick="triggerDirectTopic('Vision, Mission & Core Values')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Vision & Mission</button>
                 <button onclick="triggerDirectTopic('School at a Glance')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">School at a Glance</button>
-                <button onclick="triggerDirectTopic('School History & Legacy')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">History & CES</button>
-                <button onclick="triggerDirectTopic('Principal & Leadership')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Principal & President</button>
+                <button onclick="triggerDirectTopic('School History & CES Society')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">History & CES</button>
+                <button onclick="triggerDirectTopic('President Message & Governance')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">President Message</button>
                 <button onclick="triggerDirectTopic('Mandatory Public Disclosure')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Public Disclosure</button>
                 <button onclick="triggerDirectTopic('Faculty & Philosophy of Care')" class="text-[11px] bg-white hover:bg-blue-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Faculty & Care</button>
               </div>
             </div>
 
+            <!-- Category 2 -->
             <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-extrabold text-indigo-800 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">📘 2. Academics</div>
+              <div class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider mb-1.5">📝 2. Admissions & Fee Structure</div>
               <div class="flex flex-wrap gap-1.5">
-                <button onclick="triggerDirectTopic('Curriculum & Streams')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Curriculum & Streams</button>
-                <button onclick="triggerDirectTopic('Teaching & Learning Approach')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Teaching Approach</button>
-                <button onclick="triggerDirectTopic('College & Career Counseling')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Career Counseling</button>
-                <button onclick="triggerDirectTopic('Assessment & Board Results')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Board Results & Exams</button>
-                <button onclick="triggerDirectTopic('Academic Calendar & Timings')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Calendar & Timings</button>
-              </div>
-            </div>
-
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">📝 3. Admissions & Fees</div>
-              <div class="flex flex-wrap gap-1.5">
-                <button onclick="triggerDirectTopic('Fill Admission Form')" class="text-[11px] bg-emerald-600 text-white hover:bg-emerald-700 px-2.5 py-1 rounded-lg font-bold transition">✨ Online Admission Form</button>
-                <button onclick="triggerDirectTopic('Admission Process & Requirements')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Process & Documents</button>
+                <button onclick="triggerDirectTopic('Fill Admission Form')" class="text-[11px] bg-emerald-600 text-white hover:bg-emerald-700 px-2.5 py-1 rounded-lg font-bold transition">✨ Fill Admission Form</button>
+                <button onclick="triggerDirectTopic('Admission Process & Documents')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Admission Process</button>
+                <button onclick="triggerDirectTopic('Age Criteria & Entrance Test')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Age & Entrance Exam</button>
                 <button onclick="triggerDirectTopic('Fee Structure & Scholarships')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Fees & Scholarships</button>
-                <button onclick="triggerDirectTopic('Transfer Certificate & FAQs')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Transfer Certificate (TC)</button>
+                <button onclick="triggerDirectTopic('Transfer Certificate (TC)')" class="text-[11px] bg-white hover:bg-emerald-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Transfer Certificate</button>
               </div>
             </div>
 
+            <!-- Category 3 -->
             <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-extrabold text-amber-800 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">🏆 4. Beyond Academics & Gallery</div>
+              <div class="text-xs font-extrabold text-indigo-800 uppercase tracking-wider mb-1.5">📘 3. Academics & Timings</div>
               <div class="flex flex-wrap gap-1.5">
-                <button onclick="triggerDirectTopic('Campus Facilities & ATL Lab')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">ATL & Science Labs</button>
-                <button onclick="triggerDirectTopic('Sports & Co-Curricular Activities')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Sports & Outward Bound</button>
+                <button onclick="triggerDirectTopic('School Timings & Office Hours')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">School Timings</button>
+                <button onclick="triggerDirectTopic('Curriculum & Class 11-12 Streams')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Streams & Subjects</button>
+                <button onclick="triggerDirectTopic('Teaching Approach & Smart Classes')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Teaching Approach</button>
+                <button onclick="triggerDirectTopic('Board Results & Assessment Policy')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Board Results</button>
+                <button onclick="triggerDirectTopic('Career Counseling & Guidance')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Career Counseling</button>
+                <button onclick="triggerDirectTopic('Academic Calendar & Holidays')" class="text-[11px] bg-white hover:bg-indigo-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Academic Calendar</button>
+              </div>
+            </div>
+
+            <!-- Category 4 -->
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
+              <div class="text-xs font-extrabold text-amber-800 uppercase tracking-wider mb-1.5">🏆 4. Facilities, Sports & Contact</div>
+              <div class="flex flex-wrap gap-1.5">
+                <button onclick="triggerDirectTopic('Campus Facilities & ATL Robotics Lab')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Labs & ATL Robotics</button>
+                <button onclick="triggerDirectTopic('Sports & Co-Curricular Activities')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Sports & Clubs</button>
                 <button onclick="triggerDirectTopic('Student Achievers & Recognitions')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Achievers & Awards</button>
-                <button onclick="triggerDirectTopic('Photo & Video Gallery')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">🖼️ Photo/Video Gallery</button>
-                <button onclick="triggerDirectTopic('Circulars & Notices')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Circulars</button>
+                <button onclick="triggerDirectTopic('Photo & Video Gallery')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Photo/Video Gallery</button>
+                <button onclick="triggerDirectTopic('Transport & School Bus Facility')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Bus & Transport</button>
+                <button onclick="triggerDirectTopic('School Address, Contact & Parent Portal')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Contact & Portal</button>
+                <button onclick="triggerDirectTopic('Careers & Teaching Jobs at BBPS')" class="text-[11px] bg-white hover:bg-amber-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Jobs & Vacancies</button>
               </div>
             </div>
-
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80">
-              <div class="text-xs font-extrabold text-teal-800 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">⚡ 5. NTPC Plant & Careers</div>
-              <div class="flex flex-wrap gap-1.5">
-                <button onclick="triggerDirectTopic('NTPC Plant Capacity & Specs')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">1600 MW Specs</button>
-                <button onclick="triggerDirectTopic('Visitor Gate Pass & CISF Rules')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Gate Pass Rules</button>
-                <button onclick="triggerDirectTopic('Supercritical Boiler Technology')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Supercritical Tech</button>
-                <button onclick="triggerDirectTopic('Pollution Control ESP & FGD')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">ESP, FGD & ZLD</button>
-                <button onclick="triggerDirectTopic('Job Options & Careers')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">💼 Jobs & Careers</button>
-                <button onclick="triggerDirectTopic('Contact Details & Parent Portal')" class="text-[11px] bg-white hover:bg-teal-50 border border-slate-200 px-2.5 py-1 rounded-lg font-medium transition">Contact & Parent Login</button>
-              </div>
-            </div>
-
           </div>
         </div>
 
-        <!-- Direct Gmail Enquiry Callout -->
-        <div class="p-3 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 flex items-center justify-between">
+        <!-- Quick Link to Data Dashboard -->
+        <div class="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
           <div>
-            <div class="text-xs font-bold text-slate-800">Want Admission for 2026–27?</div>
-            <div class="text-[11px] text-slate-600">Send details directly to School Desk</div>
+            <div class="text-xs font-bold text-slate-900">Admin / Teacher Review</div>
+            <div class="text-[11px] text-slate-600">See what users are searching</div>
           </div>
-          <button onclick="triggerDirectTopic('Fill Admission Form')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm transition">
-            Open Form
+          <button onclick="switchPage('data')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm transition">
+            View Data 📊
           </button>
         </div>
       </aside>
 
-      <!-- Right Main Chatbot Window -->
+      <!-- Right Chatbot Window -->
       <section class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden flex flex-col h-[580px]">
         
-        <!-- Active Chat Header -->
-        <div id="chat-header" class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-5 py-3.5 flex items-center justify-between">
+        <!-- Chatbot Header -->
+        <div class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-5 py-3.5 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div id="bot-icon" class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-xl shadow-inner">🎓</div>
+            <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-xl shadow-inner">🎓</div>
             <div>
-              <h3 id="bot-title" class="font-bold text-sm sm:text-base">BBPS Gadarwara Complete AI Helpdesk</h3>
-              <p id="bot-subtitle" class="text-xs text-blue-100">All 35+ School Sections Loaded • Principal: Dr. Anurag Pandey</p>
+              <h3 class="font-bold text-sm sm:text-base">BBPS Gadarwara Intelligent Assistant</h3>
+              <p class="text-xs text-blue-100">High-Accuracy School NLP • Auto-Logging User Queries for Review</p>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="stopSpeaking()" class="text-xs bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg font-medium transition" title="Stop Voice">🔇 Mute</button>
-            <button onclick="clearChat()" class="text-xs bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg font-medium transition">Reset</button>
+            <button onclick="stopSpeaking()" class="text-xs bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg font-medium transition">🔇 Mute</button>
+            <button onclick="clearChat()" class="text-xs bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg font-medium transition">Reset Chat</button>
           </div>
         </div>
 
-        <!-- Scrollable Chat Messages Box -->
+        <!-- Messages Container -->
         <div id="chat-box" class="flex-1 p-5 overflow-y-auto chat-scroll space-y-4 bg-slate-50/70"></div>
 
-        <!-- Quick Action Chips Bar -->
+        <!-- Quick Chips -->
         <div id="quick-chips" class="px-4 py-2.5 bg-white border-t border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar"></div>
 
-        <!-- Input Bar with Microphone & Ask Button -->
+        <!-- Input Form -->
         <form onsubmit="handleUserSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex gap-2">
           <button 
             type="button" 
             id="mic-btn" 
-            onclick="startSingleVoice()" 
-            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5 text-xs font-bold shrink-0"
-            title="Speak your question">
+            onclick="startListeningEngine()" 
+            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl transition shadow-sm flex items-center gap-1.5 text-xs font-bold shrink-0">
             <span id="mic-icon">🎤</span>
             <span class="hidden sm:inline" id="mic-text">Speak</span>
           </button>
           <input 
             id="user-input" 
             type="text" 
-            placeholder="Ask anything: Principal, Vision, Board Results, Admission Form, Sports, Jobs, GK..." 
+            placeholder="Ask about Principal, Admission Form, Fees, Timings, Streams, Sports, or TC..." 
             class="flex-1 text-sm bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-blue-600 focus:bg-white transition"
             required
           />
-          <button type="submit" id="send-btn" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
-            Ask AI
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
+            Ask
           </button>
         </form>
       </section>
 
     </div>
+  </main>
 
-    <!-- ATTRACTIVE CAMPUS & PLANT VISUAL HIGHLIGHTS SECTION (Graphics Cards) -->
-    <section class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
+  <!-- ========================================================================== -->
+  <!-- PAGE 2: USER DATA COLLECTION & ADMIN REVIEW DASHBOARD                      -->
+  <!-- ========================================================================== -->
+  <main id="page-data" class="hidden max-w-6xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    
+    <!-- Dashboard Header & Action Buttons -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mb-2">
+          <span>📊 Real-Time Visitor Intelligence & Query Logs</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">User Data & Query Review Dashboard</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+          Every question asked by parents, students, or visitors is categorized and recorded here so you can review what users are searching for.
+        </p>
+      </div>
+
+      <!-- Forward to Gmail & Export Controls -->
+      <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+        <button onclick="forwardAllLogsToGmail()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+          📩 Forward Report to Our Gmail
+        </button>
+        <button onclick="exportLogsToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+          📥 Download CSV / Excel
+        </button>
+        <button onclick="clearAllLogs()" class="bg-slate-100 hover:bg-red-50 hover:text-red-600 text-slate-600 text-xs font-bold px-3.5 py-2.5 rounded-xl border border-slate-200 transition">
+          🗑️ Clear Logs
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Summary Counter Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-bold text-slate-500 uppercase">Total User Queries</div>
+        <div id="stat-total" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</div>
+        <div class="text-[11px] text-emerald-600 font-semibold mt-1">✓ 100% Logged in Real-Time</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-bold text-blue-600 uppercase">Admission & Fee Queries</div>
+        <div id="stat-admission" class="text-2xl sm:text-3xl font-extrabold text-blue-700 mt-1">0</div>
+        <div class="text-[11px] text-slate-500 mt-1">Forms, Process, Age, Fees, TC</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-bold text-indigo-600 uppercase">School Info & Academics</div>
+        <div id="stat-school" class="text-2xl sm:text-3xl font-extrabold text-indigo-700 mt-1">0</div>
+        <div class="text-[11px] text-slate-500 mt-1">Principal, Timings, Streams, Labs</div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-bold text-purple-600 uppercase">Admission Leads Submitted</div>
+        <div id="stat-leads" class="text-2xl sm:text-3xl font-extrabold text-purple-700 mt-1">0</div>
+        <div class="text-[11px] text-slate-500 mt-1">Students who filled form</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar & Search Logs Table -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold text-slate-700">Filter by Category:</span>
+          <button onclick="filterLogs('ALL')" class="text-xs px-3 py-1 rounded-full bg-slate-900 text-white font-semibold">All Queries</button>
+          <button onclick="filterLogs('Admissions & Fees')" class="text-xs px-3 py-1 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold">Admissions & Fees</button>
+          <button onclick="filterLogs('About School & Leadership')" class="text-xs px-3 py-1 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold">About School</button>
+          <button onclick="filterLogs('Academics & Results')" class="text-xs px-3 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold">Academics</button>
+          <button onclick="filterLogs('Facilities & Sports')" class="text-xs px-3 py-1 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 font-semibold">Facilities & Sports</button>
+        </div>
+        <div class="text-xs text-slate-400 font-medium">
+          Forwarding Email: <strong class="text-slate-700">nikhilpatel6105@gmail.com</strong>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider">
+              <th class="py-3 px-4">#</th>
+              <th class="py-3 px-4">Time & Date</th>
+              <th class="py-3 px-4">What User Asked (Search Query)</th>
+              <th class="py-3 px-4">Detected Category / Intent</th>
+              <th class="py-3 px-4">Matched Topic</th>
+              <th class="py-3 px-4">Mode</th>
+              <th class="py-3 px-4">Action</th>
+            </tr>
+          </thead>
+          <tbody id="logs-table-body" class="divide-y divide-slate-100 text-xs text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Submitted Admission Form Leads Box -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+      <div class="flex items-center justify-between mb-3">
         <div>
-          <h3 class="font-extrabold text-slate-900 text-base">✨ Campus & Plant Interactive Highlights</h3>
-          <p class="text-xs text-slate-500">Click any visual card below to get full details & voice explanation in the chatbot</p>
-        </div>
-        <span class="text-xs font-semibold text-blue-600">Gadarwara, Dist. Narsinghpur (M.P.) • 487770</span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-        <div onclick="triggerDirectTopic('Campus Facilities & ATL Lab')" class="cursor-pointer group rounded-xl p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/70 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xl mb-3 shadow-sm group-hover:scale-105 transition">🔬</div>
-          <h4 class="font-bold text-slate-900 text-sm">Atal Tinkering & Smart Labs</h4>
-          <p class="text-xs text-slate-600 mt-1">Robotics, AI, 3D Printing, Physics, Chemistry, Biology & Computer Labs.</p>
-        </div>
-
-        <div onclick="triggerDirectTopic('Sports & Co-Curricular Activities')" class="cursor-pointer group rounded-xl p-4 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/70 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xl mb-3 shadow-sm group-hover:scale-105 transition">🏆</div>
-          <h4 class="font-bold text-slate-900 text-sm">Sports & Outward Bound</h4>
-          <p class="text-xs text-slate-600 mt-1">Football, Cricket, Basketball, Kabaddi, Yoga, Music, Dance & CBSE Clusters.</p>
-        </div>
-
-        <div onclick="triggerDirectTopic('Supercritical Boiler Technology')" class="cursor-pointer group rounded-xl p-4 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/70 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-lg bg-amber-600 text-white flex items-center justify-center text-xl mb-3 shadow-sm group-hover:scale-105 transition">🔥</div>
-          <h4 class="font-bold text-slate-900 text-sm">2×800 MW Supercritical Tech</h4>
-          <p class="text-xs text-slate-600 mt-1">High-efficiency boilers (>221 bar, 565°C) supplying 50% power to Madhya Pradesh.</p>
-        </div>
-
-        <div onclick="triggerDirectTopic('Fill Admission Form')" class="cursor-pointer group rounded-xl p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/70 hover:shadow-md transition">
-          <div class="w-10 h-10 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xl mb-3 shadow-sm group-hover:scale-105 transition">📩</div>
-          <h4 class="font-bold text-slate-900 text-sm">Direct Gmail Admission Desk</h4>
-          <p class="text-xs text-slate-600 mt-1">Fill out Student Name, Class & Phone to send instant admission enquiry to our Gmail.</p>
+          <h3 class="font-extrabold text-slate-900 text-base">📝 Captured Student Admission Form Enquiries</h3>
+          <p class="text-xs text-slate-500">Students & parents who filled out the Admission Form inside the chatbot</p>
         </div>
       </div>
-    </section>
-
-    <!-- AI ARCHITECTURE & TRANSPARENCY FOOTER -->
-    <footer class="bg-white border border-slate-200 rounded-2xl p-4 text-xs text-slate-600 flex flex-col sm:flex-row justify-between gap-3 shadow-sm">
-      <div class="space-y-1">
-        <div class="font-bold text-slate-900 flex items-center gap-1.5"><span>🧠</span> How AI Works on This Portal</div>
-        <p><strong>1. Complete Embedded Knowledge Base (RAG):</strong> All 35+ sections of BBPS & NTPC Gadarwara are stored directly inside the engine—no external link shortcuts.<br>
-           <strong>2. Neural Speech Synthesis (TTS & STT):</strong> Automatically selects natural Indian English/Hindi voices with live audio equalizer and hands-free verbal mode.<br>
-           <strong>3. Hybrid General Knowledge Engine:</strong> Combines instant verified science/civics facts with live open-web encyclopedic summaries.</p>
-      </div>
-      <div class="text-slate-400 shrink-0 sm:text-right self-end font-medium">
-        BBPS & NTPC Township, Gangai • Gadarwara (M.P.)
-      </div>
-    </footer>
+      <div id="leads-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
+    </div>
 
   </main>
 
-  <!-- MODAL POPUP FOR ALL 35+ TOPICS -->
-  <div id="directory-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 max-h-[85vh] flex flex-col">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div>
-          <h3 class="text-lg font-extrabold text-slate-900">📂 Complete BBPS & NTPC Knowledge Directory</h3>
-          <p class="text-xs text-slate-500">Click any topic below to view the complete, detailed answer inside the chat</p>
-        </div>
-        <button onclick="closeDirectoryModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">✕</button>
-      </div>
-      <div id="modal-topics-grid" class="py-4 overflow-y-auto chat-scroll grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 text-xs"></div>
-    </div>
-  </div>
-
   <script>
     // ============================================================================
-    // 1. STATE & CONFIGURATION
+    // 1. STATE & USER DATA ANALYTICS STORAGE
     // ============================================================================
-    let activeBot = 'school';
     let autoVoiceReply = true;
     let verbalModeActive = false;
     let recognitionInstance = null;
     let availableVoices = [];
-    let selectedVoiceURI = 'auto';
+    let currentFilter = 'ALL';
+
+    // Load saved logs from browser LocalStorage or seed with realistic initial examples
+    let userQueryLogs = JSON.parse(localStorage.getItem('bbps_user_logs') || 'null');
+    if (!userQueryLogs) {
+      userQueryLogs = [
+        {
+          id: 1,
+          time: "Today, 09:15 AM",
+          query: "I want to fill admission form for Class 11 Science",
+          category: "Admissions & Fees",
+          matchedTopic: "Fill Admission Form",
+          mode: "💬 Text"
+        },
+        {
+          id: 2,
+          time: "Today, 09:42 AM",
+          query: "Who is the principal of BBPS Gadarwara?",
+          category: "About School & Leadership",
+          matchedTopic: "Who is the Principal of BBPS?",
+          mode: "🎙️ Voice"
+        },
+        {
+          id: 3,
+          time: "Today, 10:10 AM",
+          query: "What are the school timings and fee structure?",
+          category: "Academics & Results",
+          matchedTopic: "School Timings & Office Hours",
+          mode: "💬 Text"
+        }
+      ];
+      localStorage.setItem('bbps_user_logs', JSON.stringify(userQueryLogs));
+    }
+
+    let admissionLeads = JSON.parse(localStorage.getItem('bbps_admission_leads') || '[]');
 
     // ============================================================================
-    // 2. COMPLETE EMBEDDED KNOWLEDGE BASE (ALL 35+ SECTIONS WITH FULL TEXT DATA)
+    // 2. COMPLETE BBPS SCHOOL KNOWLEDGE BASE (HIGH-ACCURACY SYNONYMS & TOKENS)
     // ============================================================================
-    const knowledgeBase = {
-      school: {
-        name: "BBPS Gadarwara Complete AI Helpdesk",
-        subtitle: "All 35+ School Sections Loaded • Principal: Dr. Anurag Pandey",
-        headerClass: "bg-gradient-to-r from-blue-700 to-indigo-700",
-        btnClass: "bg-blue-600 hover:bg-blue-700",
-        icon: "🎓",
-        welcome: "Welcome to **Bal Bharati Public School, NTPC Gadarwara**! All **35+ official sections** (About Us, Vision, History, Principal, Curriculum, Board Results, Admissions, Sports, Galleries & Careers) are directly loaded inside me. Ask any question by **text or voice**, or click **Fill Admission Form**.",
-        chips: [
-          "📝 Fill Admission Form",
-          "👨‍🏫 Principal & Leadership",
-          "🎯 Vision, Mission & Values",
-          "📘 Curriculum & Streams",
-          "🏅 Board Results & Assessment",
-          "🔬 ATL & Campus Facilities",
-          "🏆 Sports & Co-Curricular",
-          "🖼️ Photo & Video Gallery",
-          "💼 Job Options & Careers"
-        ],
-        entries: [
-          // --- ADMISSION FORM (SENDS TO GMAIL) ---
-          {
-            id: "admission_form",
-            title: "Fill Admission Form",
-            phrases: ["fill admission form", "admission form", "apply online", "enquiry form", "take admission", "want admission", "register student"],
-            keywords: ["form", "enquiry", "register", "apply"],
-            answer: `**📝 Online Admission Enquiry Form (BBPS Gadarwara — 2026–27):**
-Fill in the student details below. When you click **Send Admission Enquiry to School Gmail**, your details are formatted and sent directly to **nikhilpatel6105@gmail.com**.
+    const schoolEntries = [
+      {
+        id: "admission_form",
+        title: "Fill Admission Form",
+        category: "Admissions & Fees",
+        phrases: ["fill admission form", "admission form", "apply online", "take admission", "want admission", "enquiry form", "new admission form", "register my child"],
+        keywords: ["form", "apply", "register", "registration", "enroll"],
+        answer: `**📝 BBPS Gadarwara — Online Admission Enquiry Form (2026–27):**
+Fill in your details below. This form automatically saves your enquiry to our **User Data Review Page** and sends it directly to **nikhilpatel6105@gmail.com**.
 
-<form onsubmit="submitViaGmail(event)" class="mt-3 space-y-3 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-200 shadow-inner">
+<form onsubmit="submitAdmissionForm(event)" class="mt-3 space-y-3 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-200 shadow-inner">
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
     <div>
       <label class="text-xs font-bold text-slate-700">Student Full Name *</label>
-      <input type="text" id="studentName" placeholder="e.g., Aarav Sharma" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+      <input type="text" id="studentName" placeholder="e.g., Rohan Verma" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700">Father's / Mother's Name *</label>
-      <input type="text" id="parentName" placeholder="Parent / Guardian Name" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+      <label class="text-xs font-bold text-slate-700">Parent / Guardian Name *</label>
+      <input type="text" id="parentName" placeholder="Father's or Mother's Name" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
     </div>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
     <div>
       <label class="text-xs font-bold text-slate-700">Class Applying For *</label>
-      <select id="applyClass" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+      <select id="applyClass" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
         <option value="">-- Select Class --</option>
         <option value="Pre-Primary (Nursery / LKG / UKG)">Pre-Primary (Nursery / LKG / UKG)</option>
         <option value="Primary (Class I to V)">Primary (Class I to V)</option>
         <option value="Middle (Class VI to VIII)">Middle (Class VI to VIII)</option>
         <option value="Secondary (Class IX & X)">Secondary (Class IX & X)</option>
-        <option value="Senior Secondary - Class XI Science (PCM/PCB)">Class XI Science (PCM / PCB + AI)</option>
-        <option value="Senior Secondary - Class XI Commerce">Class XI Commerce</option>
+        <option value="Class XI Science (PCM / PCB + AI)">Class XI Science (PCM / PCB + AI)</option>
+        <option value="Class XI Commerce">Class XI Commerce</option>
       </select>
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700">Mobile Number *</label>
-      <input type="tel" id="parentPhone" placeholder="10-Digit Mobile Number" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+      <label class="text-xs font-bold text-slate-700">Phone / WhatsApp Number *</label>
+      <input type="tel" id="parentPhone" placeholder="10-Digit Mobile Number" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
     </div>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
     <div>
-      <label class="text-xs font-bold text-slate-700">Category</label>
+      <label class="text-xs font-bold text-slate-700">Admission Category</label>
       <select id="studentCategory" class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
-        <option value="General Public (Gadarwara / Narsinghpur)">General Public (Gadarwara / Non-NTPC)</option>
-        <option value="NTPC Employee Ward">NTPC Employee / CISF Ward</option>
+        <option value="General Resident (Gadarwara / Narsinghpur)">General Resident (Gadarwara / Non-NTPC)</option>
+        <option value="NTPC / CISF Employee Ward">NTPC / CISF Employee Ward</option>
       </select>
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700">Current School / City</label>
-      <input type="text" id="studentNotes" placeholder="e.g., Gadarwara, MP" class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
+      <label class="text-xs font-bold text-slate-700">Question / Address</label>
+      <input type="text" id="studentNotes" placeholder="e.g., Gadarwara Town" class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
     </div>
   </div>
   <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold transition shadow-md">
-    📩 Send Admission Enquiry to School Gmail
+    📩 Submit Admission Form & Forward to Gmail
   </button>
 </form>`,
-            voiceText: "I have opened the official BBPS Gadarwara Admission Enquiry Form right here in the chat. Please enter the student's name, parent's name, class, and mobile number, then click Send.",
-            aiRef: "Interactive Admission Form • Direct Gmail Delivery (nikhilpatel6105@gmail.com)"
-          },
-
-          // --- ABOUT US: VISION, MISSION & CORE VALUES ---
-          {
-            id: "vision_mission",
-            title: "Vision, Mission & Core Values",
-            phrases: ["vision", "mission", "core values", "motto", "hanso nayatu"],
-            keywords: ["vision", "mission", "values", "motto", "philosophy"],
-            answer: `**🎯 Vision, Mission & Core Values (BBPS Gadarwara):**
-• **School Motto:** *"Hanso Nayatu Naha Pragyam"* (Lead Us Unto Light)—symbolizing wisdom, purity, and enlightenment.
-• **Our Vision:** To strive for excellence in holistic education by nurturing confident, compassionate, and globally responsible citizens rooted in Indian cultural values.
-• **Our Mission:** 
-  1. Provide a learner-centric environment integrating modern technology, experiential pedagogy, and NEP 2020 standards.
-  2. Foster critical thinking, scientific temperament, creativity, and physical fitness in every child.
-• **Core Values:** Integrity, Empathy, Excellence, Respect for Diversity, Environmental Stewardship, and Nation Building.`,
-            voiceText: "Our school motto is Hanso Nayatu Naha Pragyam, meaning Lead Us Unto Light. Our vision is to provide holistic education that blends modern technology with strong Indian cultural values.",
-            aiRef: "Embedded Data • About Us > Vision, Mission & Core Values"
-          },
-
-          // --- ABOUT US: SCHOOL AT A GLANCE ---
-          {
-            id: "school_glance",
-            title: "School at a Glance",
-            phrases: ["school at a glance", "overview of school", "about us", "about bbps", "school profile"],
-            keywords: ["glance", "overview", "profile", "co-ed", "medium"],
-            answer: `**🏫 BBPS Gadarwara — School at a Glance:**
-• **Full Name:** Bal Bharati Public School, NTPC Gadarwara.
-• **Management:** Managed by the **Child Education Society (CES), New Delhi** (founded in 1944) in collaboration with **NTPC Limited**.
-• **Board Affiliation:** Central Board of Secondary Education (**CBSE, New Delhi**).
-• **Classes Offered:** Pre-Primary (**Nursery, LKG, UKG**) up to **Senior Secondary (Class XII)**.
-• **Medium of Instruction:** English (with Hindi and Sanskrit taught as key languages).
-• **Campus Type:** Co-educational, Wi-Fi & CCTV-enabled green campus located inside the secure NTPC Gadarwara Township, Gangai.`,
-            voiceText: "Bal Bharati Public School Gadarwara is a co-educational English medium CBSE school from Nursery to Class 12, managed by the Child Education Society New Delhi inside the NTPC Gadarwara Township.",
-            aiRef: "Embedded Data • About Us > School at a Glance"
-          },
-
-          // --- ABOUT US: HISTORY & CHILD EDUCATION SOCIETY ---
-          {
-            id: "history_legacy",
-            title: "School History & Legacy",
-            phrases: ["school history", "legacy", "child education society", "ces new delhi", "when was school founded"],
-            keywords: ["history", "legacy", "society", "ces", "founded", "established"],
-            answer: `**🏛️ School History, Legacy & Child Education Society (CES):**
-• **Parent Body (CES):** The **Child Education Society (CES)** was established in **1944** in New Delhi by visionary freedom fighters and educationists led by **Late Lala Hansraj Gupta**. Today, CES governs over 25+ prestigious Bal Bharati Public Schools and institutions across India.
-• **BBPS NTPC Gadarwara:** Established in partnership with **NTPC Gadarwara Super Thermal Power Station** to bring national-level CBSE education to the wards of NTPC/CISF employees as well as children from Gadarwara and Narsinghpur district.`,
-            voiceText: "Our parent organization, the Child Education Society New Delhi, was founded in 1944. BBPS Gadarwara was established in collaboration with NTPC to provide premier CBSE education to both township wards and local students.",
-            aiRef: "Embedded Data • About Us > School History & CES Legacy"
-          },
-
-          // --- ABOUT US: PRINCIPAL, PRESIDENT MESSAGE & LEADERSHIP ---
-          {
-            id: "principal_leadership",
-            title: "Principal & Leadership",
-            phrases: ["who is the principal", "principal of bbps", "principal name", "message from the president", "leadership", "governance", "dr anurag pandey"],
-            keywords: ["principal", "anurag", "pandey", "president", "leadership", "governance", "chairman"],
-            answer: `**👨‍🏫 Leadership, Governance & Principal (BBPS Gadarwara):**
-• **Principal:** **Dr. Anurag Pandey** is the Principal of Bal Bharati Public School, NTPC Gadarwara. Under his academic leadership, the school emphasizes experiential learning, AI & coding integration, and 100% board exam performance.
-• **President (CES):** Guided by the President of the Child Education Society (CES), New Delhi (**Shri Nikhil Channa**), whose message emphasizes *character building alongside digital and academic excellence*.
-• **School Managing Committee:** Comprises senior officials from NTPC Gadarwara STPS, eminent educationists from CES New Delhi, and parent/teacher representatives.
-• **Principal Visiting Hours:** 10:00 AM to 11:30 AM on working days.`,
-            voiceText: "Dr. Anurag Pandey is the Principal of Bal Bharati Public School, NTPC Gadarwara. The school is governed by the Child Education Society, New Delhi, and the NTPC School Management Committee.",
-            aiRef: "Embedded Data • About Us > Leadership, Governance & Principal"
-          },
-
-          // --- ABOUT US: MANDATORY PUBLIC DISCLOSURE & AFFILIATIONS ---
-          {
-            id: "public_disclosure",
-            title: "Mandatory Public Disclosure",
-            phrases: ["mandatory public disclosure", "accreditation", "affiliations", "cbse affiliation", "noc", "safety certificate"],
-            keywords: ["disclosure", "accreditation", "affiliation", "mandatory", "certificate", "noc"],
-            answer: `**📋 Mandatory Public Disclosure & Accreditations:**
-• **Affiliation Status:** Affiliated to the **Central Board of Secondary Education (CBSE), New Delhi** up to Senior Secondary level (Class XII).
-• **Statutory Compliance:** Holds verified Building Safety Certificate, Fire Safety Certificate, Safe Drinking Water & Sanitary Condition Certificate, and DEO/State Government Recognition Certificate as per CBSE Appendix-IX norms.
-• **Transparency:** Complete details of SMC members, PTA committee, class-wise enrolment, infrastructure dimensions, and academic audit reports are maintained at the Admin Office and official disclosure portal.`,
-            voiceText: "BBPS Gadarwara complies with all CBSE Mandatory Public Disclosure norms, holding verified Building Safety, Fire Safety, Sanitation, and CBSE Senior Secondary Affiliation certificates.",
-            aiRef: "Embedded Data • About Us > Mandatory Public Disclosure"
-          },
-
-          // --- ABOUT US: FACULTY & PHILOSOPHY OF CARE ---
-          {
-            id: "faculty_care",
-            title: "Faculty & Philosophy of Care",
-            phrases: ["faculty", "teachers", "our philosophy of care", "student care", "counselor"],
-            keywords: ["faculty", "teacher", "teachers", "care", "pastoral", "safety", "mentor"],
-            answer: `**🤝 Faculty & Our Philosophy of Care:**
-• **Qualified Faculty:** Our teaching staff comprises CBSE-trained Postgraduate (PGT), Trained Graduate (TGT), and Primary (PRT) educators regularly upskilled through **CES Training Centre** and **CBSE Capacity Building Workshops**.
-• **Philosophy of Care:** Every child receives individual mentorship with a healthy teacher-student ratio.
-• **Safety & Well-Being:** 24×7 CCTV surveillance, CISF township security, anti-bullying committee, special educator/counselor support, and an on-campus medical infirmary connected to the NTPC Hospital.`,
-            voiceText: "Our faculty consists of experienced PGT, TGT, and PRT educators. Our Philosophy of Care ensures personal mentorship, emotional wellbeing, and campus safety for every student.",
-            aiRef: "Embedded Data • About Us > Faculty & Philosophy of Care"
-          },
-
-          // --- ACADEMICS: CURRICULUM & STREAMS ---
-          {
-            id: "curriculum_streams",
-            title: "Curriculum & Streams",
-            phrases: ["curriculum overview", "academics", "streams in class 11", "subjects offered", "class 11 and 12", "science stream", "commerce stream"],
-            keywords: ["curriculum", "academic", "academics", "stream", "streams", "subject", "subjects", "pcm", "pcb", "commerce", "syllabus"],
-            answer: `**📘 Curriculum Overview & Senior Secondary Streams:**
-• **Foundational & Preparatory (Nursery – Class V):** Activity-based, play-way learning focusing on literacy, numeracy, communication, and environmental awareness (NEP 2020).
-• **Middle & Secondary (Class VI – X):** NCERT curriculum covering English, Hindi, Sanskrit, Mathematics, Science, Social Science, **Artificial Intelligence (AI)**, and Information Technology.
-• **Senior Secondary (Class XI & XII):**
-  1. **Science Stream:** Physics, Chemistry, Mathematics (PCM) / Biology (PCB), English Core, plus electives like **Artificial Intelligence (AI)**, Computer Science, and Physical Education.
-  2. **Commerce Stream:** Accountancy, Business Studies, Economics, English Core, Mathematics / Informatics Practices / Physical Education.`,
-            voiceText: "BBPS Gadarwara follows the NCERT and CBSE curriculum. In Class 11 and 12, students can choose Science with PCM or PCB, or Commerce, along with skill subjects like Artificial Intelligence and Physical Education.",
-            aiRef: "Embedded Data • Academics > Curriculum Overview & Streams"
-          },
-
-          // --- ACADEMICS: TEACHING & LEARNING APPROACH ---
-          {
-            id: "teaching_approach",
-            title: "Teaching & Learning Approach",
-            phrases: ["teaching and learning", "teaching approach", "pedagogy", "smart class", "experiential learning"],
-            keywords: ["teaching", "learning", "pedagogy", "experiential", "methodology", "nep"],
-            answer: `**💡 Teaching & Learning Approach (NEP 2020 Aligned):**
-• **Experiential & Project-Based Learning:** Concepts in Physics, Chemistry, Biology, and AI are taught through lab experiments, working prototypes, and real-world case studies.
-• **Digital Smart Classrooms:** Interactive flat panels and audio-visual modules make complex scientific and mathematical concepts easy to visualize.
-• ** multidisciplinary Integration:** Art-integrated learning, sports-integrated pedagogy, coding, and peer-collaborative projects from primary to senior classes.`,
-            voiceText: "Our teaching approach is aligned with NEP 2020, combining digital smart classrooms, hands-on laboratory experiments, and project-based learning.",
-            aiRef: "Embedded Data • Academics > Teaching & Learning Approach"
-          },
-
-          // --- ACADEMICS: SUPPORT, GUIDANCE & CAREER COUNSELING ---
-          {
-            id: "career_counseling",
-            title: "College & Career Counseling",
-            phrases: ["academic support", "college and career counseling", "career counseling", "remedial classes", "jee neet guidance"],
-            keywords: ["counseling", "career", "college", "guidance", "remedial", "support", "olympiad"],
-            answer: `**🎓 Academic Support & College/Career Counseling:**
-• **Academic Support & Remedial Guidance:** Extra enrichment classes for high achievers (Olympiads, NTSE, Science Exhibitions) and personalized remedial sessions for students needing additional concept clarity.
-• **College & Career Counseling (Classes IX–XII):** Regular workshops on stream selection, CUET, JEE, NEET, CLAT, NDA, Defence, and emerging careers in AI, Data Science, and Engineering.`,
-            voiceText: "We provide dedicated remedial support for students as well as career counseling workshops for Classes 9 to 12 covering JEE, NEET, CUET, Defence, and AI careers.",
-            aiRef: "Embedded Data • Academics > Support & Career Counseling"
-          },
-
-          // --- ACADEMICS: ASSESSMENT POLICY & BOARD RESULTS ---
-          {
-            id: "board_results",
-            title: "Assessment & Board Results",
-            phrases: ["board results", "assessment policy", "exam pattern", "class 10 result", "class 12 result"],
-            keywords: ["result", "results", "assessment", "evaluation", "exam", "exams", "topper", "board"],
-            answer: `**🏅 Assessment Policy & CBSE Board Results:**
-• **CBSE Board Results:** BBPS Gadarwara consistently achieves a **100% pass percentage** in both CBSE Class X and Class XII Board Examinations, with numerous students scoring **95%+ aggregate** and earning district honors in Narsinghpur.
-• **Assessment Policy:** 
-  - **Primary (I–V):** Continuous competency-based formative assessments without high-stakes exam stress.
-  - **Classes VI–VIII:** Periodic Tests, Notebook/Subject Enrichment, Practical Projects, and Half-Yearly/Annual Exams.
-  - **Classes IX–XII:** Strictly follows the latest CBSE competency-based assessment structure (MCQs, case-study questions, internal practicals, and pre-boards).`,
-            voiceText: "BBPS Gadarwara has a proud record of 100 percent pass results in Class 10 and Class 12 CBSE board exams. Our assessment policy focuses on competency-based evaluation and practical skills.",
-            aiRef: "Embedded Data • Academics > Assessment Policy & Board Results"
-          },
-
-          // --- ACADEMICS: CALENDAR & SCHOOL TIMINGS ---
-          {
-            id: "calendar_timings",
-            title: "Academic Calendar & Timings",
-            phrases: ["academic calendar", "school timings", "visiting hours", "office hours", "holidays", "session"],
-            keywords: ["calendar", "timing", "timings", "hours", "schedule", "time", "holiday"],
-            answer: `**🕒 Academic Calendar & School Timings:**
-• **Academic Session:** April to March (Summer Vacation in May–June; Autumn/Diwali Break; Winter Break in late December).
-• **Student School Hours:** **7:45 AM to 2:00 PM** (Monday to Saturday; 2nd Saturday is off).
-• **Admin Office Hours:** **8:30 AM to 1:30 PM** on working days.
-• **Principal Visiting Hours:** **10:00 AM to 11:30 AM** (prior appointment at reception recommended).`,
-            voiceText: "School academic hours are from 7:45 AM to 2:00 PM, Monday to Saturday. The administrative office is open from 8:30 AM to 1:30 PM.",
-            aiRef: "Embedded Data • Academics > Calendar & Timings"
-          },
-
-          // --- ADMISSIONS: PROCESS, REQUIREMENTS & WHY CHOOSE US ---
-          {
-            id: "admission_process",
-            title: "Admission Process & Requirements",
-            phrases: ["admission process", "why choose our school", "entrance requirements", "documents required", "how to get admission", "age criteria"],
-            keywords: ["admission", "admissions", "process", "documents", "criteria", "entrance", "age"],
-            answer: `**📑 Admission Process, Eligibility & Required Documents:**
-• **Why Choose BBPS Gadarwara:** Safe NTPC township environment, CBSE curriculum, Atal Tinkering Lab, national-level sports facilities, and 100% board results.
-• **Entrance & Selection Process:**
-  - **Nursery / LKG / UKG:** Informal child & parent interaction (no written test). Minimum age: 3+ years for Nursery as of 31st March.
-  - **Classes I to IX & XI:** Written entrance assessment in core subjects (English, Maths, Science) subject to seat availability.
-• **Documents Required at Admission:**
-  1. Original Birth Certificate (for Pre-Primary & Class I).
-  2. Original Transfer Certificate (TC) countersigned, and previous class Report Card (Class II onwards).
-  3. Aadhaar Card copies of Student and Parents.
-  4. 4 Recent Passport-size Photographs & Category/Blood Group proof.`,
-            voiceText: "Admissions are open for both NTPC wards and local Gadarwara students. Pre-primary admission is through interaction, while Classes 1 and above have a basic entrance test. Required documents include Birth Certificate, Transfer Certificate, Report Card, and Aadhaar Card.",
-            aiRef: "Embedded Data • Admissions > Process & Entrance Requirements"
-          },
-
-          // --- ADMISSIONS: FEES & SCHOLARSHIPS ---
-          {
-            id: "fees_scholarships",
-            title: "Fee Structure & Scholarships",
-            phrases: ["fee structure", "scholarships", "financial aid", "how to pay fees", "tuition fee"],
-            keywords: ["fee", "fees", "scholarship", "scholarships", "payment", "quarterly", "concession"],
-            answer: `**💳 Fee Structure, Online Payment & Scholarships:**
-• **Fee Payment Mode:** Fees are paid quarterly via the **BBPS Online Fee Portal** (UPI, Net Banking, Debit/Credit Card) or bank challan.
-• **Fee Categories:** Regulated and transparent fee structure with separate slabs for **NTPC/CISF Wards** and **Non-NTPC (General Public)** students as per CES & NTPC norms.
-• **Scholarships & Financial Aid:** Meritorious students excelling in academics, national sports, and CBSE/CES competitions are felicitated with merit scholarships and fee concessions as per society rules.`,
-            voiceText: "Fees are collected quarterly via the online portal using UPI, cards, or net banking. Merit awards and scholarships are available for top-performing students.",
-            aiRef: "Embedded Data • Admissions > Fees & Scholarships"
-          },
-
-          // --- ADMISSIONS: TRANSFER CERTIFICATE & FAQS ---
-          {
-            id: "tc_faqs",
-            title: "Transfer Certificate & FAQs",
-            phrases: ["transfer certificate", "tc", "admission faqs", "how to get tc", "bus facility"],
-            keywords: ["tc", "transfer", "faq", "faqs", "leaving"],
-            answer: `**📄 Transfer Certificate (TC) & Common Admission FAQs:**
-• **Transfer Certificate (TC) Procedure:** Parents seeking a TC must submit a written application to the Principal along with a No-Dues Clearance from the Library, Labs, and Accounts Office. Issued TCs are uploaded with a verifiable serial number as per CBSE norms.
-• **Key FAQs:**
-  - *Can non-NTPC children from Gadarwara town apply?* **Yes**, seats are open to local residents of Gadarwara and Narsinghpur district.
-  - *How do I submit an admission enquiry right now?* Click the **📝 Fill Admission Form** button in this chat!`,
-            voiceText: "Transfer Certificates are issued after clearing library and accounts dues and are uploaded for CBSE verification. Also, non-NTPC students from Gadarwara can apply for admission.",
-            aiRef: "Embedded Data • Admissions > Transfer Certificate & FAQs"
-          },
-
-          // --- BEYOND ACADEMICS: CAMPUS & LAB FACILITIES ---
-          {
-            id: "campus_facilities",
-            title: "Campus Facilities & ATL Lab",
-            phrases: ["campus facilities", "atal tinkering lab", "atl lab", "science labs", "library", "infrastructure"],
-            keywords: ["facility", "facilities", "atl", "tinkering", "lab", "labs", "library", "robotics", "infrastructure"],
-            answer: `**🔬 Campus & Facilities Overview (BBPS Gadarwara):**
-• **Atal Tinkering Lab (ATL):** Equipped with Arduino/Raspberry Pi kits, sensors, 3D printers, robotics modules, and AI workstations where students build real-world innovations.
-• **Science, Math & Computer Labs:** Dedicated, spacious **Physics, Chemistry, Biology, Composite Science, Mathematics, and High-Speed Computer/AI Labs**.
-• **Library & Resource Centre:** Rich collection of encyclopedias, NCERT/reference books, journals, fiction, and digital reading resources.
-• **Health, Safety & Utilities:** RO drinking water stations, clean washrooms, medical infirmary, ramp/accessibility support, and 24×7 CCTV monitoring.`,
-            voiceText: "Our campus features an Atal Tinkering Lab for robotics and AI, separate Physics, Chemistry, Biology, and Computer labs, a well-stocked library, smart classrooms, and a medical infirmary.",
-            aiRef: "Embedded Data • About Us > Campus & Facilities Overview"
-          },
-
-          // --- BEYOND ACADEMICS: SPORTS, CO-CURRICULAR & OUTWARD BOUND ---
-          {
-            id: "sports_cocurricular",
-            title: "Sports & Co-Curricular Activities",
-            phrases: ["beyond academics", "sports", "co-curricular", "outward bound", "clubs", "music", "kabaddi"],
-            keywords: ["sports", "sport", "co-curricular", "outward", "football", "cricket", "basketball", "kabaddi", "yoga", "music", "dance"],
-            answer: `**🏆 Beyond Academics — Sports, Co-Curricular & Outward Bound:**
-• **Sports Infrastructure:** Expansive playgrounds and courts for **Football, Cricket, Basketball, Volleyball, Badminton, Kabaddi, Kho-Kho, Athletics, Chess, Carrom, and Yoga**.
-• **Co-Curricular Clubs:** Eco & Sustainability Club, Science & AI Club, Literary & Debate Club, Quiz Club, Heritage Club, Visual Arts, Vocal & Instrumental Music, and Classical/Contemporary Dance.
-• **Outward Bound Learning:** Educational excursions, industrial visits to the NTPC Thermal Plant, adventure camps, and nature treks that build teamwork and leadership.`,
-            voiceText: "Beyond academics, we offer facilities for football, cricket, basketball, kabaddi, athletics, and yoga, along with music, dance, robotics clubs, and outward-bound educational trips.",
-            aiRef: "Embedded Data • Beyond Academics > Sports, Co-Curricular & Outward Bound"
-          },
-
-          // --- BEYOND ACADEMICS: ACHIEVERS, RECOGNITIONS & CIRCULARS ---
-          {
-            id: "achievers_circulars",
-            title: "Student Achievers & Recognitions",
-            phrases: ["achievers", "recognitions", "awards", "circular", "circulars", "notices"],
-            keywords: ["achiever", "achievers", "recognition", "recognitions", "award", "awards", "circular", "circulars", "notice"],
-            answer: `**🌟 Student Achievers, School Recognitions & Circulars:**
-• **Student Achievers:** BBPS Gadarwara students have won top honors in **CBSE Cluster Sports Tournaments, Science & AI Capstone Exhibitions, Inter-BBPS Cultural Fests, National Olympiads, and District Merit Lists**.
-• **School Recognitions:** Recognized for green campus practices, 100% CBSE board results, and community outreach in collaboration with NTPC Gadarwara.
-• **Circulars & Notices:** All exam date-sheets, PTM schedules, holiday notices, and competition circulars are shared directly with parents via the Parent Portal and school notice board.`,
-            voiceText: "Our students have excelled in CBSE Cluster sports, AI and science exhibitions, and national Olympiads. All latest school circulars and PTM schedules are shared through the parent portal.",
-            aiRef: "Embedded Data • Beyond Academics > Achievers, Recognitions & Circulars"
-          },
-
-          // --- GALLERY: PHOTO, VIDEO & ACHIEVERS GALLERY ---
-          {
-            id: "school_gallery",
-            title: "Photo & Video Gallery",
-            phrases: ["photo gallery", "video gallery", "achievers gallery", "gallery", "campus photos", "show photos"],
-            keywords: ["gallery", "photo", "photos", "video", "videos", "pictures"],
-            answer: `**🖼️ BBPS Gadarwara — Visual Campus Gallery (Interactive Highlights):**
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-2">
-  <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
-    <div class="text-xl">🏫</div>
-    <div class="font-bold text-xs text-blue-900 mt-1">Photo Gallery</div>
-    <p class="text-[11px] text-slate-600 mt-0.5">Annual Day, Republic/Independence Day, Investiture Ceremony, Smart Classrooms & Green Township Campus.</p>
-  </div>
-  <div class="p-3 rounded-xl bg-purple-50 border border-purple-200">
-    <div class="text-xl">🎬</div>
-    <div class="font-bold text-xs text-purple-900 mt-1">Video Gallery</div>
-    <p class="text-[11px] text-slate-600 mt-0.5">Cultural performances, ATL Robotics & AI exhibitions, Sports Meet highlights & Principal assemblies.</p>
-  </div>
-  <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
-    <div class="text-xl">🏅</div>
-    <div class="font-bold text-xs text-amber-900 mt-1">Achievers Gallery</div>
-    <p class="text-[11px] text-slate-600 mt-0.5">Class X & XII CBSE Board Toppers, Olympiad Gold Medalists & CBSE Cluster Sports Champions.</p>
-  </div>
-</div>`,
-            voiceText: "Here is an overview of our Photo Gallery, Video Gallery, and Achievers Gallery showcasing our Annual Day, ATL robotics exhibitions, sports meets, and CBSE board toppers.",
-            aiRef: "Embedded Visual Data • Gallery > Photo, Video & Achievers"
-          },
-
-          // --- CONTACT US, PARENT PORTAL & CAREERS ---
-          {
-            id: "contact_portal_careers",
-            title: "Contact Details & Parent Portal",
-            phrases: ["contact us", "contact details", "parent portal", "school address", "where is bbps", "how to reach"],
-            keywords: ["contact", "address", "location", "portal", "login", "map", "phone", "email"],
-            answer: `**📞 Contact Details, Location Map & Parent Portal (BBPS Gadarwara):**
-• **Campus Address:** Bal Bharati Public School, NTPC Gadarwara Township, Village Gangai, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh – **487770**.
-• **How to Reach:** Located approximately **14 km from Gadarwara Railway Station** on State Highway 22.
-• **Official Website:** \`bbpsgadarwara.balbharati.org\`
-• **Parent Portal Services:** Registered parents can view daily attendance, homework, circulars, report cards, and pay quarterly fees online.`,
-            voiceText: "BBPS Gadarwara is located inside the NTPC Township at Village Gangai, District Narsinghpur, Madhya Pradesh, PIN 487770, about 14 kilometers from Gadarwara Railway Station.",
-            aiRef: "Embedded Data • Contact Us > Address, Map & Parent Portal"
-          },
-
-          // --- JOBS & CAREERS (SCHOOL + NTPC) ---
-          {
-            id: "jobs_careers",
-            title: "Job Options & Careers",
-            phrases: ["job options", "careers at our school", "vacancy", "teaching jobs", "recruitment", "hiring", "jobs in bbps", "jobs in ntpc"],
-            keywords: ["job", "jobs", "career", "careers", "vacancy", "vacancies", "hiring", "recruitment"],
-            answer: `**💼 Job Options & Careers (BBPS School & NTPC Gadarwara):**
-• **1. Careers at BBPS Gadarwara (Teaching & Admin Staff):**
-  - **Positions:** PGT (Physics, Chemistry, Maths, Biology, Commerce, English, AI/CS), TGT, PRT, Pre-Primary Teachers, Lab Assistants, Physical Education Coaches, and Admin Staff.
-  - **Qualifications:** Post-Graduation / Graduation with **B.Ed. and CTET/STET** qualification as per CBSE & Child Education Society (CES) norms, plus strong English communication and computer proficiency.
-  - **How to Apply:** Submit your updated CV at the BBPS Gadarwara Admin Office or apply during official CES recruitment drives.
-• **2. Careers at NTPC Gadarwara (Engineering & Technical):**
-  - **Positions:** Executive Trainees (Mechanical, Electrical, Electronics, C&I, Civil via GATE), Diploma Trainees, Medical Officers, and Artisan Trainees.
-  - **Recruitment Portal:** Central recruitment is conducted through \`careers.ntpc.co.in\`.`,
-            voiceText: "For teaching and administrative jobs at BBPS Gadarwara, candidates with B.Ed. and CTET qualifications can apply for PGT, TGT, and PRT posts. For engineering and technical jobs at NTPC, recruitment takes place through the official NTPC careers portal.",
-            aiRef: "Embedded Data • Contact Us > Careers at BBPS & NTPC"
-          }
-        ]
+        voiceText: "I have opened the BBPS Gadarwara Admission Enquiry Form. Please fill in the student name, class, and phone number to submit and forward the details to our school Gmail."
       },
 
-      // ==========================================================================
-      // NTPC GADARWARA SUPER THERMAL POWER STATION DATABASE
-      // ==========================================================================
-      ntpc: {
-        name: "NTPC Gadarwara STPS (1,600 MW) AI Desk",
-        subtitle: "2×800 MW Supercritical Thermal Power Plant & Township",
-        headerClass: "bg-gradient-to-r from-teal-700 to-emerald-700",
-        btnClass: "bg-teal-600 hover:bg-teal-700",
-        icon: "⚡",
-        welcome: "Welcome to the **NTPC Gadarwara Super Thermal Power Station (1,600 MW)** Helpdesk! Ask me by text or voice about **Plant Capacity, CISF Gate Pass Rules, Supercritical Boilers, Pollution Control (ESP/FGD), Township Facilities, or NTPC Jobs**.",
-        chips: [
-          "⚡ NTPC Plant Capacity & Specs",
-          "🛂 Visitor Gate Pass & CISF Rules",
-          "🔥 Supercritical Boiler Technology",
-          "🌱 Pollution Control ESP & FGD",
-          "🏘️ NTPC Township & CSR",
-          "💼 Job Options & Careers"
-        ],
-        entries: [
-          {
-            id: "ntpc_capacity",
-            title: "NTPC Plant Capacity & Specs",
-            phrases: ["plant capacity", "ntpc capacity", "1600 mw", "power share", "coal and water source", "ntpc gadarwara specs"],
-            keywords: ["capacity", "mw", "megawatt", "800", "1600", "unit", "units", "coal", "narmada", "water", "beneficiary"],
-            answer: `**⚡ NTPC Gadarwara STPS — Capacity & Technical Specifications:**
-• **Installed Capacity:** **1,600 MW** (Stage-I comprises **2 Units × 800 MW** each).
-• **Commissioning:** Unit-1 (800 MW) commissioned in **2019**; Unit-2 (800 MW) commissioned in **2021**.
-• **Power Beneficiary States:** **Madhya Pradesh receives 50%** of the electricity generated; the remaining 50% serves Maharashtra, Gujarat, Chhattisgarh, and Goa (Western Grid).
-• **Water Source:** Drawn from the **Narmada River** via dedicated pipeline.
-• **Coal Source:** Linked to Talaipalli and Mand-Raigarh coal blocks and SECL mines via rail network.`,
-            voiceText: "NTPC Gadarwara has an installed capacity of 1,600 Megawatts across two supercritical units of 800 Megawatts each. Fifty percent of the electricity generated is supplied to Madhya Pradesh, and water is sourced from the Narmada River.",
-            aiRef: "Embedded Data • NTPC Station Technical Profile"
-          },
-          {
-            id: "ntpc_gatepass",
-            title: "Visitor Gate Pass & CISF Rules",
-            phrases: ["visitor gate pass", "cisf rules", "how to enter ntpc", "plant entry", "township entry"],
-            keywords: ["visitor", "visit", "gate", "pass", "gatepass", "cisf", "security", "entry"],
-            answer: `**🛂 CISF Security & Visitor Gate Pass Rules (NTPC Gadarwara):**
-• **Township & School Visitors:** Must show a valid Government Photo ID (Aadhaar Card, Driving Licence, Voter ID, or PAN) and log entry at the **CISF Main Security Gate**.
-• **Power Plant Zone Entry:** Requires a pre-approved **Official Gate Pass** issued by the CISF Pass Section upon authorization by an NTPC officer, along with mandatory **Safety Helmet, Safety Shoes, and Safety Induction**.
-• **Prohibited Items:** Unauthorized photography, drones, matchboxes, lighters, and weapons are strictly prohibited inside the plant perimeter.`,
-            voiceText: "Visitors entering the NTPC Township or school must present a valid Government Photo ID at the CISF Main Gate. Entering the power plant area requires an authorized Gate Pass and safety gear.",
-            aiRef: "Embedded Data • CISF Security & Gate Pass Protocol"
-          },
-          {
-            id: "ntpc_supercritical",
-            title: "Supercritical Boiler Technology",
-            phrases: ["supercritical", "how boiler works", "thermal efficiency", "supercritical technology"],
-            keywords: ["supercritical", "boiler", "turbine", "steam", "pressure", "temperature", "efficiency"],
-            answer: `**🔥 Supercritical Thermal Power Technology at NTPC Gadarwara:**
-• **Operating Principle:** The 800 MW boilers operate above the critical point of water (**Pressure > 221.2 bar** and **Steam Temperature ~565°C to 600°C**). At this state, water converts directly into high-density steam without boiling/phase separation, eliminating the need for a traditional boiler drum.
-• **High Thermal Efficiency:** Achieves **~41–42% thermal efficiency** (compared to ~35–36% in older subcritical plants).
-• **Environmental Benefit:** Consumes less coal per unit of electricity generated, cutting **CO₂ emissions by ~15%**.`,
-            voiceText: "NTPC Gadarwara uses Supercritical boiler technology operating above 221 bar pressure and 565 degrees Celsius. This increases thermal efficiency and reduces carbon emissions by around 15 percent.",
-            aiRef: "Embedded Data • NTPC Engineering & Boiler Specs"
-          },
-          {
-            id: "ntpc_environment",
-            title: "Pollution Control ESP & FGD",
-            phrases: ["pollution control", "esp and fgd", "environment", "fly ash", "zero liquid discharge"],
-            keywords: ["pollution", "environment", "esp", "fgd", "ash", "zld", "emission", "chimney"],
-            answer: `**🌱 Environmental Protection & Emission Control Systems:**
-• **ESP (Electrostatic Precipitators):** High-efficiency fields capture **99.9% of particulate fly ash** before flue gas exits the **275-meter twin-flue chimney**.
-• **FGD (Flue Gas Desulfurization):** Wet limestone scrubbing removes over **95% of Sulphur Dioxide (SO₂)** emissions.
-• **ZLD (Zero Liquid Discharge):** 100% of industrial and township treated water is recycled for ash handling and horticulture—zero wastewater leaves the plant.
-• **100% Ash Utilization:** Fly ash is supplied for cement manufacturing, highway construction, and fly-ash bricks.`,
-            voiceText: "NTPC Gadarwara protects the environment using Electrostatic Precipitators with 99.9 percent efficiency, Flue Gas Desulfurization, Zero Liquid Discharge water recycling, and 100 percent fly ash utilization.",
-            aiRef: "Embedded Data • NTPC Sustainability & Environment"
-          },
-          {
-            id: "ntpc_township",
-            title: "NTPC Township & CSR",
-            phrases: ["ntpc township", "csr activities", "hospital in ntpc", "township facilities"],
-            keywords: ["township", "csr", "hospital", "medical", "club", "quarters", "colony"],
-            answer: `**🏘️ NTPC Gadarwara Township & CSR Initiatives:**
-• **Township Amenities:** Self-contained green township with residential quarters, **Bal Bharati Public School (BBPS)**, **NTPC Hospital**, Employee Recreation Clubs, Sports Stadium, Shopping Complex, Banks/ATMs, and solar street lighting.
-• **CSR (Corporate Social Responsibility):** Regular development programs in neighboring villages (Gangai, Umariya, Chorpipariya, etc.) including mobile health clinics, school infrastructure, RO water plants, women self-help groups, and youth skill training.`,
-            voiceText: "The NTPC Gadarwara Township includes residential quarters, Bal Bharati Public School, an NTPC Hospital, sports complexes, and active CSR initiatives supporting nearby villages.",
-            aiRef: "Embedded Data • NTPC Township & CSR"
-          }
-        ]
-      }
-    };
+      {
+        id: "principal_info",
+        title: "Who is the Principal of BBPS?",
+        category: "About School & Leadership",
+        phrases: ["who is the principal", "principal of bbps", "principal name", "head of school", "dr anurag pandey", "principal sir", "प्राचार्य कौन है", "प्रिंसिपल"],
+        keywords: ["principal", "anurag", "pandey", "headmaster", "principal's"],
+        answer: `**👨‍🏫 Principal of BBPS Gadarwara:**
+• **Principal Name:** **Dr. Anurag Pandey** is the Principal of Bal Bharati Public School, Gadarwara.
+• **Academic Vision:** Under Dr. Anurag Pandey's leadership, BBPS Gadarwara focuses on NEP 2020 experiential learning, digital smart classrooms, Atal Tinkering Lab innovation, and 100% CBSE board results.
+• **Visiting Hours for Parents:** **10:00 AM to 11:30 AM** on working days (with prior appointment at reception).`,
+        voiceText: "Dr. Anurag Pandey is the Principal of Bal Bharati Public School, Gadarwara. Parents can meet the Principal between 10 AM and 11:30 AM on working days."
+      },
 
-    // ============================================================================
-    // 3. BUILT-IN INSTANT GENERAL KNOWLEDGE & SCIENCE DATABASE
-    // ============================================================================
-    const instantGK = [
-      { keys: ["prime minister of india", "pm of india", "narendra modi"], answer: "**General Knowledge:**\nThe Prime Minister of India is **Shri Narendra Modi**.", voice: "The Prime Minister of India is Shri Narendra Modi." },
-      { keys: ["president of india", "droupadi murmu"], answer: "**General Knowledge:**\nThe President of India is **Smt. Droupadi Murmu** (15th President of India).", voice: "The President of India is Shrimati Droupadi Murmu." },
-      { keys: ["chief minister of madhya pradesh", "cm of mp", "mohan yadav"], answer: "**General Knowledge:**\nThe Chief Minister of Madhya Pradesh is **Dr. Mohan Yadav**, and the state capital is **Bhopal**.", voice: "The Chief Minister of Madhya Pradesh is Dr. Mohan Yadav." },
-      { keys: ["full form of ntpc", "what is ntpc"], answer: "**General Knowledge:**\n**NTPC** stands for **National Thermal Power Corporation Limited** (officially **NTPC Limited**), India's largest power generation Maharatna PSU under the Ministry of Power, founded on **7 November 1975** and headquartered in New Delhi.", voice: "NTPC stands for National Thermal Power Corporation Limited, a Maharatna PSU founded in 1975." },
-      { keys: ["what is ai", "artificial intelligence"], answer: "**Artificial Intelligence (AI):**\nAI is the branch of computer science focused on building smart machines capable of performing tasks that typically require human intelligence—such as Natural Language Processing (NLP), speech recognition, problem-solving, and learning from data.", voice: "Artificial Intelligence is the branch of computer science that enables machines to understand language, recognize speech, and make intelligent decisions." },
-      { keys: ["ohm's law", "ohms law"], answer: "**Physics — Ohm's Law:**\nOhm's Law states that the electric current ($I$) flowing through a conductor is directly proportional to the potential difference ($V$) applied across its ends, provided temperature and physical conditions remain constant: **V = I × R** (where $R$ is resistance in Ohms).", voice: "Ohm's Law states that voltage equals current multiplied by resistance, V equals I into R, at constant temperature." },
-      { keys: ["reimer tiemann", "remer temer"], answer: "**Chemistry — Reimer–Tiemann Reaction:**\nThe Reimer–Tiemann reaction is an organic chemical reaction where **phenol** is treated with **chloroform ($CHCl_3$)** in the presence of **aqueous sodium hydroxide ($NaOH$)** followed by acidification to produce **salicylaldehyde** (2-hydroxybenzaldehyde).", voice: "The Reimer-Tiemann reaction converts phenol into salicylaldehyde using chloroform and aqueous sodium hydroxide." }
+      {
+        id: "school_glance",
+        title: "School at a Glance",
+        category: "About School & Leadership",
+        phrases: ["school at a glance", "know about school", "about our school", "about bbps", "tell me about school", "school information", "school overview", "school details"],
+        keywords: ["glance", "overview", "about", "bbps", "profile", "introduction"],
+        answer: `**🏫 Bal Bharati Public School (BBPS) Gadarwara — School at a Glance:**
+• **Institution Name:** Bal Bharati Public School, Gadarwara (Dist. Narsinghpur, M.P.).
+• **Parent Body:** Managed by the **Child Education Society (CES), New Delhi** (established in 1944).
+• **Board Affiliation:** Affiliated to the **Central Board of Secondary Education (CBSE), New Delhi**.
+• **Classes Offered:** **Nursery, LKG, UKG up to Class XII** (Science & Commerce Streams).
+• **Principal:** **Dr. Anurag Pandey**.
+• **Key Highlights:** 100% CBSE Board Results, Atal Tinkering Lab (Robotics & AI), Smart Classrooms, Lush Green CCTV-Secured Campus, and National-Level Sports Facilities.`,
+        voiceText: "Bal Bharati Public School Gadarwara is a premier English-medium CBSE school from Nursery to Class 12, managed by the Child Education Society, New Delhi, with Dr. Anurag Pandey as Principal."
+      },
+
+      {
+        id: "vision_mission",
+        title: "Vision, Mission & Core Values",
+        category: "About School & Leadership",
+        phrases: ["vision", "mission", "core values", "school motto", "hanso nayatu"],
+        keywords: ["vision", "mission", "values", "motto", "aim"],
+        answer: `**🎯 Vision, Mission & Core Values (BBPS Gadarwara):**
+• **Motto:** *"Hanso Nayatu Naha Pragyam"* (Lead Us Unto Light).
+• **Vision:** To provide holistic, value-based education that empowers students to become confident, ethical, and innovative global citizens rooted in Indian heritage.
+• **Mission:** 
+  1. Deliver child-centric, experiential learning aligned with **NEP 2020**.
+  2. Nurture scientific temper, digital literacy, artistic creativity, and physical fitness.
+• **Core Values:** Integrity, Excellence, Empathy, Discipline, Environmental Responsibility, and Patriotism.`,
+        voiceText: "Our school motto is Hanso Nayatu Naha Pragyam, meaning Lead Us Unto Light. Our vision is to nurture confident, ethical, and innovative citizens through holistic CBSE education."
+      },
+
+      {
+        id: "history_ces",
+        title: "School History & CES Society",
+        category: "About School & Leadership",
+        phrases: ["school history", "legacy", "child education society", "ces new delhi", "history of bbps"],
+        keywords: ["history", "legacy", "ces", "society", "founded", "hansraj"],
+        answer: `**🏛️ School History & Child Education Society (CES):**
+• **Child Education Society (CES):** Founded in **1944** in New Delhi by eminent educationists and social reformers led by **Late Lala Hansraj Gupta**. CES runs 25+ premier Bal Bharati Public Schools and teacher training institutions across India.
+• **BBPS Gadarwara Legacy:** Established in Gadarwara (Narsinghpur district) to provide top-tier CBSE schooling to children of the township as well as students from Gadarwara and nearby towns.`,
+        voiceText: "BBPS Gadarwara is governed by the Child Education Society, New Delhi, which was founded in 1944 by Late Lala Hansraj Gupta and runs over 25 Bal Bharati schools across India."
+      },
+
+      {
+        id: "president_governance",
+        title: "President Message & Governance",
+        category: "About School & Leadership",
+        phrases: ["message from the president", "president message", "leadership and governance", "who is president of ces", "nikhil channa"],
+        keywords: ["president", "governance", "committee", "management", "channa"],
+        answer: `**🏛️ Message From The President & School Governance:**
+• **President (CES, New Delhi):** **Shri Nikhil Channa**, President of the Child Education Society, emphasizes blending modern scientific and AI skills with strong moral character and empathy.
+• **Governance Structure:** The school is governed by a dedicated **School Managing Committee (SMC)** comprising senior educationists from CES New Delhi, Principal **Dr. Anurag Pandey**, parent representatives, and senior faculty members.`,
+        voiceText: "The President of the Child Education Society is Shri Nikhil Channa. The school is governed by the CES Board and the School Managing Committee."
+      },
+
+      {
+        id: "public_disclosure",
+        title: "Mandatory Public Disclosure",
+        category: "About School & Leadership",
+        phrases: ["mandatory public disclosure", "accreditation", "affiliations", "cbse affiliation number", "noc certificate"],
+        keywords: ["disclosure", "mandatory", "accreditation", "affiliation", "noc", "safety"],
+        answer: `**📋 Mandatory Public Disclosure & Accreditations:**
+• **Board Affiliation:** Affiliated to **CBSE, New Delhi** up to Senior Secondary (Class XII).
+• **Statutory Certificates:** Holds valid Building Safety Certificate, Fire Safety Certificate, Safe Drinking Water & Sanitary Certificate, and State Government Recognition/NOC in compliance with CBSE Mandatory Public Disclosure guidelines.
+• **Public Records:** Academic calendar, fee structure, SMC list, PTA details, and annual academic audit reports are publicly maintained for complete transparency.`,
+        voiceText: "BBPS Gadarwara complies with all CBSE Mandatory Public Disclosure requirements, holding verified Building Safety, Fire Safety, Water Sanitation, and CBSE Senior Secondary Affiliation certificates."
+      },
+
+      {
+        id: "faculty_care",
+        title: "Faculty & Philosophy of Care",
+        category: "About School & Leadership",
+        phrases: ["faculty", "our philosophy of care", "teachers in bbps", "student safety", "infirmary"],
+        keywords: ["faculty", "teacher", "teachers", "care", "philosophy", "safety", "medical"],
+        answer: `**🤝 Faculty & Our Philosophy of Care:**
+• **Highly Qualified Faculty:** Experienced Postgraduate (PGT), Trained Graduate (TGT), and Primary (PRT) teachers trained via CBSE and CES capacity-building programs.
+• **Philosophy of Care:** Optimal student-teacher ratio ensuring personalized attention, emotional counseling, and zero tolerance for bullying.
+• **Campus Security & Health:** 24×7 CCTV monitoring, verified security guards at entry gates, RO water, and a dedicated medical infirmary.`,
+        voiceText: "Our school has experienced PGT, TGT, and PRT teachers. Our Philosophy of Care ensures individual attention, emotional support, CCTV security, and medical care for every child."
+      },
+
+      {
+        id: "admission_process",
+        title: "Admission Process & Documents",
+        category: "Admissions & Fees",
+        phrases: ["admission process", "how to get admission", "documents required", "new admission", "why choose our school"],
+        keywords: ["admission", "admissions", "process", "documents", "document", "procedure"],
+        answer: `**📑 Admission Process & Required Documents (BBPS Gadarwara):**
+• **Open to All:** Admissions are open to both **local residents of Gadarwara/Narsinghpur** and township wards from **Nursery to Class XII**.
+• **Step-by-Step Process:**
+  1. Fill out the **Online Admission Form** right here in the chatbot or collect the registration form from the School Admin Office (8:30 AM – 1:30 PM).
+  2. Attend the informal child interaction (for Nursery/KG) or entrance test (for Classes I to IX & XI).
+  3. Submit documents and complete fee payment to confirm admission.
+• **Required Documents:**
+  - Original Birth Certificate (for Nursery to Class I)
+  - Counter-signed Transfer Certificate (TC) & Previous Report Card (Class II onwards)
+  - Aadhaar Card copies of Student & Parents + 4 Passport-size Photos.`,
+        voiceText: "To take admission at BBPS Gadarwara, you can fill out the online form right here in the chat or visit the admin office. Required documents include Birth Certificate, Transfer Certificate, Report Card, Aadhaar Card, and passport photos."
+      },
+
+      {
+        id: "age_entrance",
+        title: "Age Criteria & Entrance Test",
+        category: "Admissions & Fees",
+        phrases: ["entrance requirements", "age criteria", "entrance test", "minimum age for nursery", "syllabus for entrance"],
+        keywords: ["age", "criteria", "entrance", "eligibility", "nursery", "lkg", "ukg"],
+        answer: `**👶 Age Criteria & Entrance Assessment Requirements:**
+• **Age Eligibility (as of 31st March of the academic year):**
+  - **Nursery:** 3+ Years
+  - **LKG (Prep-I):** 4+ Years
+  - **UKG (Prep-II):** 5+ Years
+  - **Class I:** 6+ Years (as per NEP 2020 norms)
+• **Assessment Pattern:**
+  - **Pre-Primary:** Friendly, stress-free interaction with child and parents (no written exam).
+  - **Classes I to IX:** Written test in English, Mathematics, Hindi, and Science based on the previous class NCERT syllabus.
+  - **Class XI:** Based on Class X Board Marks / Entrance Test for Science & Commerce streams.`,
+        voiceText: "The minimum age as of March 31st is 3 plus years for Nursery and 6 plus years for Class 1. Pre-primary admission is through interaction, while Classes 1 and above have a written entrance test."
+      },
+
+      {
+        id: "fees_scholarships",
+        title: "Fee Structure & Scholarships",
+        category: "Admissions & Fees",
+        phrases: ["fee structure", "scholarships", "financial aid", "tuition fee", "how to pay fees", "online fee payment"],
+        keywords: ["fee", "fees", "scholarship", "scholarships", "payment", "charges", "quarterly"],
+        answer: `**💳 Fee Structure, Payment Mode & Scholarships:**
+• **Online Fee Payment:** School fees are collected quarterly through the **BBPS Online Fee Portal** via UPI, Net Banking, Debit Card, or Credit Card.
+• **Fee Categories:** Transparent fee structure approved by the School Managing Committee with separate slabs for General Public students and Township wards.
+• **Scholarships & Financial Aid:** Meritorious students securing top positions in CBSE Board Exams, National Olympiads, and CBSE Cluster Sports receive merit scholarships and awards as per CES norms.`,
+        voiceText: "Fees are paid quarterly via the BBPS online portal using UPI, cards, or net banking. Scholarships and merit awards are provided to top performers in academics and sports."
+      },
+
+      {
+        id: "tc_faqs",
+        title: "Transfer Certificate (TC)",
+        category: "Admissions & Fees",
+        phrases: ["transfer certificate", "how to get tc", "download tc", "leaving certificate", "admission faqs"],
+        keywords: ["tc", "transfer", "certificate", "leaving", "faq", "faqs"],
+        answer: `**📄 Transfer Certificate (TC) & FAQs:**
+• **How to Apply for TC:** Parents must submit a written application to the Principal along with a No-Dues Clearance from the Library, Science/Computer Labs, and Accounts Office.
+• **Verification:** Every issued Transfer Certificate is uploaded with a unique serial & admission number in compliance with CBSE mandates.`,
+        voiceText: "To obtain a Transfer Certificate, parents should submit an application to the Principal and clear library and accounts dues. All issued TCs are uploaded for CBSE verification."
+      },
+
+      {
+        id: "school_timings",
+        title: "School Timings & Office Hours",
+        category: "Academics & Results",
+        phrases: ["school timings", "office hours", "what time does school open", "visiting hours", "school time"],
+        keywords: ["timing", "timings", "hours", "time", "open", "close", "schedule", "saturday"],
+        answer: `**🕒 School Timings & Visitor Office Hours:**
+• **Student School Timings:** **7:45 AM to 2:00 PM** (Monday to Saturday; 2nd Saturday is a holiday).
+• **Admin & Fee Office Hours:** **8:30 AM to 1:30 PM** on all working days.
+• **Principal Meeting Hours:** **10:00 AM to 11:30 AM** on working days.`,
+        voiceText: "BBPS Gadarwara student timings are from 7:45 AM to 2:00 PM, Monday to Saturday. The administrative office is open from 8:30 AM to 1:30 PM."
+      },
+
+      {
+        id: "curriculum_streams",
+        title: "Curriculum & Class 11-12 Streams",
+        category: "Academics & Results",
+        phrases: ["curriculum overview", "streams in class 11", "subjects in class 11", "class 11 and 12", "science stream", "commerce stream"],
+        keywords: ["curriculum", "stream", "streams", "subject", "subjects", "pcm", "pcb", "commerce", "science", "syllabus"],
+        answer: `**📘 CBSE Curriculum & Senior Secondary Streams (Class XI & XII):**
+• **Pre-Primary to Class V:** Play-way & experiential learning focusing on foundational literacy, numeracy, arts, and communication.
+• **Middle & Secondary (Class VI – X):** English, Hindi, Sanskrit, Mathematics, Science, Social Science, **Artificial Intelligence (AI)**, and IT.
+• **Senior Secondary (Class XI & XII):**
+  1. **Science Stream:** Physics, Chemistry, Mathematics (PCM) / Biology (PCB), English Core, plus **Artificial Intelligence (AI)**, Computer Science, and Physical Education.
+  2. **Commerce Stream:** Accountancy, Business Studies, Economics, English Core, Mathematics / Informatics Practices / Physical Education.`,
+        voiceText: "We follow the CBSE NCERT curriculum. In Classes 11 and 12, we offer Science with PCM or PCB and Commerce streams, along with Artificial Intelligence, Computer Science, and Physical Education."
+      },
+
+      {
+        id: "teaching_approach",
+        title: "Teaching Approach & Smart Classes",
+        category: "Academics & Results",
+        phrases: ["teaching and learning", "teaching approach", "smart classes", "pedagogy", "nep 2020"],
+        keywords: ["teaching", "learning", "smart", "pedagogy", "nep", "experiential"],
+        answer: `**💡 Teaching & Learning Approach:**
+• **Smart Classrooms:** Equipped with interactive digital boards and audio-visual learning modules.
+• **Hands-On Experiential Pedagogy:** Aligned with **NEP 2020**, emphasizing practical lab work, coding, robotics, role-play, and project-based learning rather than rote memorization.`,
+        voiceText: "Our teaching approach follows NEP 2020, utilizing interactive smart classrooms, laboratory experiments, and project-based learning."
+      },
+
+      {
+        id: "board_results",
+        title: "Board Results & Assessment Policy",
+        category: "Academics & Results",
+        phrases: ["board results", "assessment policy", "exam pattern", "class 10 result", "class 12 result", "toppers"],
+        keywords: ["result", "results", "board", "assessment", "exam", "exams", "topper", "pass"],
+        answer: `**🏅 CBSE Board Results & Assessment Policy:**
+• **100% Board Result Record:** BBPS Gadarwara consistently achieves a **100% pass rate** in CBSE Class X and Class XII Board Examinations, with many students scoring above **95%** and topping in Narsinghpur district.
+• **Assessment Policy:** Continuous competency-based evaluation for primary classes; Periodic Tests, Subject Enrichment, Practical Projects, and Terminal/Pre-Board exams for middle and senior classes.`,
+        voiceText: "BBPS Gadarwara consistently achieves a 100 percent pass result in CBSE Class 10 and Class 12 board exams, with numerous students scoring above 95 percent."
+      },
+
+      {
+        id: "career_counseling",
+        title: "Career Counseling & Guidance",
+        category: "Academics & Results",
+        phrases: ["college and career counseling", "career counseling", "academic support", "jee neet", "guidance"],
+        keywords: ["counseling", "career", "guidance", "college", "remedial", "support"],
+        answer: `**🎓 Academic Support & College/Career Counseling:**
+• **Career Guidance Cell:** Conducts regular sessions for Class IX–XII students on **JEE, NEET, CUET, CLAT, NDA, Defence, and AI/Engineering careers**.
+• **Remedial & Olympiad Coaching:** Dedicated remedial classes for students needing extra academic support and special mentorship for National Olympiads and Science Exhibitions.`,
+        voiceText: "We provide career counseling for Classes 9 to 12 covering JEE, NEET, CUET, and Defence exams, along with remedial support and Olympiad coaching."
+      },
+
+      {
+        id: "academic_calendar",
+        title: "Academic Calendar & Holidays",
+        category: "Academics & Results",
+        phrases: ["academic calendar", "holidays", "vacation", "ptm schedule", "circulars"],
+        keywords: ["calendar", "holiday", "holidays", "vacation", "circular", "circulars", "ptm"],
+        answer: `**📅 Academic Calendar, Circulars & Vacations:**
+• **Academic Year:** Runs from **April to March**.
+• **Key Breaks:** Summer Vacation (May–June), Dussehra & Diwali Autumn Break (October/November), and Winter Vacation (last week of December).
+• **PTM & Circulars:** Regular Parent-Teacher Meetings are held after every periodic test; circulars are shared via the Parent Portal and student almanac.`,
+        voiceText: "The academic session runs from April to March, with summer vacation in May and June, Diwali break, and winter break in late December."
+      },
+
+      {
+        id: "facilities_atl",
+        title: "Campus Facilities & ATL Robotics Lab",
+        category: "Facilities & Sports",
+        phrases: ["campus facilities", "atal tinkering lab", "atl lab", "science labs", "computer lab", "library"],
+        keywords: ["facility", "facilities", "atl", "tinkering", "lab", "labs", "robotics", "library", "infrastructure"],
+        answer: `**🔬 Campus Infrastructure, Science Labs & Atal Tinkering Lab (ATL):**
+• **Atal Tinkering Lab (ATL):** Dedicated NITI Aayog innovation lab equipped with **Robotics kits, Arduino/IoT sensors, 3D Printers, and AI tools**.
+• **Science, Math & Computer Labs:** Modern, well-equipped **Physics, Chemistry, Biology, Mathematics, and High-Speed Computer Labs**.
+• **Library:** Thousands of reference books, textbooks, magazines, newspapers, and digital resources.`,
+        voiceText: "BBPS Gadarwara features an Atal Tinkering Lab for robotics, 3D printing, and AI, along with dedicated Physics, Chemistry, Biology, Mathematics, and Computer labs, and a library."
+      },
+
+      {
+        id: "sports_activities",
+        title: "Sports & Co-Curricular Activities",
+        category: "Facilities & Sports",
+        phrases: ["beyond academics", "sports", "co-curricular", "outward bound", "games", "kabaddi", "football", "cricket"],
+        keywords: ["sports", "sport", "games", "football", "cricket", "basketball", "kabaddi", "yoga", "music", "dance", "outward"],
+        answer: `**🏆 Sports, Co-Curricular Activities & Outward Bound:**
+• **Outdoor & Indoor Sports:** Expansive grounds and courts for **Football, Cricket, Basketball, Volleyball, Badminton, Kabaddi, Kho-Kho, Athletics, Chess, Table Tennis, and Yoga**.
+• **Co-Curricular Clubs:** Music (Vocal & Instrumental), Classical & Western Dance, Fine Arts, Debate & Literary Club, Eco Club, and Science/AI Club.
+• **Outward Bound:** Educational tours, nature camps, and inter-school CBSE Cluster tournaments.`,
+        voiceText: "We offer grounds and courts for football, cricket, basketball, volleyball, kabaddi, athletics, and yoga, along with music, dance, art clubs, and educational tours."
+      },
+
+      {
+        id: "achievers_gallery",
+        title: "Photo & Video Gallery",
+        category: "Facilities & Sports",
+        phrases: ["photo gallery", "video gallery", "achievers gallery", "gallery", "student achievers", "recognitions"],
+        keywords: ["gallery", "photo", "photos", "video", "videos", "achiever", "achievers", "awards", "recognition"],
+        answer: `**🖼️ School Photo, Video & Achievers Gallery:**
+• **Photo Gallery Highlights:** Annual Day Function, Investiture Ceremony, Republic & Independence Day Parades, Smart Classrooms, and Green Campus.
+• **Video Gallery Highlights:** ATL Robotics & AI Project Demonstrations, Classical Dance & Music Performances, and Annual Sports Meet.
+• **Achievers Gallery:** Showcases our Class X & XII CBSE Board Toppers, National Olympiad Medalists, and CBSE Cluster Sports Winners.`,
+        voiceText: "Our Photo, Video, and Achievers Galleries showcase our Annual Day celebrations, ATL robotics projects, sports events, and CBSE board toppers."
+      },
+
+      {
+        id: "transport_bus",
+        title: "Transport & School Bus Facility",
+        category: "Facilities & Sports",
+        phrases: ["school bus", "transport facility", "bus route", "bus from gadarwara"],
+        keywords: ["bus", "transport", "transportation", "route", "van"],
+        answer: `**🚌 School Bus & Transport Facility:**
+• **Safe Connectivity:** Safe, GPS/attendant-monitored transport connectivity operates for students commuting from **Gadarwara town and nearby areas** as well as within the township.
+• **Safety Norms:** All buses carry first-aid kits, fire extinguishers, speed governors, and trained staff for student safety.`,
+        voiceText: "Safe school bus and transport connectivity is available for students commuting from Gadarwara town and surrounding areas."
+      },
+
+      {
+        id: "contact_portal",
+        title: "School Address, Contact & Parent Portal",
+        category: "About School & Leadership",
+        phrases: ["contact us", "contact details", "school address", "where is bbps", "parent portal login", "location map"],
+        keywords: ["contact", "address", "location", "where", "phone", "email", "portal", "login", "map"],
+        answer: `**📞 School Address, Contact Details & Parent Portal:**
+• **Address:** Bal Bharati Public School, NTPC Township, Village Gangai, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh – **487770** (~14 km from Gadarwara Railway Station).
+• **Official Website:** \`bbpsgadarwara.balbharati.org\`
+• **Admin Enquiry Email:** \`nikhilpatel6105@gmail.com\`
+• **Parent Portal Login:** Parents can log in via the school website/app to check attendance, circulars, homework, report cards, and pay fees online.`,
+        voiceText: "BBPS Gadarwara is located at Village Gangai, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh, PIN 487770, about 14 kilometers from Gadarwara Railway Station."
+      },
+
+      {
+        id: "careers_jobs",
+        title: "Careers & Teaching Jobs at BBPS",
+        category: "About School & Leadership",
+        phrases: ["careers at our school", "job options", "teaching jobs", "vacancy in bbps", "hiring", "recruitment"],
+        keywords: ["job", "jobs", "career", "careers", "vacancy", "vacancies", "recruitment", "hiring"],
+        answer: `**💼 Careers & Teaching Job Options at BBPS Gadarwara:**
+• **Open Roles:** We recruit qualified **PGT, TGT, PRT, and Pre-Primary Teachers**, Activity Coaches (Sports, Music, Art), Lab Assistants, and Admin Staff.
+• **Eligibility:** Post-Graduation / Graduation with **B.Ed. and CTET/STET** as per CBSE & Child Education Society (CES) norms.
+• **How to Apply:** Candidates can submit their resume at the BBPS Gadarwara Admin Office or apply through the official school careers section.`,
+        voiceText: "BBPS Gadarwara hires qualified PGT, TGT, and PRT teachers with B.Ed. and CTET qualifications. Candidates can submit their resumes at the school admin office."
+      }
+    ];
+
+    // Quick chips shown below the chat window
+    const schoolChips = [
+      "📝 Fill Admission Form",
+      "👨‍🏫 Who is the Principal?",
+      "🏫 School at a Glance",
+      "📑 Admission Process & Documents",
+      "🕒 School Timings",
+      "📘 Class 11-12 Streams",
+      "💳 Fee Structure & Scholarships",
+      "🏅 Board Results",
+      "🔬 ATL & Science Labs",
+      "🏆 Sports & Activities",
+      "📞 School Address & Contact"
     ];
 
     // ============================================================================
-    // 4. UPGRADED NATURAL NEURAL VOICE ENGINE (TTS & STT)
+    // 3. PAGE SWITCHING & ANALYTICS DASHBOARD RENDERING
     // ============================================================================
-    function loadNaturalVoices() {
-      if (!('speechSynthesis' in window)) return;
-      availableVoices = window.speechSynthesis.getVoices();
-      const select = document.getElementById('voice-select');
-      if (!select || availableVoices.length === 0) return;
+    function switchPage(page) {
+      const chatPage = document.getElementById('page-chat');
+      const dataPage = document.getElementById('page-data');
+      const chatBtn = document.getElementById('nav-chat-btn');
+      const dataBtn = document.getElementById('nav-data-btn');
 
-      // Sort voices to prioritize Google/Microsoft Natural Indian & English voices
-      const scoredVoices = availableVoices.map(v => {
-        let priority = 0;
-        const name = v.name.toLowerCase();
-        const lang = v.lang.toLowerCase();
-        if (name.includes('natural') || name.includes('online') || name.includes('neural')) priority += 50;
-        if (name.includes('google')) priority += 35;
-        if (name.includes('swara') || name.includes('neerja') || name.includes('prabhat') || name.includes('heera')) priority += 40;
-        if (lang.includes('en-in') || lang.includes('hi-in')) priority += 30;
-        else if (lang.includes('en-gb') || lang.includes('en-us')) priority += 15;
-        return { voice: v, priority };
-      }).filter(item => item.priority > 0).sort((a, b) => b.priority - a.priority);
-
-      select.innerHTML = `<option value="auto">✨ Best Natural Voice (Auto)</option>` +
-        scoredVoices.slice(0, 10).map(item =>
-          `<option value="${item.voice.voiceURI}">🎙️ ${item.voice.name} (${item.voice.lang})</option>`
-        ).join('');
+      if (page === 'chat') {
+        chatPage.classList.remove('hidden');
+        dataPage.classList.add('hidden');
+        chatBtn.className = "text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-blue-600 text-white shadow-sm";
+        dataBtn.className = "text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200";
+      } else {
+        chatPage.classList.add('hidden');
+        dataPage.classList.remove('hidden');
+        dataBtn.className = "text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-blue-600 text-white shadow-sm";
+        chatBtn.className = "text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200";
+        renderAnalyticsDashboard();
+      }
     }
 
-    function changePreferredVoice() {
-      selectedVoiceURI = document.getElementById('voice-select').value;
+    function recordUserQueryLog(queryText, category, matchedTopic, isVoice) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', ' + now.toLocaleDateString();
+      const newEntry = {
+        id: userQueryLogs.length + 1,
+        time: timeStr,
+        query: queryText,
+        category: category,
+        matchedTopic: matchedTopic,
+        mode: isVoice ? "🎙️ Voice" : "💬 Text"
+      };
+      userQueryLogs.unshift(newEntry);
+      localStorage.setItem('bbps_user_logs', JSON.stringify(userQueryLogs));
+      updateBadgeCount();
     }
 
-    function getBestVoice(isHindi = false) {
-      if (!availableVoices.length) availableVoices = window.speechSynthesis.getVoices();
-      if (selectedVoiceURI !== 'auto') {
-        const manual = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-        if (manual) return manual;
+    function updateBadgeCount() {
+      const badge = document.getElementById('log-count-badge');
+      if (badge) badge.textContent = userQueryLogs.length;
+    }
+
+    function filterLogs(category) {
+      currentFilter = category;
+      renderAnalyticsDashboard();
+    }
+
+    function renderAnalyticsDashboard() {
+      updateBadgeCount();
+      document.getElementById('stat-total').textContent = userQueryLogs.length;
+      document.getElementById('stat-admission').textContent = userQueryLogs.filter(l => l.category === 'Admissions & Fees').length;
+      document.getElementById('stat-school').textContent = userQueryLogs.filter(l => l.category !== 'Admissions & Fees').length;
+      document.getElementById('stat-leads').textContent = admissionLeads.length;
+
+      const tbody = document.getElementById('logs-table-body');
+      const filtered = currentFilter === 'ALL'
+        ? userQueryLogs
+        : userQueryLogs.filter(l => l.category === currentFilter);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">No user queries recorded in this category yet.</td></tr>`;
+      } else {
+        tbody.innerHTML = filtered.map((log, idx) => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-4 font-bold text-slate-400">${idx + 1}</td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-500">${log.time}</td>
+            <td class="py-3 px-4 font-semibold text-slate-900">"${log.query}"</td>
+            <td class="py-3 px-4">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                log.category === 'Admissions & Fees' ? 'bg-blue-100 text-blue-800' :
+                log.category === 'About School & Leadership' ? 'bg-indigo-100 text-indigo-800' :
+                log.category === 'Academics & Results' ? 'bg-emerald-100 text-emerald-800' :
+                'bg-amber-100 text-amber-800'
+              }">${log.category}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-600 font-medium">${log.matchedTopic}</td>
+            <td class="py-3 px-4 whitespace-nowrap">${log.mode}</td>
+            <td class="py-3 px-4">
+              <button onclick="forwardSingleLogToGmail(${log.id})" class="text-blue-600 hover:underline font-bold">Forward ↗</button>
+            </td>
+          </tr>
+        `).join('');
       }
 
-      if (isHindi) {
-        return availableVoices.find(v => v.lang.includes('hi') && v.name.includes('Natural')) ||
-               availableVoices.find(v => v.lang.includes('hi') && v.name.includes('Google')) ||
-               availableVoices.find(v => v.lang.includes('hi'));
+      // Render captured admission form leads
+      const leadsBox = document.getElementById('leads-container');
+      if (admissionLeads.length === 0) {
+        leadsBox.innerHTML = `<div class="col-span-2 p-4 rounded-xl bg-slate-50 text-slate-400 text-center">No admission forms submitted yet. Try filling out the Admission Form in the chatbot!</div>`;
+      } else {
+        leadsBox.innerHTML = admissionLeads.map(lead => `
+          <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-200 flex items-start justify-between gap-3">
+            <div class="space-y-1">
+              <div class="font-extrabold text-slate-900 text-sm">🎓 ${lead.name} <span class="text-xs font-semibold text-blue-700">(${lead.grade})</span></div>
+              <div class="text-slate-600"><strong>Parent:</strong> ${lead.parent} • <strong>Phone:</strong> ${lead.phone}</div>
+              <div class="text-slate-500 text-[11px]"><strong>Category:</strong> ${lead.cat} • <strong>Time:</strong> ${lead.time}</div>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[10px]">Saved</span>
+          </div>
+        `).join('');
       }
+    }
 
-      // Priority order for clearest, most human-like English voice
-      return availableVoices.find(v => v.lang === 'en-IN' && (v.name.includes('Natural') || v.name.includes('Neerja') || v.name.includes('Prabhat'))) ||
-             availableVoices.find(v => v.lang === 'en-IN' && v.name.includes('Google')) ||
-             availableVoices.find(v => v.name.includes('Google UK English Female')) ||
-             availableVoices.find(v => v.name.includes('Natural') && v.lang.startsWith('en')) ||
-             availableVoices.find(v => v.lang === 'en-IN') ||
-             availableVoices.find(v => v.lang.startsWith('en'));
+    function forwardSingleLogToGmail(logId) {
+      const item = userQueryLogs.find(l => l.id === logId);
+      if (!item) return;
+      const subject = encodeURIComponent(`BBPS Chatbot User Query Review - ${item.category}`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA CHATBOT - SINGLE USER QUERY LOG\n` +
+        `----------------------------------------------\n` +
+        `Time: ${item.time}\n` +
+        `User Question: "${item.query}"\n` +
+        `Detected Category: ${item.category}\n` +
+        `Matched Topic: ${item.matchedTopic}\n` +
+        `Input Mode: ${item.mode}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    }
+
+    function forwardAllLogsToGmail() {
+      const summaryLines = userQueryLogs.slice(0, 25).map((l, i) =>
+        `${i + 1}. [${l.time}] "${l.query}" -> Category: ${l.category} (${l.matchedTopic})`
+      ).join('\n');
+
+      const leadLines = admissionLeads.length
+        ? admissionLeads.map((ld, i) => `${i + 1}. ${ld.name} | Class: ${ld.grade} | Parent: ${ld.parent} | Phone: ${ld.phone}`).join('\n')
+        : "None yet";
+
+      const subject = encodeURIComponent(`BBPS Gadarwara AI Helpdesk - Complete User Query & Admission Report (${userQueryLogs.length} Queries)`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA - USER SEARCH & ANALYTICS REPORT\n` +
+        `===============================================\n` +
+        `Total Queries Logged: ${userQueryLogs.length}\n` +
+        `Admission & Fee Searches: ${userQueryLogs.filter(l => l.category === 'Admissions & Fees').length}\n` +
+        `School & Academic Searches: ${userQueryLogs.filter(l => l.category !== 'Admissions & Fees').length}\n` +
+        `Admission Forms Filled: ${admissionLeads.length}\n\n` +
+        `--- SUBMITTED ADMISSION FORM LEADS ---\n${leadLines}\n\n` +
+        `--- RECENT USER QUERIES ---\n${summaryLines}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    }
+
+    function exportLogsToCSV() {
+      let csv = "ID,Timestamp,User Query,Category,Matched Topic,Input Mode\n";
+      userQueryLogs.forEach((l, idx) => {
+        const cleanQ = l.query.replace(/"/g, '""');
+        csv += `${idx + 1},"${l.time}","${cleanQ}","${l.category}","${l.matchedTopic}","${l.mode}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "BBPS_User_Queries_Report.csv";
+      a.click();
+    }
+
+    function clearAllLogs() {
+      if (!confirm("Are you sure you want to clear the user query logs?")) return;
+      userQueryLogs = [];
+      localStorage.setItem('bbps_user_logs', JSON.stringify(userQueryLogs));
+      renderAnalyticsDashboard();
+    }
+
+    // ============================================================================
+    // 4. ADMISSION FORM SUBMISSION (SAVES TO DASHBOARD + FORWARDS TO GMAIL)
+    // ============================================================================
+    function submitAdmissionForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentName').value;
+      const parent = document.getElementById('parentName').value;
+      const grade = document.getElementById('applyClass').value;
+      const phone = document.getElementById('parentPhone').value;
+      const cat = document.getElementById('studentCategory').value;
+      const notes = document.getElementById('studentNotes').value || "N/A";
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString();
+
+      // 1. Save Lead to Local Dashboard
+      admissionLeads.unshift({ name, parent, grade, phone, cat, notes, time });
+      localStorage.setItem('bbps_admission_leads', JSON.stringify(admissionLeads));
+
+      // 2. Also record in query logs
+      recordUserQueryLog(`Submitted Admission Form: ${name} (${grade}, Phone: ${phone})`, "Admissions & Fees", "Admission Form Submitted", false);
+
+      // 3. Forward to Gmail
+      const subject = encodeURIComponent(`New BBPS Admission Enquiry (${grade}) - ${name}`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA - NEW ADMISSION ENQUIRY\n` +
+        `--------------------------------------\n` +
+        `Student Name: ${name}\n` +
+        `Parent Name: ${parent}\n` +
+        `Class Applying For: ${grade}\n` +
+        `Mobile Number: ${phone}\n` +
+        `Category: ${cat}\n` +
+        `Notes / Address: ${notes}\n` +
+        `Time: ${time}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+
+      e.target.reset();
+      appendBotMessage(
+        `✅ **Admission Enquiry Recorded & Forwarded!**\n• **Student:** ${name} (${grade})\n• **Saved to Review Page:** Yes (Click **📊 User Data & Review** at the top to view it!)\n• **Forwarded to Gmail:** Your email window has opened pre-addressed to **nikhilpatel6105@gmail.com**.`,
+        "Saved to User Data Dashboard + Gmail",
+        `Thank you! The admission form for ${name} has been saved to our User Data Review dashboard and prepared for our school Gmail.`
+      );
+    }
+
+    // ============================================================================
+    // 5. NATURAL VOICE ENGINE (TTS & STT)
+    // ============================================================================
+    function loadVoices() {
+      if ('speechSynthesis' in window) {
+        availableVoices = window.speechSynthesis.getVoices();
+      }
     }
 
     function cleanSpeechString(raw) {
@@ -1007,8 +1070,6 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
         .replace(/<[^>]*>?/gm, ' ')
         .replace(/\*\*(.*?)\*\*/g, '$1')
         .replace(/[*•#`_~]/g, ' ')
-        .replace(/https?:\/\/\S+/g, '')
-        .replace(/×/g, ' by ')
         .replace(/\s+/g, ' ')
         .trim();
     }
@@ -1021,50 +1082,37 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
       if (!clean) return;
 
       const utterance = new SpeechSynthesisUtterance(clean);
-      const hasHindi = /[\u0900-\u097F]/.test(clean);
-      const chosenVoice = getBestVoice(hasHindi);
+      if (!availableVoices.length) availableVoices = window.speechSynthesis.getVoices();
 
-      if (chosenVoice) {
-        utterance.voice = chosenVoice;
-        utterance.lang = chosenVoice.lang;
+      const bestVoice =
+        availableVoices.find(v => v.lang === 'en-IN' && (v.name.includes('Natural') || v.name.includes('Neerja') || v.name.includes('Google'))) ||
+        availableVoices.find(v => v.name.includes('Google UK English Female')) ||
+        availableVoices.find(v => v.lang === 'en-IN') ||
+        availableVoices.find(v => v.lang.startsWith('en'));
+
+      if (bestVoice) {
+        utterance.voice = bestVoice;
+        utterance.lang = bestVoice.lang;
       } else {
-        utterance.lang = hasHindi ? 'hi-IN' : 'en-IN';
+        utterance.lang = 'en-IN';
       }
 
-      // Tuned for warm, natural human cadence
       utterance.rate = 0.98;
       utterance.pitch = 1.02;
 
       const waveEl = document.getElementById('voice-wave');
-
-      utterance.onstart = () => {
-        if (waveEl) waveEl.classList.add('speaking-active');
-        if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "🔊 AI is speaking...";
-        }
-      };
-
+      utterance.onstart = () => { if (waveEl) waveEl.classList.add('speaking-active'); };
       utterance.onend = () => {
         if (waveEl) waveEl.classList.remove('speaking-active');
         if (verbalModeActive) {
-          document.getElementById('verbal-status').textContent = "🎙️ Listening for your next question...";
-          setTimeout(() => {
-            if (verbalModeActive) startListeningEngine();
-          }, 450);
+          setTimeout(() => { if (verbalModeActive) startListeningEngine(); }, 400);
         }
       };
-
-      utterance.onerror = () => {
-        if (waveEl) waveEl.classList.remove('speaking-active');
-      };
-
       window.speechSynthesis.speak(utterance);
     }
 
     function stopSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
       const waveEl = document.getElementById('voice-wave');
       if (waveEl) waveEl.classList.remove('speaking-active');
     }
@@ -1074,140 +1122,67 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
       const btn = document.getElementById('tts-toggle');
       const icon = document.getElementById('tts-icon');
       const label = document.getElementById('tts-label');
-
       if (autoVoiceReply) {
-        btn.className = "text-xs font-semibold px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm";
-        icon.textContent = "🔊";
-        label.textContent = "Voice: ON";
+        btn.className = "hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-full border transition items-center gap-1 bg-emerald-50 border-emerald-300 text-emerald-800";
+        icon.textContent = "🔊"; label.textContent = "Voice: ON";
       } else {
         stopSpeaking();
-        btn.className = "text-xs font-semibold px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 bg-slate-100 border-slate-300 text-slate-600";
-        icon.textContent = "🔇";
-        label.textContent = "Voice: OFF";
+        btn.className = "hidden sm:flex text-xs font-semibold px-3 py-1.5 rounded-full border transition items-center gap-1 bg-slate-100 border-slate-300 text-slate-600";
+        icon.textContent = "🔇"; label.textContent = "Voice: OFF";
       }
     }
 
     function toggleVerbalMode() {
       verbalModeActive = !verbalModeActive;
       const banner = document.getElementById('verbal-banner');
-      const btn = document.getElementById('verbal-mode-btn');
       const label = document.getElementById('verbal-mode-label');
-
       if (verbalModeActive) {
         autoVoiceReply = true;
-        document.getElementById('tts-icon').textContent = "🔊";
-        document.getElementById('tts-label').textContent = "Voice: ON";
         banner.classList.remove('hidden');
-        btn.className = "text-xs font-bold px-3.5 py-1.5 rounded-full border border-red-400 bg-red-600 text-white transition flex items-center gap-1.5 shadow-sm";
         label.textContent = "Stop Verbal";
         startListeningEngine();
       } else {
         banner.classList.add('hidden');
-        btn.className = "text-xs font-bold px-3.5 py-1.5 rounded-full border border-blue-300 bg-blue-600 hover:bg-blue-700 text-white transition flex items-center gap-1.5 shadow-sm";
-        label.textContent = "Verbal Chat";
+        label.textContent = "Verbal Mode";
         stopSpeaking();
-        if (recognitionInstance) {
-          try { recognitionInstance.stop(); } catch (e) {}
-        }
+        if (recognitionInstance) { try { recognitionInstance.stop(); } catch (e) {} }
       }
-    }
-
-    function startSingleVoice() {
-      startListeningEngine();
     }
 
     function startListeningEngine() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice recognition is supported in Google Chrome and Microsoft Edge.");
-        return;
-      }
-
+      if (!SpeechRecognition) return alert("Please use Google Chrome or Microsoft Edge for Voice Recognition.");
       stopSpeaking();
       recognitionInstance = new SpeechRecognition();
       recognitionInstance.lang = 'en-IN';
       recognitionInstance.interimResults = false;
 
       const micBtn = document.getElementById('mic-btn');
-      const micText = document.getElementById('mic-text');
       const inputField = document.getElementById('user-input');
 
       recognitionInstance.onstart = () => {
         micBtn.classList.add('bg-red-600', 'text-white', 'listening-pulse');
-        if (micText) micText.textContent = "Listening...";
         inputField.placeholder = "Listening to your voice... speak now";
       };
-
       recognitionInstance.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        inputField.value = transcript;
+        inputField.value = event.results[0][0].transcript;
         handleUserSubmit(new Event('submit'), true);
       };
-
       recognitionInstance.onend = () => {
         micBtn.classList.remove('bg-red-600', 'text-white', 'listening-pulse');
-        if (micText) micText.textContent = "Speak";
-        inputField.placeholder = "Ask anything: Principal, Vision, Board Results, Admission Form, Sports, Jobs, GK...";
+        inputField.placeholder = "Ask about Principal, Admission Form, Fees, Timings, Streams, Sports, or TC...";
       };
-
       recognitionInstance.start();
     }
 
     // ============================================================================
-    // 5. DIRECT GMAIL ADMISSION FORM SENDER
+    // 6. HIGH-ACCURACY INTENT MATCHER & CHAT RENDERER
     // ============================================================================
-    function submitViaGmail(e) {
-      e.preventDefault();
-      const name = document.getElementById('studentName').value;
-      const parent = document.getElementById('parentName').value;
-      const grade = document.getElementById('applyClass').value;
-      const phone = document.getElementById('parentPhone').value;
-      const cat = document.getElementById('studentCategory').value;
-      const notes = document.getElementById('studentNotes').value || "N/A";
-
-      const subject = encodeURIComponent(`New Admission Enquiry (${grade}) - ${name}`);
-      const body = encodeURIComponent(
-        `BBPS GADARWARA - ONLINE ADMISSION ENQUIRY\n` +
-        `------------------------------------------\n` +
-        `Student Name: ${name}\n` +
-        `Parent/Guardian Name: ${parent}\n` +
-        `Class Applying For: ${grade}\n` +
-        `Contact Phone Number: ${phone}\n` +
-        `Category: ${cat}\n` +
-        `City / Current School: ${notes}\n` +
-        `------------------------------------------\n` +
-        `Submitted via Gadarwara AI Helpdesk Portal`
-      );
-
-      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
-      e.target.reset();
-      appendBotMessage(
-        `✅ **Admission Enquiry Ready for ${name}!**\nYour email window has opened pre-addressed to **nikhilpatel6105@gmail.com** with all details for **${grade}**. Just click **Send** in your email app to complete your submission.`,
-        "Direct Gmail Integration Confirmed",
-        `Thank you! Your admission enquiry for ${name} has been prepared for our school Gmail. Please click Send in your email window.`
-      );
-    }
-
-    // ============================================================================
-    // 6. UI HELPERS & DIRECTORY MODAL
-    // ============================================================================
-    function switchBot(botKey) {
-      activeBot = botKey;
-      const data = knowledgeBase[botKey];
-
-      document.getElementById('tab-school').className = `text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between group ${botKey === 'school' ? 'bg-blue-50/90 border-blue-600 shadow-md' : 'bg-white border-slate-200 hover:border-blue-600 shadow-sm'}`;
-      document.getElementById('tab-ntpc').className = `text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between group ${botKey === 'ntpc' ? 'bg-teal-50/90 border-teal-600 shadow-md' : 'bg-white border-slate-200 hover:border-teal-600 shadow-sm'}`;
-
-      document.getElementById('chat-header').className = `${data.headerClass} text-white px-5 py-3.5 flex items-center justify-between transition-colors`;
-      document.getElementById('bot-icon').textContent = data.icon;
-      document.getElementById('bot-title').textContent = data.name;
-      document.getElementById('bot-subtitle').textContent = data.subtitle;
-      document.getElementById('send-btn').className = `${data.btnClass} text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-sm`;
-
-      document.getElementById('quick-chips').innerHTML = data.chips.map(chip =>
+    function initChatbot() {
+      updateBadgeCount();
+      document.getElementById('quick-chips').innerHTML = schoolChips.map(chip =>
         `<button onclick="triggerDirectTopic('${chip.replace(/^[^a-zA-Z0-9]+/, '').trim()}')" class="shrink-0 text-xs bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 font-semibold px-3 py-1.5 rounded-full border border-slate-200 transition whitespace-nowrap">${chip}</button>`
       ).join('');
-
       clearChat();
     }
 
@@ -1215,35 +1190,17 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
       stopSpeaking();
       document.getElementById('chat-box').innerHTML = '';
       appendBotMessage(
-        knowledgeBase[activeBot].welcome,
-        "System Ready • 35+ Full Sections + Natural Neural Voice Active",
-        "Welcome to the Gadarwara Digital Helpdesk. How can I help you today?",
+        "Welcome to **Bal Bharati Public School (BBPS), Gadarwara**! 🎓\n\nI am your dedicated School AI Assistant. You can ask me about **Admissions, Fee Structure, Principal Dr. Anurag Pandey, School Timings, Class 11 & 12 Streams, Sports, Labs**, or click **Fill Admission Form**.\n\n*(All visitor searches are automatically logged in the **📊 User Data & Review** tab for review!)*",
+        "BBPS School AI Ready • User Query Logging Active",
+        "Welcome to Bal Bharati Public School Gadarwara. How can I help you today?",
         false
       );
     }
 
     function triggerDirectTopic(topicText) {
-      closeDirectoryModal();
+      switchPage('chat');
       document.getElementById('user-input').value = topicText;
       handleUserSubmit(new Event('submit'), false);
-    }
-
-    function openDirectoryModal() {
-      const modal = document.getElementById('directory-modal');
-      const grid = document.getElementById('modal-topics-grid');
-      const allEntries = [...knowledgeBase.school.entries, ...knowledgeBase.ntpc.entries];
-
-      grid.innerHTML = allEntries.map(item => `
-        <button onclick="triggerDirectTopic('${item.title}')" class="text-left p-3 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50/60 transition flex items-center justify-between group">
-          <span class="font-bold text-slate-800 group-hover:text-blue-700">${item.title}</span>
-          <span class="text-slate-400 group-hover:text-blue-600">→</span>
-        </button>
-      `).join('');
-      modal.classList.remove('hidden');
-    }
-
-    function closeDirectoryModal() {
-      document.getElementById('directory-modal').classList.add('hidden');
     }
 
     function appendUserMessage(text, isVoice = false) {
@@ -1261,7 +1218,7 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
     function appendBotMessage(text, aiRef, voiceSummary = null, shouldSpeak = true) {
       const chatBox = document.getElementById('chat-box');
       let formatted = text;
-      if (!text.includes('<form') && !text.includes('<div')) {
+      if (!text.includes('<form')) {
         formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
       } else {
         formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -1271,12 +1228,12 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
 
       chatBox.innerHTML += `
         <div class="flex justify-start">
-          <div class="bg-white border border-slate-200/90 text-slate-800 text-sm p-4 rounded-2xl rounded-tl-sm max-w-[92%] shadow-sm space-y-2.5">
+          <div class="bg-white border border-slate-200 text-slate-800 text-sm p-4 rounded-2xl rounded-tl-sm max-w-[92%] shadow-sm space-y-2.5">
             <div class="leading-relaxed">${formatted}</div>
             <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
               <span>✓ ${aiRef}</span>
-              <button onclick="speakText('${safeSpeech}')" class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-full transition">
-                🔊 Replay Voice
+              <button onclick="speakText('${safeSpeech}')" class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1 bg-blue-50 px-2.5 py-0.5 rounded-full">
+                🔊 Listen
               </button>
             </div>
           </div>
@@ -1288,60 +1245,20 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
       }
     }
 
-    // ============================================================================
-    // 7. HIGH-PRECISION INTENT ENGINE + GENERAL KNOWLEDGE ENGINE
-    // ============================================================================
-    function scoreEntry(qLower, qWords, entry) {
+    function scoreSchoolEntry(qLower, qWords, entry) {
       let score = 0;
-      if (entry.title && qLower === entry.title.toLowerCase()) score += 50;
-      if (entry.phrases) {
-        for (const p of entry.phrases) {
-          if (qLower.includes(p)) score += 18;
-        }
+      if (entry.title.toLowerCase() === qLower) score += 60;
+      for (const p of entry.phrases) {
+        if (qLower.includes(p)) score += 20;
       }
-      if (entry.keywords) {
-        for (const kw of entry.keywords) {
-          if (qWords.includes(kw)) score += 6;
-          else if (qLower.includes(kw)) score += 3;
-        }
+      for (const kw of entry.keywords) {
+        if (qWords.includes(kw)) score += 8;
+        else if (qLower.includes(kw)) score += 4;
       }
       return score;
     }
 
-    async function fetchSmartEncyclopedia(query) {
-      // Stop-words stripped so open queries resolve cleanly
-      const cleaned = query
-        .replace(/^(what is|who is|who was|where is|tell me about|explain|define|how does|when was)\s+/gi, '')
-        .replace(/[?.,!]/g, '')
-        .trim();
-
-      if (cleaned.length < 3) return null;
-
-      try {
-        const sRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleaned)}&utf8=&format=json&origin=*&srlimit=1`);
-        const sData = await sRes.json();
-        const bestTitle = sData?.query?.search?.[0]?.title;
-        if (!bestTitle) return null;
-
-        const sumRes = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(bestTitle)}`);
-        if (sumRes.ok) {
-          const data = await sumRes.json();
-          if (data.extract) {
-            const sentences = (data.extract.match(/[^.!?]+[.!?]+/g) || [data.extract]).slice(0, 3).join(' ');
-            return {
-              answer: `**🌐 ${data.title} (General Knowledge):**\n${sentences}`,
-              voiceText: sentences,
-              aiRef: `General Knowledge Engine • Verified Summary: "${data.title}"`
-            };
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      }
-      return null;
-    }
-
-    async function handleUserSubmit(e, fromVoice = false) {
+    function handleUserSubmit(e, fromVoice = false) {
       if (e) e.preventDefault();
       const input = document.getElementById('user-input');
       const query = input.value.trim();
@@ -1353,55 +1270,50 @@ Fill in the student details below. When you click **Send Admission Enquiry to Sc
       const qLower = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
       const qWords = qLower.split(/\s+/);
 
-      // 1. Score all School & NTPC entries
-      let candidates = [];
-      for (const botKey of ['school', 'ntpc']) {
-        for (const entry of knowledgeBase[botKey].entries) {
-          let s = scoreEntry(qLower, qWords, entry);
-          if (s > 0) {
-            if (botKey === activeBot) s += 2;
-            candidates.push({ ...entry, score: s });
-          }
-        }
-      }
-      candidates.sort((a, b) => b.score - a.score);
-
-      if (candidates.length > 0 && candidates[0].score >= 5) {
-        const best = candidates[0];
-        appendBotMessage(best.answer, best.aiRef, best.voiceText, true);
+      // 1. Check greetings
+      if (/^(hi|hello|hey|namaste|good morning|good afternoon|good evening)$/i.test(qLower)) {
+        recordUserQueryLog(query, "About School & Leadership", "Greeting", fromVoice);
+        appendBotMessage(
+          "Hello! Welcome to **BBPS Gadarwara AI Helpdesk**. Would you like to **fill out an Admission Form**, know **about our school & Principal**, check **School Timings**, or explore **Academics & Fees**?",
+          "Greeting Intent Logged",
+          "Hello! Welcome to Bal Bharati Public School Gadarwara. How may I assist you today?"
+        );
         return;
       }
 
-      // 2. Check Built-in Instant GK / Science Database
-      for (const gk of instantGK) {
-        if (gk.keys.some(k => qLower.includes(k))) {
-          appendBotMessage(gk.answer, "Verified Instant Knowledge Base", gk.voice, true);
-          return;
-        }
-      }
+      // 2. Score all BBPS School Entries
+      let scored = schoolEntries.map(entry => ({
+        ...entry,
+        score: scoreSchoolEntry(qLower, qWords, entry)
+      })).sort((a, b) => b.score - a.score);
 
-      // 3. Query Smart General Knowledge Encyclopedia
-      const gkResult = await fetchSmartEncyclopedia(query);
-      if (gkResult) {
-        appendBotMessage(gkResult.answer, gkResult.aiRef, gkResult.voiceText, true);
+      if (scored[0].score >= 4) {
+        const best = scored[0];
+        recordUserQueryLog(query, best.category, best.title, fromVoice);
+        appendBotMessage(
+          best.answer,
+          `Category: ${best.category} • Logged to User Review Page`,
+          best.voiceText,
+          true
+        );
         return;
       }
 
-      // 4. Helpful Guide Fallback
+      // 3. Fallback — Still logs what the user searched so you can review it!
+      recordUserQueryLog(query, "About School & Leadership", "General School Inquiry", fromVoice);
       appendBotMessage(
-        `I couldn't find an exact match for *"${query}"*. \n\n**Click any topic on the left menu or ask me about:**\n• **About Us:** *Vision & Mission, School at a Glance, History & CES, Principal Dr. Anurag Pandey, Public Disclosure, Faculty*\n• **Academics:** *Curriculum & Streams (Class 11/12), Teaching Approach, Career Counseling, Board Results, Timings*\n• **Admissions:** *Fill Admission Form, Admission Process, Fee Structure, Transfer Certificate (TC)*\n• **Beyond Academics & NTPC:** *ATL & Science Labs, Sports, Photo/Video Gallery, Jobs & Careers, 1600 MW NTPC Specs, Gate Pass*`,
-        "Complete Portal Guide",
-        "Please select any topic from the knowledge menu or ask about admissions, principal, academics, sports, gallery, or NTPC plant capacity.",
+        `I have recorded your query (*"${query}"*) in our **📊 User Data & Review Dashboard** for the school admin team.\n\n**Here are the most requested BBPS Gadarwara details:**\n• **Principal:** Dr. Anurag Pandey\n• **Classes:** Nursery to Class XII (CBSE Affiliated — Science & Commerce)\n• **Timings:** 7:45 AM – 2:00 PM (Admin Office: 8:30 AM – 1:30 PM)\n• **Want Admission?** Click **📝 Fill Admission Form** below to send your details!`,
+        "Query Logged for Admin Review",
+        "I have recorded your question for our school review team. You can also click Fill Admission Form or any topic on the left menu.",
         true
       );
     }
 
-    // Initialize Voices & Default Tab
     if ('speechSynthesis' in window) {
-      loadNaturalVoices();
-      window.speechSynthesis.onvoiceschanged = loadNaturalVoices;
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
     }
-    switchBot('school');
+    initChatbot();
   </script>
 </body>
 </html>
