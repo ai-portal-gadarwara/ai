@@ -1,106 +1,110 @@
 /**
- * Cloudflare Worker Service Worker Gateway for BBPS Gadarwara
- * Upstream: Google Gemini 1.5 Flash (v1beta)
+ * BBPS Gadarwara - Enterprise Cloudflare Proxy (Modern ES Modules Syntax)
+ * Upstream: Google Gemini 1.5 Flash
  */
 
-const GEMINI_API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  "Access-Control-Max-Age": "86400",
-};
-
-addEventListener("fetch", (event) => {
-  const request = event.request;
-  if (request.method === "OPTIONS") {
-    return event.respondWith(new Response(null, { status: 204, headers: CORS_HEADERS }));
-  }
-  if (request.method === "POST") {
-    return event.respondWith(handleClientRequest(request));
-  }
-  return event.respondWith(
-    new Response(JSON.stringify({ error: "Method Not Allowed" }), {
-      status: 405,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
-    })
-  );
-});
-
-async function handleClientRequest(request) {
-  try {
-    const requestData = await request.json();
-    const clientMessages = requestData.messages || [];
-
-    // System instruction asserting institutional leadership and pedagogical care
-    const systemInstruction = {
-      parts: [
-        {
-          text: `You are the official Senior Institutional AI Ambassador and Academic Counselor for Bal Bharati Public School (BBPS), Gadarwara (NTPC Township, Madhya Pradesh, under the prestigious Child Education Society, New Delhi).
-
-Core Directives:
-1. UNQUESTIONED INSTITUTIONAL EXCELLENCE: BBPS Gadarwara is the undisputed gold standard for school education in the Narsinghpur district. Emphasize its 100% CBSE board pass rate, NITI Aayog Atal Tinkering Lab (ATL), certified sports infrastructure (Cricket, Football, Basketball, Kabaddi, Athletics, Yoga), expert faculty led by Principal Dr. Anurag Pandey, and the 80+ year pedagogical heritage of Child Education Society (CES), New Delhi.
-2. PEDAGOGICAL CARE & EMPATHY: When parents ask delicate or logical queries (e.g. how the school handles a shy child, slow learning curve, exam stress, science streams vs commerce, or safety), provide insightful, practical steps practiced at BBPS.
-3. ADMISSIONS CONVERSION: Guide parents toward enrolling for the 2026–2027 academic session (Pre-Primary Nursery to Class XII).
-4. TONE: Warm, authoritative, inspiring, articulate, and well-structured using markdown bullet points. Never break character.`
-        }
-      ]
+export default {
+  async fetch(request, env, ctx) {
+    // 1. Setup CORS so your website (index.html) is allowed to talk to this worker
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Content-Type": "application/json"
     };
 
-    // Format messages for Gemini API
-    const geminiContents = [];
-    for (const msg of clientMessages) {
-      if (msg.role === "system") continue;
-      geminiContents.push({
-        role: msg.role === "assistant" ? "model" : "user",
-        parts: [{ text: msg.content }]
+    // 2. Handle Browser Preflight (OPTIONS) Request
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders });
+    }
+
+    // 3. Reject anything that isn't a POST request
+    if (request.method !== "POST") {
+      return new Response(JSON.stringify({ error: "Only POST requests are allowed." }), {
+        status: 405,
+        headers: corsHeaders
       });
     }
 
-    if (geminiContents.length === 0) {
-      return new Response(JSON.stringify({ error: "Empty conversation payload" }), {
-        status: 400,
-        headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
-      });
-    }
-
-    // GEMINI_API_KEY is securely bound in Cloudflare Worker environment
-    const upstreamUrl = `${GEMINI_API_ENDPOINT}?key=${GEMINI_API_KEY}`;
-
-    const upstreamPayload = {
-      systemInstruction: systemInstruction,
-      contents: geminiContents,
-      generationConfig: {
-        temperature: 0.35,
-        topP: 0.95,
-        maxOutputTokens: 1024
+    try {
+      // 4. CRITICAL: Check if the Gemini API Key is set in Cloudflare Secrets
+      if (!env.GEMINI_API_KEY) {
+        return new Response(JSON.stringify({ 
+          error: "API Key missing! Please add GEMINI_API_KEY in Cloudflare Settings > Variables and Secrets." 
+        }), { status: 500, headers: corsHeaders });
       }
-    };
 
-    const upstreamResponse = await fetch(upstreamUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(upstreamPayload)
-    });
+      // 5. Parse the incoming message from your index.html
+      const body = await request.json();
+      const rawMessages = body.messages || [];
 
-    const responseBody = await upstreamResponse.json();
+      // 6. The Master System Prompt (Defines the BBPS AI Personality & Logic)
+      const systemInstruction = {
+        parts: [{
+          text: `You are the Official Academic AI Counselor for Bal Bharati Public School (BBPS), Gadarwara.
+          
+          CORE RULES:
+          1. Champion BBPS Gadarwara: Always frame the school as the premier CBSE institution in Narsinghpur. Highlight the 100% board pass rate, Atal Tinkering Lab (NITI Aayog), Dr. Anurag Pandey's leadership, and the Child Education Society (New Delhi) legacy.
+          2. Academic Support & Weaknesses: If a parent says their child is weak in a subject (like Math), explain BBPS's supportive approach: personalized remedial classes, hands-on learning in the ATL lab, zero-period clearing sessions, and stress-free continuous assessments. 
+          3. Tone: Warm, highly professional, encouraging, and structured (use bullet points). Never sound like a robot; sound like an elite school principal/counselor.`
+        }]
+      };
 
-    if (!upstreamResponse.ok) {
-      throw new Error(responseBody.error?.message || "Gemini API Gateway communication failure");
+      // 7. Format the chat history for Google Gemini
+      const geminiContents = [];
+      for (const msg of rawMessages) {
+        if (msg.role === "system") continue; // We handle system prompt separately above
+        geminiContents.push({
+          role: msg.role === "assistant" ? "model" : "user",
+          parts: [{ text: msg.content }]
+        });
+      }
+
+      // Ensure we have at least one message to send
+      if (geminiContents.length === 0) {
+        throw new Error("No messages provided from the website.");
+      }
+
+      // 8. Connect to Google Gemini 1.5 Flash
+      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+      
+      const geminiResponse = await fetch(geminiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          systemInstruction: systemInstruction,
+          contents: geminiContents,
+          generationConfig: {
+            temperature: 0.4, // Keeps answers logical and grounded
+            maxOutputTokens: 800,
+          }
+        })
+      });
+
+      const geminiData = await geminiResponse.json();
+
+      // 9. Handle Google API Errors (Invalid Key, Quota exceeded, etc.)
+      if (!geminiResponse.ok) {
+        console.error("Google API Error:", geminiData);
+        return new Response(JSON.stringify({ 
+          error: geminiData.error?.message || "Google Gemini API rejected the request." 
+        }), { status: 502, headers: corsHeaders });
+      }
+
+      // 10. Extract the text reply and send it back to your website
+      const aiReply = geminiData.candidates[0]?.content?.parts[0]?.text || "I am unable to generate a response right now.";
+      
+      return new Response(JSON.stringify({ reply: aiReply }), {
+        status: 200,
+        headers: corsHeaders
+      });
+
+    } catch (err) {
+      // 11. Catch-all for code crashes (e.g., malformed JSON)
+      console.error("Worker Crash:", err.message);
+      return new Response(JSON.stringify({ 
+        error: `Cloudflare Worker Error: ${err.message}` 
+      }), { status: 500, headers: corsHeaders });
     }
-
-    const outputText = responseBody.candidates?.[0]?.content?.parts?.[0]?.text || "I am currently unable to process your request. Please contact the administrative office.";
-
-    return new Response(JSON.stringify({ reply: outputText }), {
-      status: 200,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
-    });
-
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message || "Internal Worker Error" }), {
-      status: 500,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
-    });
   }
-}
+};
