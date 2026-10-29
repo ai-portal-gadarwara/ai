@@ -61,7 +61,6 @@
   </script>
 
   <style>
-    /* Full Viewport Canvas */
     #aurora-canvas {
       position: fixed;
       top: 0;
@@ -81,7 +80,6 @@
       overflow-x: hidden;
     }
 
-    /* Glassmorphism Styles */
     .glass-card {
       background: rgba(15, 23, 42, 0.82);
       backdrop-filter: blur(28px);
@@ -96,7 +94,6 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Scrollbars */
     .styled-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .styled-scroll::-webkit-scrollbar-track { background: transparent; }
     .styled-scroll::-webkit-scrollbar-thumb {
@@ -107,7 +104,6 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Equalizer Pulse */
     @keyframes soundwaveAnim {
       0%, 100% { height: 4px; }
       50% { height: 22px; }
@@ -124,7 +120,6 @@
     .speaking-active .wave-bar:nth-child(3) { animation: soundwaveAnim 0.55s infinite 0.42s; }
     .speaking-active .wave-bar:nth-child(4) { animation: soundwaveAnim 0.55s infinite 0.18s; }
 
-    /* Shimmer Thinking Animation */
     @keyframes shimmerSwipe {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
@@ -148,7 +143,6 @@
       content: '';
     }
 
-    /* Soft floating cards */
     @keyframes floatingMotion {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-7px); }
@@ -158,18 +152,14 @@
 </head>
 <body class="selection:bg-cyan-500 selection:text-slate-950 flex flex-col justify-between">
 
-  <!-- Interactive Dynamic Aurora Canvas -->
   <canvas id="aurora-canvas"></canvas>
 
   <div class="relative z-10 flex flex-col min-h-screen justify-between">
 
-    <!-- ========================================================================= -->
-    <!-- HEADER                                                                    -->
-    <!-- ========================================================================= -->
+    <!-- HEADER -->
     <header class="glass-header sticky top-0 z-50 transition-all duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
         
-        <!-- School Crest & Title -->
         <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchMainTab('chat')">
           <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-bbps-700 via-indigo-600 to-accent-cyan p-0.5 shadow-glow-blue shrink-0">
             <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white font-display font-black text-xl">
@@ -190,7 +180,6 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs & Voice Controllers -->
         <div class="flex items-center gap-2.5">
           <button id="tab-btn-chat" onclick="switchMainTab('chat')" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-bbps-600 to-indigo-600 text-white shadow-glow-blue">
             <i class="fa-solid fa-comments"></i>
@@ -210,7 +199,6 @@
 
           <div class="h-6 w-px bg-slate-800 hidden sm:block"></div>
 
-          <!-- Soundwave Animation -->
           <div id="voice-wave-container" class="hidden xl:flex items-center gap-1 px-3 py-2 rounded-full bg-slate-900 border border-slate-800">
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
@@ -218,12 +206,10 @@
             <div class="wave-bar"></div>
           </div>
 
-          <!-- Voice Selector Dropdown -->
           <select id="voice-select" onchange="updateSelectedVoice()" class="hidden md:block text-xs bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-2.5 py-2 font-medium focus:outline-none focus:border-cyan-500">
             <option value="auto">Natural Indian Accent (Auto)</option>
           </select>
 
-          <!-- Voice Toggle -->
           <button id="tts-toggle-btn" onclick="toggleSpeechAudio()" class="p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/90 hover:bg-slate-800 border border-slate-800 transition" title="Toggle AI Voice Response">
             <i id="tts-icon" class="fa-solid fa-volume-high text-sm text-cyan-400"></i>
           </button>
@@ -232,12 +218,9 @@
       </div>
     </header>
 
-    <!-- ========================================================================= -->
-    <!-- TAB 1: CHATBOT INTERACTION                                                -->
-    <!-- ========================================================================= -->
+    <!-- TAB 1: CHATBOT -->
     <main id="tab-view-chat" class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-      <!-- Hero Banner -->
       <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-bbps-950 to-indigo-950 border border-white/10 p-6 sm:p-8 shadow-2xl">
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
@@ -271,7 +254,6 @@
             </div>
           </div>
 
-          <!-- Quick Statistic Cards -->
           <div class="lg:col-span-4 grid grid-cols-2 gap-3">
             <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerFastTopic('board_results')">
               <span class="text-[10px] font-mono font-bold text-amber-400 uppercase">Board Record</span>
@@ -301,10 +283,8 @@
         </div>
       </section>
 
-      <!-- Chat Workspace Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Left Knowledge Modules Menu -->
         <aside class="lg:col-span-4 glass-card rounded-3xl p-5 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
@@ -316,9 +296,7 @@
             </span>
           </div>
 
-          <div id="sidebar-topics" class="space-y-2 max-h-[470px] overflow-y-auto styled-scroll pr-1">
-            <!-- Populated via JavaScript -->
-          </div>
+          <div id="sidebar-topics" class="space-y-2 max-h-[470px] overflow-y-auto styled-scroll pr-1"></div>
 
           <div class="p-3.5 rounded-2xl bg-gradient-to-r from-bbps-950 to-indigo-950 border border-blue-500/30 text-white flex items-center justify-between">
             <div>
@@ -328,10 +306,8 @@
           </div>
         </aside>
 
-        <!-- Right Conversational Chat Area -->
         <section class="lg:col-span-8 glass-card rounded-3xl overflow-hidden flex flex-col h-[650px] border border-white/10">
           
-          <!-- Chat Frame Top Bar -->
           <div class="px-6 py-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -350,9 +326,7 @@
             </div>
           </div>
 
-          <!-- Chat Messages Container -->
           <div id="chat-messages" class="flex-1 p-6 overflow-y-auto styled-scroll space-y-4 bg-slate-950/40">
-            <!-- Initial Welcome Message -->
             <div class="flex items-start gap-3.5">
               <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-blue">
                 BB
@@ -374,12 +348,8 @@
             </div>
           </div>
 
-          <!-- Suggestion Chips -->
-          <div id="quick-chips" class="px-5 py-2.5 bg-slate-900/60 border-t border-slate-800/80 flex items-center gap-2 overflow-x-auto styled-scroll no-scrollbar">
-            <!-- Populated via JavaScript -->
-          </div>
+          <div id="quick-chips" class="px-5 py-2.5 bg-slate-900/60 border-t border-slate-800/80 flex items-center gap-2 overflow-x-auto styled-scroll no-scrollbar"></div>
 
-          <!-- Input Bar -->
           <form id="chat-form" onsubmit="handleUserSubmit(event)" class="p-3.5 bg-slate-900/90 border-t border-slate-800 flex items-center gap-3">
             <button type="button" id="mic-btn" onclick="toggleVoiceRecognition()" class="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition shrink-0" title="Voice Input">
               <i id="mic-icon" class="fa-solid fa-microphone text-sm"></i>
@@ -403,9 +373,7 @@
 
     </main>
 
-    <!-- ========================================================================= -->
-    <!-- TAB 2: ANALYTICS & INTERACTIVE GRAPHS                                     -->
-    <!-- ========================================================================= -->
+    <!-- TAB 2: ANALYTICS -->
     <main id="tab-view-analytics" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
       
       <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -434,7 +402,6 @@
         </div>
       </div>
 
-      <!-- KPI Summary Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-card p-5 rounded-3xl border border-white/10">
           <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Total Questions</span>
@@ -461,10 +428,8 @@
         </div>
       </div>
 
-      <!-- Interactive Chart.js Graphs -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- Doughnut Chart -->
         <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
           <div>
             <h3 class="font-display font-bold text-sm text-white mb-1">Category Distribution</h3>
@@ -475,7 +440,6 @@
           </div>
         </div>
 
-        <!-- Bar Chart -->
         <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
           <div>
             <h3 class="font-display font-bold text-sm text-white mb-1">Top Searched School Topics</h3>
@@ -486,7 +450,6 @@
           </div>
         </div>
 
-        <!-- Line Chart -->
         <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
           <div>
             <h3 class="font-display font-bold text-sm text-white mb-1">Hourly Activity Volume</h3>
@@ -499,7 +462,6 @@
 
       </div>
 
-      <!-- Live Query Log Table -->
       <div class="glass-card rounded-3xl overflow-hidden border border-white/10">
         <div class="p-5 border-b border-slate-800 flex items-center justify-between">
           <h3 class="font-display font-bold text-sm text-white">Live Query Stream</h3>
@@ -515,18 +477,14 @@
                 <th class="py-3.5 px-4">Engine Path</th>
               </tr>
             </thead>
-            <tbody id="logs-table-body" class="divide-y divide-slate-800 text-slate-300">
-              <!-- Dynamically populated -->
-            </tbody>
+            <tbody id="logs-table-body" class="divide-y divide-slate-800 text-slate-300"></tbody>
           </table>
         </div>
       </div>
 
     </main>
 
-    <!-- ========================================================================= -->
-    <!-- TAB 3: FULL TOPICAL DIRECTORY (32+ MODULES)                              -->
-    <!-- ========================================================================= -->
+    <!-- TAB 3: DIRECTORY -->
     <main id="tab-view-directory" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
       <div class="glass-card rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -538,16 +496,12 @@
         </button>
       </div>
 
-      <div id="full-directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Populated via JavaScript -->
-      </div>
+      <div id="full-directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </main>
 
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL: ONLINE ADMISSION ENQUIRY                                           -->
-  <!-- ========================================================================= -->
+  <!-- ADMISSION MODAL -->
   <div id="admission-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-lg w-full rounded-3xl border border-white/20 overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-150">
       <div class="bg-gradient-to-r from-bbps-700 via-indigo-700 to-cyan-600 p-6 text-white flex items-center justify-between">
@@ -608,29 +562,22 @@
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- JAVASCRIPT: LOGIC, AURORA CANVAS, RAG, & GEMINI REASONING PROXY           -->
-  <!-- ========================================================================= -->
   <script>
-    // -------------------------------------------------------------------------
     // 1. CONFIGURATION & STATE
-    // -------------------------------------------------------------------------
-    const WORKER_ENDPOINT = "https://ai.nikhilpatel6105.workers.dev";
-    const APPS_SCRIPT_WEBHOOK = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; // Enter your Apps Script Web App URL
+    const WORKER_ENDPOINT = "https://bbps-ai.nikhilpatel6105.workers.dev";
+    const APPS_SCRIPT_WEBHOOK = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
 
     let isAudioActive = true;
     let recognitionInstance = null;
     let selectedVoiceURI = 'auto';
     let availableVoices = [];
 
-    // Chart.js references
     let chartCategory = null;
     let chartTopics = null;
     let chartActivity = null;
 
     const chatContextStream = [];
 
-    // Local Storage Hydration
     let queryLogs = [];
     try {
       queryLogs = JSON.parse(localStorage.getItem("bbps_query_logs") || "[]");
@@ -641,9 +588,7 @@
       admissionLeads = JSON.parse(localStorage.getItem("bbps_admission_leads") || "[]");
     } catch(e) { admissionLeads = []; }
 
-    // -------------------------------------------------------------------------
-    // 2. VERIFIED 32-MODULE INSTITUTIONAL KNOWLEDGE BASE
-    // -------------------------------------------------------------------------
+    // 2. KNOWLEDGE BASE
     const KNOWLEDGE_MODULES = [
       {
         id: "why_bbps",
@@ -760,15 +705,12 @@
       }
     ];
 
-    // Initialize Fuse Index
     const fuseInstance = new Fuse(KNOWLEDGE_MODULES, {
       keys: ["title", "triggers", "answer", "category"],
       threshold: 0.36
     });
 
-    // -------------------------------------------------------------------------
     // 3. NAVIGATION & UI TABS
-    // -------------------------------------------------------------------------
     function switchMainTab(tabKey) {
       const chatView = document.getElementById("tab-view-chat");
       const analyticsView = document.getElementById("tab-view-analytics");
@@ -811,9 +753,7 @@
       document.getElementById("admission-modal").classList.add("hidden");
     }
 
-    // -------------------------------------------------------------------------
-    // 4. CHAT PIPELINE: DETERMINISTIC + GEMINI REASONING
-    // -------------------------------------------------------------------------
+    // 4. CHAT PIPELINE
     async function handleUserSubmit(e) {
       if (e) e.preventDefault();
       const input = document.getElementById("user-input");
@@ -823,7 +763,6 @@
       input.value = "";
       appendChatBubble("user", query);
 
-      // 1. Transactional Form Triggers
       if (/\b(admission form|apply online|fill form|register child|admission enquiry|enroll)\b/i.test(query)) {
         appendChatBubble("bot", "Opening the official 2026–2027 Admission Inquiry Registration modal for you.", "Action Executed", "Opening the admission form now.");
         openAdmissionModal();
@@ -831,7 +770,6 @@
         return;
       }
 
-      // 2. Deterministic Fuzzy Search Match
       const searchMatches = fuseInstance.search(query);
       if (searchMatches.length > 0 && searchMatches[0].score < 0.35) {
         const item = searchMatches[0].item;
@@ -840,7 +778,6 @@
         return;
       }
 
-      // 3. Fallback: Gemini 1.5 Flash Cloudflare Proxy
       await dispatchGeminiReasoning(query);
     }
 
@@ -975,9 +912,7 @@
       appendChatBubble("bot", "Conversation context cleared. How may I assist your educational research today?", "Memory Reset");
     }
 
-    // -------------------------------------------------------------------------
     // 5. AUDIO SYNTHESIS & RECOGNITION
-    // -------------------------------------------------------------------------
     function initSpeechEngine() {
       if (!('speechSynthesis' in window)) return;
       
@@ -1079,7 +1014,12 @@
         handleUserSubmit(new Event("submit"));
       };
 
-      recognitionInstance.onerror = () => recognitionInstance.stop();
+      recognitionInstance.onerror = (err) => {
+        console.warn("Speech API Notice:", err.error);
+        if (micIcon) micIcon.className = "fa-solid fa-microphone text-sm";
+        recognitionInstance.active = false;
+      };
+
       recognitionInstance.onend = () => {
         recognitionInstance.active = false;
         micIcon.className = "fa-solid fa-microphone text-sm";
@@ -1088,9 +1028,7 @@
       recognitionInstance.start();
     }
 
-    // -------------------------------------------------------------------------
-    // 6. ADMISSION INQUIRY PERSISTENCE
-    // -------------------------------------------------------------------------
+    // 6. ADMISSION FORM HANDLER
     async function submitAdmissionLead(e) {
       e.preventDefault();
       const btn = document.getElementById("admission-btn");
@@ -1108,11 +1046,9 @@
         timestamp: new Date().toLocaleString()
       };
 
-      // 1. Dual-Write: Local Storage
       admissionLeads.unshift(lead);
       localStorage.setItem("bbps_admission_leads", JSON.stringify(admissionLeads));
 
-      // 2. Dual-Write: Google Apps Script Webhook
       try {
         if (APPS_SCRIPT_WEBHOOK && APPS_SCRIPT_WEBHOOK !== "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") {
           await fetch(APPS_SCRIPT_WEBHOOK, {
@@ -1138,9 +1074,7 @@
       updateHeaderBadge();
     }
 
-    // -------------------------------------------------------------------------
-    // 7. ANALYTICS & CHART.JS VISUALS
-    // -------------------------------------------------------------------------
+    // 7. ANALYTICS & CHARTS
     function recordQueryLog(query, category, engine) {
       queryLogs.unshift({
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -1168,7 +1102,6 @@
       document.getElementById("stat-llm").innerText = llmHits;
       document.getElementById("stat-leads").innerText = admissionLeads.length;
 
-      // Table Render
       const tbody = document.getElementById("logs-table-body");
       tbody.innerHTML = queryLogs.slice(0, 10).map(l => `
         <tr class="hover:bg-slate-900/40 transition">
@@ -1191,7 +1124,6 @@
     function renderAnalyticsCharts(fastHits, llmHits) {
       if (typeof Chart === 'undefined') return;
 
-      // 1. Category Doughnut Chart
       const ctxCat = document.getElementById("categoryChart")?.getContext("2d");
       if (ctxCat) {
         if (chartCategory) chartCategory.destroy();
@@ -1215,7 +1147,6 @@
         });
       }
 
-      // 2. Topics Bar Chart
       const ctxTopics = document.getElementById("topicsChart")?.getContext("2d");
       if (ctxTopics) {
         if (chartTopics) chartTopics.destroy();
@@ -1242,7 +1173,6 @@
         });
       }
 
-      // 3. Hourly Activity Line Chart
       const ctxActivity = document.getElementById("activityChart")?.getContext("2d");
       if (ctxActivity) {
         if (chartActivity) chartActivity.destroy();
@@ -1300,9 +1230,7 @@
       updateHeaderBadge();
     }
 
-    // -------------------------------------------------------------------------
     // 8. DIRECTORY GRID & SIDEBAR
-    // -------------------------------------------------------------------------
     function renderDirectoryCards() {
       const container = document.getElementById("full-directory-grid");
       container.innerHTML = KNOWLEDGE_MODULES.map(m => `
@@ -1340,9 +1268,7 @@
       `).join('');
     }
 
-    // -------------------------------------------------------------------------
-    // 9. ANIMATED FLUID AURORA CANVAS ENGINE
-    // -------------------------------------------------------------------------
+    // 9. ANIMATED AURORA CANVAS
     function initAuroraCanvas() {
       const canvas = document.getElementById("aurora-canvas");
       if (!canvas) return;
@@ -1387,9 +1313,7 @@
       render();
     }
 
-    // -------------------------------------------------------------------------
-    // 10. SYSTEM BOOTSTRAP
-    // -------------------------------------------------------------------------
+    // 10. BOOTSTRAP
     window.addEventListener("DOMContentLoaded", () => {
       initAuroraCanvas();
       buildSidebar();
