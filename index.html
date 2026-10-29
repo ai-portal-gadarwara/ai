@@ -1,790 +1,2123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bal Bharati Public School, Gadarwara | Official AI Helpdesk</title>
-  
-  <!-- Tailwind CSS & FontAwesome -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BBPS Gadarwara | Official AI Helpdesk & Visitor Analytics Suite</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for Official Interactive Analytics Graphs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              200: '#bfdbfe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
-              900: '#1e3a8a',
-              950: '#0f172a'
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Premium Visual Enhancements */
+    :root {
+      --brand-blue: #1d4ed8;
+      --brand-indigo: #4338ca;
+      --brand-emerald: #059669;
+    }
     body {
-      background: linear-gradient(135deg, #0b1120 0%, #0f172a 50%, #1e293b 100%);
-      color: #f8fafc;
-      overflow-x: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f1f5f9;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.10) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(79, 70, 229, 0.10) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%);
+      min-height: 100vh;
     }
 
-    .glass-panel {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    /* Custom Scrollbars */
+    .chat-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .chat-scroll::-webkit-scrollbar-track { background: #f8fafc; }
+    .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .chat-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    .glass-card {
-      background: rgba(30, 41, 59, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+    /* Animated Aurora Hero Glow */
+    @keyframes auroraGlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(18px, -18px) scale(1.08); }
     }
+    .aurora-blob { animation: auroraGlow 8s ease-in-out infinite; }
 
-    .glow-effect {
-      box-shadow: 0 0 35px -5px rgba(37, 99, 235, 0.25);
+    /* Floating Graphic Cards */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
     }
+    .float-slow { animation: floatCard 4.5s ease-in-out infinite; }
+    .float-delayed { animation: floatCard 5s ease-in-out 1.5s infinite; }
 
-    /* Waveform Sound Visualizer */
-    .wave-container {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      height: 20px;
+    /* Voice Pulse Ring */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.75); }
+      70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
+    .listening-pulse { animation: pulse-ring 1.4s infinite; }
 
+    /* Audio Equalizer Bars */
+    @keyframes soundwave {
+      0%, 100% { height: 4px; }
+      50% { height: 18px; }
+    }
     .wave-bar {
-      width: 3px;
-      height: 100%;
-      background: #38bdf8;
-      border-radius: 9999px;
-      animation: soundWave 1.2s ease-in-out infinite alternate;
+      width: 3.5px;
+      height: 4px;
+      background: linear-gradient(to top, #2563eb, #06b6d4);
+      border-radius: 999px;
+      transition: height 0.2s ease;
     }
+    .speaking-active .wave-bar:nth-child(1) { animation: soundwave 0.5s infinite 0.1s; }
+    .speaking-active .wave-bar:nth-child(2) { animation: soundwave 0.5s infinite 0.25s; }
+    .speaking-active .wave-bar:nth-child(3) { animation: soundwave 0.5s infinite 0.4s; }
+    .speaking-active .wave-bar:nth-child(4) { animation: soundwave 0.5s infinite 0.15s; }
 
-    .wave-bar:nth-child(1) { animation-delay: 0.1s; }
-    .wave-bar:nth-child(2) { animation-delay: 0.3s; }
-    .wave-bar:nth-child(3) { animation-delay: 0.5s; }
-    .wave-bar:nth-child(4) { animation-delay: 0.2s; }
-
-    @keyframes soundWave {
-      0% { height: 4px; }
-      100% { height: 18px; }
+    /* Typing Dots Animation */
+    @keyframes bounceDot {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
     }
-
-    /* Thinking Animation */
-    @keyframes pulseDot {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
-      40% { transform: scale(1.1); opacity: 1; }
-    }
-
-    .pulse-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      background-color: #3b82f6;
       border-radius: 50%;
-      background: #60a5fa;
-      animation: pulseDot 1.4s infinite ease-in-out;
+      display: inline-block;
+      animation: bounceDot 1.3s infinite ease-in-out both;
     }
-    .pulse-dot:nth-child(2) { animation-delay: 0.2s; }
-    .pulse-dot:nth-child(3) { animation-delay: 0.4s; }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    .glass-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
     }
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.5);
+    .card-lift {
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(100, 116, 139, 0.3);
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(148, 163, 184, 0.5);
+    .card-lift:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 28px -10px rgba(30, 64, 175, 0.18);
     }
   </style>
 </head>
-<body class="h-screen w-screen flex flex-col font-sans select-none antialiased">
+<body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- TOP APP NAVIGATION -->
-  <header class="glass-panel border-b border-slate-800/80 sticky top-0 z-40 px-4 lg:px-8 py-3.5 flex items-center justify-between shrink-0">
-    <div class="flex items-center space-x-3.5">
-      <div class="relative">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-700 to-sky-400 p-[1.5px] flex items-center justify-center shadow-lg shadow-brand-600/20">
-          <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-extrabold text-white text-base tracking-wider">
-            BB
+  <!-- ========================================================================== -->
+  <!-- TOP OFFICIAL NAVIGATION BAR                                                -->
+  <!-- ========================================================================== -->
+  <header class="glass-header border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Brand Crest & School Identity -->
+      <div class="flex items-center gap-3">
+        <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-cyan-500 p-0.5 shadow-md shrink-0">
+          <div class="w-full h-full bg-slate-950/20 rounded-[14px] flex items-center justify-center text-white font-extrabold text-lg">
+            🎓
           </div>
+          <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" title="System Online"></span>
         </div>
-        <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-slate-900 rounded-full" title="Reasoning Engine Online"></span>
-      </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <h1 class="font-bold text-white text-base tracking-tight leading-none">Bal Bharati Public School</h1>
-          <span class="text-[10px] font-semibold uppercase px-2 py-0.5 bg-brand-500/10 text-brand-400 border border-brand-500/20 rounded-md">AI Desk</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">BBPS Gadarwara Official AI</h1>
+            <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
+              CBSE Affiliated
+            </span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Bal Bharati Public School • Child Education Society (New Delhi)</p>
         </div>
-        <p class="text-xs text-slate-400 font-medium mt-1">NTPC Township, Gadarwara • CES New Delhi</p>
-      </div>
-    </div>
-
-    <!-- Right Controls -->
-    <div class="flex items-center gap-3">
-      <!-- Live Speaking Waveform -->
-      <div id="voice-indicator" class="hidden items-center gap-2 px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20">
-        <div class="wave-container">
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-        </div>
-        <span class="text-xs font-semibold text-sky-400">Audio Synth</span>
       </div>
 
-      <!-- Voice Mute/Unmute -->
-      <button id="voice-toggle-btn" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-600 transition" title="Toggle Neural Voice">
-        <i class="fa-solid fa-volume-high text-sm"></i>
-      </button>
+      <!-- Page Navigation + Voice & Language Controls -->
+      <div class="flex items-center gap-2 flex-wrap justify-end">
+        <!-- Page 1 Button: Official School Chatbot -->
+        <button id="nav-chat-btn" type="button" onclick="switchPage('chat')" class="text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md">
+          <span>💬</span>
+          <span>School Chatbot</span>
+        </button>
 
-      <!-- Analytics Trigger -->
-      <button onclick="toggleModal('analytics-modal')" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-slate-600 transition" title="View Portal Telemetry">
-        <i class="fa-solid fa-chart-pie text-sm"></i>
-      </button>
+        <!-- Page 2 Button: User Data & Graphs Dashboard -->
+        <button id="nav-data-btn" type="button" onclick="switchPage('data')" class="text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
+          <span>📊</span>
+          <span>User Data & Graphs</span>
+          <span id="log-count-badge" class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-extrabold">0</span>
+        </button>
 
-      <!-- Admission Action -->
-      <button onclick="openAdmissionFormModal()" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-sky-500 hover:from-brand-500 hover:to-sky-400 font-semibold text-xs tracking-wide text-white shadow-lg shadow-brand-600/30 transition">
-        <i class="fa-solid fa-file-signature"></i>
-        <span>Admission 2026</span>
-      </button>
+        <!-- Page 3 Button: Complete School Directory Explorer -->
+        <button id="nav-dir-btn" type="button" onclick="switchPage('directory')" class="hidden md:flex text-xs font-extrabold px-3.5 py-2 rounded-xl transition items-center gap-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
+          <span>🗂️</span>
+          <span>32+ Topics</span>
+        </button>
+
+        <!-- Equalizer Graphic -->
+        <div id="voice-wave" class="hidden xl:flex items-center gap-1 px-2.5 py-2 rounded-full bg-slate-100 border border-slate-200" title="AI Voice Equalizer">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+
+        <!-- Natural Voice Selector -->
+        <select id="voice-select" onchange="changePreferredVoice()" class="hidden lg:block text-xs bg-white border border-slate-200 text-slate-700 rounded-xl px-2.5 py-2 font-semibold focus:outline-none focus:border-blue-500 shadow-sm">
+          <option value="auto">✨ Natural Voice (Auto)</option>
+        </select>
+
+        <!-- Voice ON/OFF Toggle -->
+        <button id="tts-toggle" type="button" onclick="toggleAutoVoice()" class="hidden sm:flex text-xs font-bold px-3 py-2 rounded-xl border transition items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm">
+          <span id="tts-icon">🔊</span>
+          <span id="tts-label">Voice: ON</span>
+        </button>
+
+        <!-- 2-Way Verbal Mode Button -->
+        <button id="verbal-mode-btn" type="button" onclick="toggleVerbalMode()" class="text-xs font-bold px-3 py-2 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 transition flex items-center gap-1.5 shadow-sm">
+          <span>🎙️</span>
+          <span id="verbal-mode-label">2-Way Talk</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- QUICK INTENT DISCOVERY CAROUSEL -->
-  <nav class="glass-panel border-b border-slate-800/50 py-2.5 px-4 overflow-x-auto whitespace-nowrap shrink-0 custom-scrollbar">
-    <div class="max-w-6xl mx-auto flex items-center gap-2 text-xs">
-      <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider pl-1 pr-2 flex items-center gap-1.5">
-        <i class="fa-solid fa-bolt text-brand-400 text-[10px]"></i> Quick Insights:
-      </span>
-      <button onclick="triggerQuickAction('Why Choose BBPS Gadarwara?')" class="px-3.5 py-1.5 rounded-lg glass-card text-slate-200 hover:text-white hover:bg-slate-800 border-slate-700/60 font-medium transition flex items-center gap-2">
-        <i class="fa-solid fa-award text-amber-400"></i> Why Choose BBPS?
-      </button>
-      <button onclick="triggerQuickAction('Tell me about the Principal and visiting hours')" class="px-3.5 py-1.5 rounded-lg glass-card text-slate-200 hover:text-white hover:bg-slate-800 border-slate-700/60 font-medium transition flex items-center gap-2">
-        <i class="fa-solid fa-user-tie text-blue-400"></i> Principal's Desk
-      </button>
-      <button onclick="triggerQuickAction('What streams are offered in Class 11 and 12?')" class="px-3.5 py-1.5 rounded-lg glass-card text-slate-200 hover:text-white hover:bg-slate-800 border-slate-700/60 font-medium transition flex items-center gap-2">
-        <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Class 11-12 Streams
-      </button>
-      <button onclick="triggerQuickAction('What is the Atal Tinkering Lab (ATL)?')" class="px-3.5 py-1.5 rounded-lg glass-card text-slate-200 hover:text-white hover:bg-slate-800 border-slate-700/60 font-medium transition flex items-center gap-2">
-        <i class="fa-solid fa-microchip text-purple-400"></i> ATL & Innovation Labs
-      </button>
-      <button onclick="triggerQuickAction('What are the school and office timings?')" class="px-3.5 py-1.5 rounded-lg glass-card text-slate-200 hover:text-white hover:bg-slate-800 border-slate-700/60 font-medium transition flex items-center gap-2">
-        <i class="fa-solid fa-clock text-sky-400"></i> Timings & Working Days
-      </button>
-      <button onclick="openAdmissionFormModal()" class="px-3.5 py-1.5 rounded-lg bg-brand-600/20 text-brand-300 border border-brand-500/40 hover:bg-brand-600/30 font-medium transition flex items-center gap-2 sm:hidden">
-        <i class="fa-solid fa-file-pen text-brand-400"></i> Apply Form
-      </button>
-    </div>
-  </nav>
+  <!-- ========================================================================== -->
+  <!-- PAGE 1: OFFICIAL BBPS SCHOOL AI HELPDESK                                   -->
+  <!-- ========================================================================== -->
+  <main id="page-chat" class="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-  <!-- CHAT INTERFACE -->
-  <main id="chat-viewport" class="flex-1 w-full max-w-5xl mx-auto p-4 md:p-6 overflow-y-auto space-y-5 custom-scrollbar">
-    
-    <!-- Verified Welcome Card -->
-    <div class="flex items-start gap-3.5">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 to-sky-500 flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-md">
-        AI
-      </div>
-      <div class="glass-panel p-5 rounded-3xl rounded-tl-none max-w-2xl border border-slate-700/60 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-700/50 pb-2.5">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span class="text-xs font-bold text-slate-300 tracking-wide">BBPS Institutional Engine v2.4</span>
+    <!-- GRAPHIC HERO BANNER -->
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 text-white p-6 sm:p-8 shadow-2xl border border-white/10">
+      <div class="aurora-blob absolute -top-20 -left-20 w-72 h-72 bg-blue-500/25 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="aurora-blob absolute -bottom-24 right-10 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Vector Background Pattern -->
+      <svg class="absolute right-0 top-0 h-full w-1/2 opacity-10 pointer-events-none" viewBox="0 0 400 400" fill="none">
+        <defs>
+          <pattern id="hero-grid" width="36" height="36" patternUnits="userSpaceOnUse">
+            <path d="M 36 0 L 0 0 0 36" fill="none" stroke="white" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="400" fill="url(#hero-grid)" />
+        <circle cx="290" cy="170" r="130" stroke="white" stroke-width="2" stroke-dasharray="6 6"/>
+      </svg>
+
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- Hero Text & Action Buttons -->
+        <div class="lg:col-span-7 space-y-3.5">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-cyan-200">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span>Motto: "Hanso Nayatu Naha Pragyam" (Lead Us Unto Light)</span>
           </div>
-          <span class="text-[10px] font-mono text-slate-400">CBSE Affiliated</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            Bal Bharati Public School, <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-200 to-emerald-300">Gadarwara</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-200/90 leading-relaxed max-w-2xl">
+            Official AI School Helpdesk & Visitor Analytics System. Ask in <strong>English or Hindi</strong> by <strong>text or voice</strong> about Admissions, "Why Choose BBPS?", Principal Dr. Anurag Pandey, Class 11–12 Streams, Fees, ATL Robotics Lab, Sports, or Transfer Certificates.
+          </p>
+
+          <div class="pt-2 flex flex-wrap gap-2.5">
+            <button type="button" onclick="askTopicById('why_choose_school')" class="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-1.5">
+              <span>🌟</span> Why Apply to BBPS?
+            </button>
+            <button type="button" onclick="askTopicById('admission_form')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-1.5">
+              <span>📝</span> Fill Admission Form
+            </button>
+            <button type="button" onclick="switchPage('data')" class="bg-white/15 hover:bg-white/25 text-white text-xs font-bold px-4 py-2.5 rounded-xl border border-white/20 backdrop-blur-md transition flex items-center gap-1.5">
+              <span>📊</span> View User Data & Graphs
+            </button>
+          </div>
         </div>
-        <p class="text-sm leading-relaxed text-slate-200">
-          Welcome to the official <strong>Bal Bharati Public School, Gadarwara</strong> interactive intelligence portal.
-          I am conditioned with our complete institutional framework—from academic streams and laboratory facilities to admission benchmarks and administrative appointments.
-        </p>
-        <div class="pt-2 flex flex-wrap gap-2 text-xs">
-          <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700/80">Dr. Anurag Pandey, Principal</span>
-          <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700/80">Atal Tinkering Lab (NITI Aayog)</span>
-          <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700/80">100% CBSE Pass Track Record</span>
+
+        <!-- Hero Interactive Stat Cards -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3">
+          <div onclick="askTopicById('board_results')" class="cursor-pointer bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 float-slow transition">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-amber-400/20 border border-amber-300/30 flex items-center justify-center text-lg">🏆</div>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-200">CBSE Boards</span>
+            </div>
+            <div class="mt-2.5 text-xl font-extrabold text-white">100% Result</div>
+            <div class="text-[11px] text-slate-300">Class X & XII Pass Record</div>
+          </div>
+
+          <div onclick="askTopicById('facilities_atl')" class="cursor-pointer bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 float-delayed transition">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-cyan-400/20 border border-cyan-300/30 flex items-center justify-center text-lg">🤖</div>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-200">NITI Aayog</span>
+            </div>
+            <div class="mt-2.5 text-xl font-extrabold text-white">ATL & AI Lab</div>
+            <div class="text-[11px] text-slate-300">Robotics, Coding & 3D Printing</div>
+          </div>
+
+          <div onclick="askTopicById('principal_info')" class="cursor-pointer bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 float-delayed transition">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-blue-400/20 border border-blue-300/30 flex items-center justify-center text-lg">👨‍🏫</div>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200">Leadership</span>
+            </div>
+            <div class="mt-2.5 text-sm font-extrabold text-white">Dr. Anurag Pandey</div>
+            <div class="text-[11px] text-slate-300">Principal • CES New Delhi</div>
+          </div>
+
+          <div onclick="askTopicById('curriculum_streams')" class="cursor-pointer bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 float-slow transition">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-emerald-400/20 border border-emerald-300/30 flex items-center justify-center text-lg">📘</div>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200">NEP 2020</span>
+            </div>
+            <div class="mt-2.5 text-sm font-extrabold text-white">Nursery to XII</div>
+            <div class="text-[11px] text-slate-300">Science, Commerce, AI & Sports</div>
+          </div>
         </div>
       </div>
+    </section>
+
+    <!-- 2-WAY VERBAL MODE BANNER -->
+    <div id="verbal-banner" class="hidden bg-gradient-to-r from-rose-600 via-red-600 to-orange-500 text-white rounded-2xl p-4 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-xl listening-pulse">🎙️</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase font-extrabold bg-black/25 px-2.5 py-0.5 rounded-full">2-Way Verbal Conversation Active</span>
+            <span id="verbal-status" class="text-xs text-yellow-200 font-semibold">Listening to your voice...</span>
+          </div>
+          <p class="text-xs text-white/90 mt-0.5">Speak naturally in English or Hindi. The AI replies in chat and voice, then listens automatically.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="stopSpeaking()" class="text-xs bg-black/20 hover:bg-black/30 px-3 py-1.5 rounded-lg font-semibold">Mute Audio</button>
+        <button type="button" onclick="toggleVerbalMode()" class="text-xs bg-white text-red-700 px-3.5 py-1.5 rounded-lg font-extrabold shadow">End Verbal Mode</button>
+      </div>
+    </div>
+
+    <!-- MAIN CHATBOT WORKSPACE: LEFT MENU + RIGHT CHAT INTERFACE -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left Sidebar: Complete Interactive Topic Menu -->
+      <aside class="lg:col-span-4 bg-white rounded-3xl border border-slate-200/90 shadow-md p-4 flex flex-col justify-between space-y-4">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">🧭</span>
+              <div>
+                <h3 class="font-extrabold text-slate-900 text-sm">Official BBPS Knowledge Menu</h3>
+                <p class="text-[11px] text-slate-500">Click any button for instant verified answer</p>
+              </div>
+            </div>
+            <span class="text-[10px] font-extrabold px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-200">32 Modules</span>
+          </div>
+
+          <!-- Dynamic Sidebar Buttons Container (Populated cleanly by JS) -->
+          <div id="sidebar-menu-container" class="space-y-2.5 max-h-[470px] overflow-y-auto chat-scroll pr-1"></div>
+        </div>
+
+        <!-- Bottom Analytics Callout -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 to-blue-950 text-white flex items-center justify-between shadow-md">
+          <div>
+            <div class="text-xs font-extrabold text-cyan-300">Live Visitor Graphs</div>
+            <div class="text-[11px] text-slate-300">Review user search charts & leads</div>
+          </div>
+          <button type="button" onclick="switchPage('data')" class="bg-white text-slate-900 hover:bg-blue-50 text-xs font-extrabold px-3 py-1.5 rounded-xl shadow transition">
+            Open Graphs 📊
+          </button>
+        </div>
+      </aside>
+
+      <!-- Right Official Chatbot Window -->
+      <section class="lg:col-span-8 bg-white rounded-3xl border border-slate-200/90 shadow-lg overflow-hidden flex flex-col h-[620px]">
+        
+        <!-- Chatbot Header -->
+        <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 text-white px-5 py-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center text-xl shadow-inner">
+              🎓
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-extrabold text-sm sm:text-base">BBPS Gadarwara Official AI Assistant</h3>
+                <span class="text-[10px] font-bold bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 px-2 py-0.5 rounded-full">v4.0 Enterprise</span>
+              </div>
+              <p class="text-xs text-blue-100">Logical Context Engine • Voice & Text • Real-Time Analytics Logging</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="stopSpeaking()" class="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-xl font-semibold transition">🔇 Mute</button>
+            <button type="button" onclick="clearChat()" class="text-xs bg-white/15 hover:bg-white/25 px-3 py-1.5 rounded-xl font-semibold transition">Reset</button>
+          </div>
+        </div>
+
+        <!-- Scrollable Chat Messages Area -->
+        <div id="chat-box" class="flex-1 p-5 overflow-y-auto chat-scroll space-y-4 bg-slate-50/60"></div>
+
+        <!-- Quick Suggestion Chips Bar -->
+        <div id="quick-chips" class="px-4 py-2.5 bg-white border-t border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar"></div>
+
+        <!-- Input Bar -->
+        <form id="chat-form" onsubmit="handleUserSubmit(event)" class="p-3.5 bg-white border-t border-slate-200 flex gap-2.5">
+          <button 
+            type="button" 
+            id="mic-btn" 
+            onclick="startListeningEngine()" 
+            class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-2xl transition shadow-sm flex items-center gap-1.5 text-xs font-extrabold shrink-0">
+            <span id="mic-icon">🎤</span>
+            <span class="hidden sm:inline" id="mic-text">Speak</span>
+          </button>
+          <input 
+            id="user-input" 
+            type="text" 
+            autocomplete="off"
+            placeholder="Ask: 'Why should I apply in this school?', 'Principal name', 'Class 11 streams', 'Fees', 'Bus'..." 
+            class="flex-1 text-sm bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 focus:outline-none focus:border-blue-600 focus:bg-white transition"
+          />
+          <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-extrabold px-6 py-2.5 rounded-2xl transition shadow-md shrink-0">
+            Ask AI
+          </button>
+        </form>
+      </section>
+
+    </div>
+
+    <!-- BOTTOM GRAPHIC HIGHLIGHT CARDS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div onclick="askTopicById('why_choose_school')" class="card-lift cursor-pointer bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-start gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">🌟</div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-600">Top Parent Question</span>
+          <h4 class="font-extrabold text-slate-900 text-sm mt-0.5">Why Choose BBPS?</h4>
+          <p class="text-xs text-slate-500 mt-1">7 reasons parents choose BBPS Gadarwara for holistic excellence.</p>
+        </div>
+      </div>
+
+      <div onclick="askTopicById('facilities_atl')" class="card-lift cursor-pointer bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-start gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">🔬</div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-teal-600">Innovation Hub</span>
+          <h4 class="font-extrabold text-slate-900 text-sm mt-0.5">ATL Robotics & AI Labs</h4>
+          <p class="text-xs text-slate-500 mt-1">3D printing, IoT sensors, Physics, Chemistry, Biology & Computer labs.</p>
+        </div>
+      </div>
+
+      <div onclick="askTopicById('curriculum_streams')" class="card-lift cursor-pointer bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-start gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">📚</div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-600">Senior Secondary</span>
+          <h4 class="font-extrabold text-slate-900 text-sm mt-0.5">Science, Commerce & AI</h4>
+          <p class="text-xs text-slate-500 mt-1">PCM, PCB, Commerce, Artificial Intelligence & JEE/NEET guidance.</p>
+        </div>
+      </div>
+
+      <div onclick="askTopicById('admission_form')" class="card-lift cursor-pointer bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-start gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 text-white flex items-center justify-center text-2xl shrink-0 shadow-md">📩</div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600">2026–27 Admissions</span>
+          <h4 class="font-extrabold text-slate-900 text-sm mt-0.5">Online Admission Form</h4>
+          <p class="text-xs text-slate-500 mt-1">Submit student enquiry to our Review Dashboard & School Gmail.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================== -->
+  <!-- PAGE 2: USER DATA ANALYTICS & INTERACTIVE GRAPHS DASHBOARD                 -->
+  <!-- ========================================================================== -->
+  <main id="page-data" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    
+    <!-- Dashboard Header -->
+    <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white rounded-3xl p-6 sm:p-7 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-cyan-300 text-xs font-bold mb-2">
+          <span>📊 Real-Time Visitor Intelligence, Graphs & Query Review</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold">User Data & Graphical Review Dashboard</h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
+          Visualizes what parents, students, and visitors are asking the chatbot with live graphs, category counters, and one-click Gmail forwarding.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+        <button type="button" onclick="simulateDemoQueries()" class="bg-purple-500 hover:bg-purple-400 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5">
+          ⚡ Add Sample Visitor Data
+        </button>
+        <button type="button" onclick="forwardAllLogsToGmail()" class="bg-blue-500 hover:bg-blue-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5">
+          📩 Forward All Data to Gmail
+        </button>
+        <button type="button" onclick="exportLogsToCSV()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-md transition flex items-center gap-1.5">
+          📥 Download Excel / CSV
+        </button>
+        <button type="button" onclick="clearAllLogs()" class="bg-white/10 hover:bg-red-500/30 text-white border border-white/20 text-xs font-bold px-3.5 py-2.5 rounded-xl transition">
+          🗑️ Reset Data
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Summary Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <div class="text-xs font-extrabold text-slate-400 uppercase">Total User Searches</div>
+          <div id="stat-total" class="text-3xl font-extrabold text-slate-900 mt-1">0</div>
+          <div class="text-[11px] text-emerald-600 font-bold mt-1">● 100% Auto-Captured</div>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl">🔍</div>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <div class="text-xs font-extrabold text-blue-600 uppercase">Admissions & Fees</div>
+          <div id="stat-admission" class="text-3xl font-extrabold text-blue-700 mt-1">0</div>
+          <div class="text-[11px] text-slate-500 mt-1">Form, Process, Age, Fees, TC</div>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl">📝</div>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <div class="text-xs font-extrabold text-emerald-600 uppercase">Academics & School Info</div>
+          <div id="stat-school" class="text-3xl font-extrabold text-emerald-700 mt-1">0</div>
+          <div class="text-[11px] text-slate-500 mt-1">Why Apply, Principal, Streams</div>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl">🏫</div>
+      </div>
+
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <div class="text-xs font-extrabold text-purple-600 uppercase">Admission Leads</div>
+          <div id="stat-leads" class="text-3xl font-extrabold text-purple-700 mt-1">0</div>
+          <div class="text-[11px] text-slate-500 mt-1">Forms Submitted by Parents</div>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl">🎓</div>
+      </div>
+    </div>
+
+    <!-- ======================================================================== -->
+    <!-- 3 INTERACTIVE ANALYTICS GRAPHS (CHART.JS)                                -->
+    <!-- ======================================================================== -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      
+      <!-- Graph 1: Category Distribution Doughnut Chart -->
+      <div class="lg:col-span-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-extrabold text-slate-900 text-sm">🍩 Search Category Distribution</h3>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700">Live Graph</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-4">Breakdown of visitor queries by school department</p>
+        </div>
+        <div class="relative h-56 flex items-center justify-center">
+          <canvas id="categoryDoughnutChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Graph 2: Top Searched School Topics Bar Chart -->
+      <div class="lg:col-span-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-extrabold text-slate-900 text-sm">📊 Most Searched School Topics</h3>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">Top Intents</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-4">Which topics parents & students ask about most</p>
+        </div>
+        <div class="relative h-56 flex items-center justify-center">
+          <canvas id="topTopicsBarChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Graph 3: Visitor Input Mode & Daily Activity Line Graph -->
+      <div class="lg:col-span-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="font-extrabold text-slate-900 text-sm">📈 Visitor Query Activity Trend</h3>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-700">Time Series</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-4">Cumulative query volume across recent sessions</p>
+        </div>
+        <div class="relative h-56 flex items-center justify-center">
+          <canvas id="activityLineChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Filterable & Searchable User Query Logs Table -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="p-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="text-xs font-extrabold text-slate-700 mr-1">Filter Category:</span>
+          <button type="button" onclick="filterLogs('ALL')" class="text-xs px-3 py-1.5 rounded-full bg-slate-900 text-white font-bold">All Queries</button>
+          <button type="button" onclick="filterLogs('Admissions & Fees')" class="text-xs px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold">Admissions & Fees</button>
+          <button type="button" onclick="filterLogs('About School & Leadership')" class="text-xs px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold">About School & Why Apply</button>
+          <button type="button" onclick="filterLogs('Academics & Results')" class="text-xs px-3 py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold">Academics & Streams</button>
+          <button type="button" onclick="filterLogs('Facilities & Sports')" class="text-xs px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold">Facilities, Labs & Sports</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <input id="log-search-input" type="text" oninput="renderAnalyticsDashboard()" placeholder="Search user queries..." class="text-xs bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-none focus:border-blue-600" />
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider">
+              <th class="py-3.5 px-4">#</th>
+              <th class="py-3.5 px-4">Timestamp</th>
+              <th class="py-3.5 px-4">What User Asked (Exact Query)</th>
+              <th class="py-3.5 px-4">AI Detected Category</th>
+              <th class="py-3.5 px-4">Matched Knowledge Module</th>
+              <th class="py-3.5 px-4">Input Mode</th>
+              <th class="py-3.5 px-4">Action</th>
+            </tr>
+          </thead>
+          <tbody id="logs-table-body" class="divide-y divide-slate-100 text-xs text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Captured Admission Form Leads -->
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-base">📝 Captured Student Admission Enquiries (Form Submissions)</h3>
+          <p class="text-xs text-slate-500">Parents and students who filled out the Online Admission Form inside the chatbot</p>
+        </div>
+        <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">Admin Email: nikhilpatel6105@gmail.com</span>
+      </div>
+      <div id="leads-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
     </div>
 
   </main>
 
-  <!-- INTERACTIVE PROMPT BAR -->
-  <footer class="glass-panel border-t border-slate-800/80 p-3 md:p-5 shrink-0">
-    <div class="max-w-4xl mx-auto flex items-center gap-2.5">
-      <!-- Voice Rec Button -->
-      <button id="mic-btn" onclick="toggleSpeechRecognition()" class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center text-slate-300 hover:text-brand-400 hover:border-brand-500/40 transition shrink-0" title="Voice Dictation">
-        <i class="fa-solid fa-microphone text-base"></i>
+  <!-- ========================================================================== -->
+  <!-- PAGE 3: COMPLETE 32+ TOPIC INTERACTIVE DIRECTORY                           -->
+  <!-- ========================================================================== -->
+  <main id="page-directory" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h2 class="text-xl font-extrabold text-slate-900">🗂️ Complete BBPS Gadarwara Knowledge Base (All 32 Modules)</h2>
+        <p class="text-xs text-slate-500 mt-1">Click any module card below to open its full detailed answer and voice explanation in the chatbot</p>
+      </div>
+      <button type="button" onclick="switchPage('chat')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl shadow transition">
+        ← Back to Chatbot
       </button>
-
-      <!-- Input Field -->
-      <form onsubmit="handleUserSubmit(event)" class="flex-1 flex items-center relative">
-        <input 
-          id="user-input" 
-          type="text" 
-          placeholder="Inquire on admissions, teacher methodologies, senior secondary streams, or sports..." 
-          autocomplete="off"
-          class="w-full pl-5 pr-14 py-3.5 bg-slate-900/90 border border-slate-700/80 rounded-2xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition shadow-inner"
-        >
-        <button type="submit" class="absolute right-2.5 w-9 h-9 rounded-xl bg-gradient-to-r from-brand-600 to-sky-500 hover:from-brand-500 hover:to-sky-400 flex items-center justify-center text-white transition shadow-md shadow-brand-600/30">
-          <i class="fa-solid fa-arrow-up text-xs"></i>
-        </button>
-      </form>
     </div>
-  </footer>
+    <div id="directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </main>
 
-  <!-- ADMISSION REGISTRATION MODAL -->
-  <div id="admission-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="glass-panel w-full max-w-lg rounded-3xl border border-slate-700 shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150">
-      <div class="px-6 py-4 bg-gradient-to-r from-brand-900 via-brand-800 to-slate-900 border-b border-slate-700 flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-white text-base">Official Admission Inquiry Desk</h3>
-          <p class="text-xs text-brand-300">Academic Session 2026–2027 • Central Registry</p>
-        </div>
-        <button onclick="toggleModal('admission-modal')" class="text-slate-400 hover:text-white transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <form id="admission-form" onsubmit="submitAdmissionLead(event)" class="p-6 space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Prospective Student Name</label>
-          <input required id="student-name" type="text" placeholder="Candidate's full name" class="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Applying For Grade</label>
-            <select required id="target-grade" class="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
-              <option value="">Select Grade</option>
-              <option value="Montessori / Pre-Primary">Montessori / Nursery (3+ yrs)</option>
-              <option value="Class 1">Class 1 (6+ yrs)</option>
-              <option value="Primary (Class 2 to 5)">Primary (Class 2 to 5)</option>
-              <option value="Middle (Class 6 to 8)">Middle (Class 6 to 8)</option>
-              <option value="Secondary (Class 9 & 10)">Secondary (Class 9 & 10)</option>
-              <option value="Class 11 Science (PCM/PCB)">Class 11 Science (PCM/PCB)</option>
-              <option value="Class 11 Commerce">Class 11 Commerce</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Parent Mobile (10-Digit)</label>
-            <input required id="parent-phone" type="tel" pattern="[0-9]{10}" placeholder="9876543210" class="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Parent / Guardian Email</label>
-          <input required id="parent-email" type="email" placeholder="guardian@example.com" class="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500">
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Special Interests / Remarks</label>
-          <textarea id="inquiry-notes" rows="2" placeholder="e.g., Interested in ATL Robotics, Bus transport needed..." class="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-brand-500"></textarea>
-        </div>
-
-        <button type="submit" class="w-full py-3 bg-gradient-to-r from-brand-600 to-sky-500 hover:from-brand-500 hover:to-sky-400 text-white font-semibold text-sm rounded-xl shadow-lg shadow-brand-600/30 transition">
-          Log Official Admission Enquiry
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- TELEMETRY & ANALYTICS MODAL -->
-  <div id="analytics-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="glass-panel w-full max-w-xl rounded-3xl border border-slate-700 shadow-2xl overflow-hidden">
-      <div class="px-6 py-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-white text-base">Portal Telemetry & Query Categorization</h3>
-          <p class="text-xs text-slate-400">Live Semantic Intent Breakdown</p>
-        </div>
-        <button onclick="toggleModal('analytics-modal')" class="text-slate-400 hover:text-white transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <canvas id="telemetryChart" height="230"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- CLIENT LOGIC ENGINE -->
+  <!-- ========================================================================== -->
+  <!-- ENTERPRISE JAVASCRIPT ENGINE (ZERO INLINE QUOTE BUGS + LIVE CHARTS)        -->
+  <!-- ========================================================================== -->
   <script>
-    // 1. ENDPOINTS & ARCHITECTURAL CONFIG
-    const WORKER_ENDPOINT = "https://ai.nikhilpatel6105.workers.dev"; // Live Cloudflare Endpoint
-    let isVoiceActive = true;
+    // ============================================================================
+    // 1. GLOBAL STATE & SAFE SPEECH REGISTRY
+    // ============================================================================
+    let autoVoiceReply = true;
+    let verbalModeActive = false;
     let recognitionInstance = null;
-    let telemetryChart = null;
+    let availableVoices = [];
+    let selectedVoiceURI = 'auto';
+    let currentFilter = 'ALL';
 
-    // Ephemeral Multi-turn Chat Context
-    const conversationHistory = [];
+    // Safe Speech Registry so onclick handlers NEVER contain raw quotes or apostrophes
+    const speechRegistry = {};
+    let speechCounter = 0;
 
-    // Telemetry Category Trackers
-    const queryTelemetry = {
-      excellence: 6,
-      academics: 12,
-      infrastructure: 9,
-      administration: 5,
-      admissions: 8,
-      generativeReasoned: 14
-    };
+    // Chart.js Instances
+    let doughnutChartInstance = null;
+    let barChartInstance = null;
+    let lineChartInstance = null;
 
-    // 2. DETERMINISTIC INSTANT-RESOLVE KNOWLEDGE BASE
-    const STATIC_DIRECTORY = [
+    // ============================================================================
+    // 2. PERSISTENT USER QUERY LOGS & ADMISSION LEADS
+    // ============================================================================
+    let userQueryLogs = [];
+    try {
+      const saved = localStorage.getItem('bbps_enterprise_logs_v4');
+      if (saved) userQueryLogs = JSON.parse(saved);
+    } catch (e) {
+      userQueryLogs = [];
+    }
+
+    if (!Array.isArray(userQueryLogs) || userQueryLogs.length === 0) {
+      userQueryLogs = [
+        {
+          id: 1,
+          time: "10/28/2026, 09:10 AM",
+          query: "Why should I apply in this school?",
+          category: "About School & Leadership",
+          matchedTopic: "Why Choose BBPS Gadarwara?",
+          mode: "💬 Text"
+        },
+        {
+          id: 2,
+          time: "10/28/2026, 09:24 AM",
+          query: "I want to fill admission form for Class 11 Science",
+          category: "Admissions & Fees",
+          matchedTopic: "Online Admission Enquiry Form",
+          mode: "💬 Text"
+        },
+        {
+          id: 3,
+          time: "10/28/2026, 09:40 AM",
+          query: "Who is the principal of BBPS Gadarwara?",
+          category: "About School & Leadership",
+          matchedTopic: "Principal & School Leadership",
+          mode: "🎙️ Voice"
+        },
+        {
+          id: 4,
+          time: "10/28/2026, 10:05 AM",
+          query: "What are the subjects in Class 11 and 12 Science stream?",
+          category: "Academics & Results",
+          matchedTopic: "CBSE Curriculum & Class 11-12 Streams",
+          mode: "💬 Text"
+        },
+        {
+          id: 5,
+          time: "10/28/2026, 10:22 AM",
+          query: "Tell me about Atal Tinkering Lab and sports facilities",
+          category: "Facilities & Sports",
+          matchedTopic: "Atal Tinkering Lab (ATL) & Science Labs",
+          mode: "🎙️ Voice"
+        },
+        {
+          id: 6,
+          time: "10/28/2026, 10:45 AM",
+          query: "What is the fee structure and admission process?",
+          category: "Admissions & Fees",
+          matchedTopic: "Admission Process & Required Documents",
+          mode: "💬 Text"
+        }
+      ];
+      localStorage.setItem('bbps_enterprise_logs_v4', JSON.stringify(userQueryLogs));
+    }
+
+    let admissionLeads = [];
+    try {
+      const savedLeads = localStorage.getItem('bbps_enterprise_leads_v4');
+      if (savedLeads) admissionLeads = JSON.parse(savedLeads);
+    } catch (e) {
+      admissionLeads = [];
+    }
+
+    if (!Array.isArray(admissionLeads) || admissionLeads.length === 0) {
+      admissionLeads = [
+        {
+          name: "Aarav Sharma",
+          parent: "Rajesh Sharma",
+          grade: "Class XI Science (PCM + AI)",
+          phone: "9826012345",
+          cat: "General Resident (Gadarwara)",
+          notes: "Gadarwara Main Road",
+          time: "10/28/2026, 09:25 AM"
+        }
+      ];
+      localStorage.setItem('bbps_enterprise_leads_v4', JSON.stringify(admissionLeads));
+    }
+
+    // ============================================================================
+    // 3. COMPLETE 32-MODULE BBPS GADARWARA KNOWLEDGE BASE
+    // ============================================================================
+    const schoolEntries = [
+      // 1. WHY CHOOSE BBPS GADARWARA
       {
-        id: "excellence",
-        category: "Excellence",
-        triggers: ["why bbps", "why choose", "benefits", "features", "ranking", "achievement", "highlights", "stand out"],
-        title: "Verified Institutional Pillars",
-        voiceText: "Bal Bharati Public School Gadarwara delivers certified academic excellence under Child Education Society New Delhi, backed by a 100 percent CBSE board pass record and Atal Tinkering Labs.",
-        markdown: `**Why Bal Bharati Public School, Gadarwara Stands Apart:**\n\n` +
-                  `• **Heritage:** Managed by the prestigious **Child Education Society (CES)**, New Delhi.\n` +
-                  `• **Unbroken Academic Track:** Proven **100% board pass results** across CBSE Class 10 & 12.\n` +
-                  `• **Innovation Center:** NITI Aayog supported **Atal Tinkering Lab (ATL)** with 3D Printing & Robotics.\n` +
-                  `• **Senior Electives:** Cutting-edge subjects including **Artificial Intelligence (AI)** & Computer Science.\n` +
-                  `• **Athletics & Physical Cultivation:** Dedicated grounds for Football, Basketball, Kabaddi, and guided Yoga.\n` +
-                  `• **Security Matrix:** Fully gated within NTPC Township with 24x7 surveillance and an on-campus infirmary.`
+        id: "why_choose_school",
+        title: "Why Choose BBPS Gadarwara?",
+        shortLabel: "🌟 Why Apply to BBPS?",
+        category: "About School & Leadership",
+        followUps: ["admission_form", "board_results", "facilities_atl"],
+        phrases: [
+          "why i apply in this school",
+          "why should i apply",
+          "why apply in this school",
+          "why apply to this school",
+          "why choose our school",
+          "why choose bbps",
+          "why join bbps",
+          "why take admission",
+          "why is this school best",
+          "benefits of joining",
+          "what is special about this school",
+          "why bbps gadarwara"
+        ],
+        keywords: ["why", "special", "benefit", "benefits", "advantage", "advantages", "reason", "reasons", "choose", "best"],
+        answer: `**🌟 Why Should You Apply to Bal Bharati Public School (BBPS), Gadarwara? (Top 7 Reasons):**
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-3">
+  <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
+    <div class="font-extrabold text-xs text-blue-900">1. 🏅 100% CBSE Board Results</div>
+    <p class="text-[11px] text-slate-600 mt-0.5">Consistent 100% pass record in Class X & XII CBSE Board Exams with top district merit ranks in Narsinghpur.</p>
+  </div>
+  <div class="p-3 rounded-xl bg-indigo-50 border border-indigo-200">
+    <div class="font-extrabold text-xs text-indigo-900">2. 🤖 Atal Tinkering & AI Labs</div>
+    <p class="text-[11px] text-slate-600 mt-0.5">Hands-on Robotics, Artificial Intelligence, 3D Printing, and dedicated Physics, Chemistry, Biology & Computer Labs.</p>
+  </div>
+  <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+    <div class="font-extrabold text-xs text-emerald-900">3. 🛡️ Safe, CCTV-Secured Green Campus</div>
+    <p class="text-[11px] text-slate-600 mt-0.5">Pollution-free township campus with 24×7 security, CCTV surveillance, RO drinking water, and medical infirmary.</p>
+  </div>
+  <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
+    <div class="font-extrabold text-xs text-amber-900">4. 🏆 National Sports & Co-Curriculars</div>
+    <p class="text-[11px] text-slate-600 mt-0.5">Expansive grounds for Football, Cricket, Basketball, Kabaddi, Yoga, Music, Dance & CBSE Cluster tournaments.</p>
+  </div>
+</div>
+
+• **5. 🏛️ 80+ Year Legacy of Child Education Society (CES, New Delhi):** Governed by one of India's most respected educational bodies (founded in 1944).
+• **6. 👨‍🏫 Experienced Faculty & JEE/NEET Guidance:** CBSE-trained PGT, TGT, and PRT educators led by Principal **Dr. Anurag Pandey**.
+• **7. 🚌 Open to All Residents:** Welcomes both local students from Gadarwara/Narsinghpur (with safe school bus connectivity) and township wards.`,
+        voiceText: "Here are the top 7 reasons to apply to Bal Bharati Public School Gadarwara: First, a 100 percent pass record in CBSE Class 10 and 12 board exams. Second, an advanced Atal Tinkering Lab for Robotics and Artificial Intelligence alongside modern science labs. Third, a safe, CCTV-secured green campus. Fourth, national-level sports facilities and experienced faculty under Principal Dr. Anurag Pandey."
       },
+
+      // 2. ONLINE ADMISSION FORM
       {
-        id: "principal",
-        category: "Administration",
-        triggers: ["principal", "dr pandey", "anurag pandey", "headmaster", "meet principal", "appointment"],
-        title: "Principal Leadership & Office Protocol",
-        voiceText: "The campus is headed by Principal Doctor Anurag Pandey. Parents may schedule appointments between 10:00 AM and 11:30 AM on working days.",
-        markdown: `**Office of the Principal:**\n\n` +
-                  `• **Principal:** Dr. Anurag Pandey\n` +
-                  `• **Visiting Hours:** 10:00 AM – 11:30 AM (Working Days)\n` +
-                  `• **Appointment Protocol:** Prior registration via administrative desk or front helpdesk is mandatory to ensure structured time.`
+        id: "admission_form",
+        title: "Online Admission Enquiry Form",
+        shortLabel: "📝 Fill Admission Form",
+        category: "Admissions & Fees",
+        followUps: ["admission_process", "age_entrance", "fees_scholarships"],
+        phrases: [
+          "fill admission form",
+          "open online admission form",
+          "admission form",
+          "enquiry form",
+          "registration form",
+          "give me admission form",
+          "i want to fill form",
+          "apply online form"
+        ],
+        keywords: ["form", "register"],
+        answer: `**📝 BBPS Gadarwara — Official Online Admission Enquiry Form (2026–27):**
+Fill in the student details below. Submitting this form automatically saves the lead to our **📊 User Data & Graphs Dashboard** and opens your email to forward the details directly to **nikhilpatel6105@gmail.com**.
+
+<form onsubmit="submitAdmissionForm(event)" class="mt-3 space-y-3 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-200 shadow-inner">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div>
+      <label class="text-xs font-bold text-slate-700">Student Full Name *</label>
+      <input type="text" id="studentName" placeholder="e.g., Aarav Patel" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700">Parent / Guardian Name *</label>
+      <input type="text" id="parentName" placeholder="Father or Mother Name" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+    </div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div>
+      <label class="text-xs font-bold text-slate-700">Class Applying For *</label>
+      <select id="applyClass" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+        <option value="">-- Select Class --</option>
+        <option value="Pre-Primary (Nursery / LKG / UKG)">Pre-Primary (Nursery / LKG / UKG)</option>
+        <option value="Primary (Class I to V)">Primary (Class I to V)</option>
+        <option value="Middle (Class VI to VIII)">Middle (Class VI to VIII)</option>
+        <option value="Secondary (Class IX & X)">Secondary (Class IX & X)</option>
+        <option value="Class XI Science (PCM / PCB + AI)">Class XI Science (PCM / PCB + AI)</option>
+        <option value="Class XI Commerce">Class XI Commerce</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700">Phone / WhatsApp Number *</label>
+      <input type="tel" id="parentPhone" placeholder="10-Digit Mobile Number" required class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl focus:outline-none focus:border-blue-600">
+    </div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <div>
+      <label class="text-xs font-bold text-slate-700">Admission Category</label>
+      <select id="studentCategory" class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
+        <option value="General Resident (Gadarwara / Non-NTPC)">General Resident (Gadarwara / Non-NTPC)</option>
+        <option value="NTPC / CISF Employee Ward">NTPC / CISF Employee Ward</option>
+      </select>
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700">City / Current School</label>
+      <input type="text" id="studentNotes" placeholder="e.g., Gadarwara Town" class="w-full mt-1 text-xs sm:text-sm p-2.5 bg-white border border-slate-300 rounded-xl">
+    </div>
+  </div>
+  <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold transition shadow-md">
+    📩 Submit Admission Form & Forward to Gmail
+  </button>
+</form>`,
+        voiceText: "I have opened the BBPS Gadarwara Online Admission Enquiry Form. Please enter the student name, parent name, class, and mobile number, then click Submit."
       },
+
+      // 3. PRINCIPAL & LEADERSHIP
       {
-        id: "streams",
-        category: "Academics",
-        triggers: ["stream", "class 11", "class 12", "science", "commerce", "pcm", "pcb", "subject selection"],
-        title: "Senior Secondary (Class 11 & 12) Streams",
-        voiceText: "We offer Senior Secondary streams in Science and Commerce, enriched with modern electives like Artificial Intelligence and Computer Science.",
-        markdown: `**CBSE Senior Secondary Stream Offerings:**\n\n` +
-                  `• **Science Stream:** English Core, Physics, Chemistry, with Mathematics / Biology, and electives in **Artificial Intelligence (AI)**, Computer Science, or Physical Education.\n` +
-                  `• **Commerce Stream:** English Core, Accountancy, Business Studies, Economics, and Applied Mathematics or Informatics Practices.\n` +
-                  `• **Integrated Coaching:** Curriculum aligned with national competitive requirements (JEE / NEET / CUET fundamentals).`
+        id: "principal_info",
+        title: "Principal & School Leadership",
+        shortLabel: "👨‍🏫 Principal Info",
+        category: "About School & Leadership",
+        followUps: ["president_governance", "vision_mission", "school_timings"],
+        phrases: ["who is the principal", "principal of bbps", "principal name", "head of school", "dr anurag pandey", "principal sir", "प्राचार्य"],
+        keywords: ["principal", "anurag", "pandey", "headmaster"],
+        answer: `**👨‍🏫 Principal & Academic Leadership (BBPS Gadarwara):**
+• **Principal Name:** **Dr. Anurag Pandey** is the Principal of Bal Bharati Public School, Gadarwara.
+• **Educational Leadership:** Under Dr. Anurag Pandey's guidance, BBPS Gadarwara focuses on NEP 2020 experiential pedagogy, AI & coding integration, Atal Tinkering Lab innovation, discipline, and 100% CBSE board results.
+• **Principal Visiting Hours:** **10:00 AM to 11:30 AM** on working days (prior appointment at reception recommended).`,
+        voiceText: "Dr. Anurag Pandey is the Principal of Bal Bharati Public School, Gadarwara. Parents and visitors can meet the Principal between 10 AM and 11:30 AM on working days."
       },
+
+      // 4. SCHOOL AT A GLANCE
       {
-        id: "timings",
-        category: "Administration",
-        triggers: ["timings", "hours", "school time", "office time", "schedule", "shift", "holiday"],
-        title: "Institutional Hours & Working Days",
-        voiceText: "Student instructional hours run from 7:45 AM to 2:00 PM Monday through Saturday. The second Saturday of each month is a holiday.",
-        markdown: `**Campus Working Hours & Calendar:**\n\n` +
-                  `• **Student Instruction:** 7:45 AM – 2:00 PM (Monday through Saturday)\n` +
-                  `• **Administrative Office:** 8:30 AM – 1:30 PM\n` +
-                  `• **Second Saturday:** Observed as an official closed holiday for all departments.`
+        id: "school_glance",
+        title: "School at a Glance",
+        shortLabel: "🏫 School at a Glance",
+        category: "About School & Leadership",
+        followUps: ["why_choose_school", "history_ces", "curriculum_streams"],
+        phrases: ["school at a glance", "know about school", "about our school", "about bbps", "tell me about school", "school information", "school overview"],
+        keywords: ["glance", "overview", "about", "profile", "introduction"],
+        answer: `**🏫 Bal Bharati Public School (BBPS) Gadarwara — School at a Glance:**
+• **Institution Name:** Bal Bharati Public School, Gadarwara (Dist. Narsinghpur, Madhya Pradesh – 487770).
+• **Parent Organization:** Managed by the **Child Education Society (CES), New Delhi** (established in 1944).
+• **Board Affiliation:** Central Board of Secondary Education (**CBSE, New Delhi**).
+• **Classes Offered:** **Nursery, LKG, UKG up to Class XII** (Science & Commerce Streams).
+• **Medium of Instruction:** English (with Hindi and Sanskrit offered).
+• **Principal:** **Dr. Anurag Pandey**.`,
+        voiceText: "Bal Bharati Public School Gadarwara is a premier English-medium CBSE school from Nursery to Class 12, managed by the Child Education Society New Delhi, with Dr. Anurag Pandey as Principal."
       },
+
+      // 5. VISION, MISSION & CORE VALUES
       {
-        id: "atl",
-        category: "Infrastructure",
-        triggers: ["atl", "robotics", "tinkering", "labs", "science lab", "technology", "stem", "3d printer"],
-        title: "Atal Tinkering Lab (ATL) & STEM Hub",
-        voiceText: "Our Atal Tinkering Lab is supported by NITI Aayog, equipping students from Class 6 onward with robotics, 3D printing, and IoT tools.",
-        markdown: `**Atal Tinkering Lab (ATL) & Scientific Facilities:**\n\n` +
-                  `• **National Mandate:** Sanctioned under the Atal Innovation Mission (NITI Aayog, Govt. of India).\n` +
-                  `• **Hardware Suite:** 3D Printers, STEM prototyping robotics kits, Arduino/Raspberry Pi microcontrollers, sensors, and mechanical workbenches.\n` +
-                  `• **Scope:** Active hands-on design thinking starting from Grade 6 to nurture inventors and problem solvers.`
+        id: "vision_mission",
+        title: "Vision, Mission & Core Values",
+        shortLabel: "🎯 Vision & Mission",
+        category: "About School & Leadership",
+        followUps: ["school_glance", "teaching_approach", "faculty_care"],
+        phrases: ["vision", "mission", "core values", "school motto", "hanso nayatu"],
+        keywords: ["vision", "mission", "values", "motto"],
+        answer: `**🎯 Vision, Mission & Core Values (BBPS Gadarwara):**
+• **School Motto:** *"Hanso Nayatu Naha Pragyam"* (Lead Us Unto Light).
+• **Vision:** To provide holistic, value-based education that empowers students to become confident, ethical, and innovative global citizens rooted in Indian cultural heritage.
+• **Mission:** 
+  1. Deliver learner-centric, experiential education aligned with **NEP 2020**.
+  2. Foster scientific temper, AI & digital literacy, artistic creativity, and physical fitness.
+• **Core Values:** Integrity, Excellence, Empathy, Discipline, Environmental Stewardship, and Nation Building.`,
+        voiceText: "Our school motto is Hanso Nayatu Naha Pragyam, meaning Lead Us Unto Light. Our vision is to nurture confident, ethical, and innovative citizens through holistic CBSE education."
+      },
+
+      // 6. SCHOOL HISTORY & CES LEGACY
+      {
+        id: "history_ces",
+        title: "School History & CES Society",
+        shortLabel: "🏛️ History & CES",
+        category: "About School & Leadership",
+        followUps: ["president_governance", "public_disclosure", "why_choose_school"],
+        phrases: ["school history", "legacy", "child education society", "ces new delhi", "history of bbps", "lala hansraj gupta"],
+        keywords: ["history", "legacy", "ces", "society", "founded", "hansraj"],
+        answer: `**🏛️ School History & Child Education Society (CES, New Delhi):**
+• **Parent Body (CES):** The **Child Education Society (CES)** was founded in **1944** in New Delhi by eminent freedom fighters and educationists led by **Late Lala Hansraj Gupta**. Today, CES governs over 25+ premier Bal Bharati Public Schools and training institutions across India.
+• **BBPS Gadarwara:** Established in Gadarwara (Narsinghpur district) to provide national-standard CBSE education to children from Gadarwara town, nearby villages, and the township.`,
+        voiceText: "BBPS Gadarwara is governed by the Child Education Society, New Delhi, which was founded in 1944 by Late Lala Hansraj Gupta and runs over 25 Bal Bharati schools across India."
+      },
+
+      // 7. PRESIDENT MESSAGE & GOVERNANCE
+      {
+        id: "president_governance",
+        title: "President Message & Governance",
+        shortLabel: "📜 President Message",
+        category: "About School & Leadership",
+        followUps: ["principal_info", "history_ces", "public_disclosure"],
+        phrases: ["message from the president", "president message", "leadership and governance", "nikhil channa"],
+        keywords: ["president", "governance", "committee", "management", "channa"],
+        answer: `**📜 Message From The President & School Governance:**
+• **President (CES, New Delhi):** **Shri Nikhil Channa**, President of the Child Education Society, inspires all Bal Bharati institutions to blend modern scientific, coding, and AI capabilities with strong moral character and social responsibility.
+• **School Managing Committee (SMC):** Comprises senior educationists from CES New Delhi, Principal **Dr. Anurag Pandey**, administrative officials, and parent/teacher representatives.`,
+        voiceText: "The President of the Child Education Society is Shri Nikhil Channa. The school is governed by the CES Board and the School Managing Committee."
+      },
+
+      // 8. MANDATORY PUBLIC DISCLOSURE
+      {
+        id: "public_disclosure",
+        title: "Mandatory Public Disclosure",
+        shortLabel: "📋 Public Disclosure",
+        category: "About School & Leadership",
+        followUps: ["school_glance", "fees_scholarships", "tc_faqs"],
+        phrases: ["mandatory public disclosure", "accreditation", "affiliations", "noc certificate", "safety certificate"],
+        keywords: ["disclosure", "mandatory", "accreditation", "affiliation", "noc"],
+        answer: `**📋 Mandatory Public Disclosure & Accreditations:**
+• **Board Affiliation:** Affiliated to **CBSE, New Delhi** up to Senior Secondary (Class XII).
+• **Statutory Safety & Compliance Certificates:** Holds valid Building Safety Certificate, Fire Safety Certificate, Safe Drinking Water & Sanitary Condition Certificate, and State Government Recognition/NOC in full compliance with CBSE Appendix-IX norms.`,
+        voiceText: "BBPS Gadarwara complies with all CBSE Mandatory Public Disclosure requirements, holding verified Building Safety, Fire Safety, Sanitation, and CBSE Senior Secondary Affiliation certificates."
+      },
+
+      // 9. FACULTY & PHILOSOPHY OF CARE
+      {
+        id: "faculty_care",
+        title: "Faculty & Philosophy of Care",
+        shortLabel: "🤝 Faculty & Care",
+        category: "About School & Leadership",
+        followUps: ["principal_info", "teaching_approach", "career_counseling"],
+        phrases: ["faculty", "our philosophy of care", "teachers in bbps", "student safety", "infirmary", "medical facility"],
+        keywords: ["faculty", "teacher", "teachers", "care", "philosophy", "safety", "medical", "infirmary"],
+        answer: `**🤝 Faculty & Our Philosophy of Care:**
+• **Experienced Educators:** Highly qualified Postgraduate (PGT), Trained Graduate (TGT), and Primary (PRT) teachers regularly trained through **CES Training Centre** and **CBSE Capacity Building Workshops**.
+• **Philosophy of Care:** Healthy teacher-student ratio ensuring individual mentorship, emotional counseling, anti-bullying vigilance, 24×7 CCTV security, RO drinking water, and an on-campus medical infirmary.`,
+        voiceText: "Our school has experienced PGT, TGT, and PRT teachers. Our Philosophy of Care ensures personal mentorship, CCTV security, and medical care for every student."
+      },
+
+      // 10. ADMISSION PROCESS & DOCUMENTS
+      {
+        id: "admission_process",
+        title: "Admission Process & Required Documents",
+        shortLabel: "📑 Admission Process",
+        category: "Admissions & Fees",
+        followUps: ["admission_form", "age_entrance", "fees_scholarships"],
+        phrases: ["admission process", "how to get admission", "how to apply", "documents required", "new admission", "admission procedure"],
+        keywords: ["admission", "admissions", "process", "documents", "document", "procedure"],
+        answer: `**📑 Admission Process & Required Documents (BBPS Gadarwara):**
+• **Open to All:** Admissions are open to both **local residents of Gadarwara/Narsinghpur** and township wards from **Nursery to Class XII**.
+• **Step-by-Step Procedure:**
+  1. Fill out the **Online Admission Form** in this chatbot or collect the registration form from the School Admin Office (8:30 AM – 1:30 PM).
+  2. Attend the child interaction (for Nursery/KG) or entrance assessment (for Classes I to IX & XI).
+  3. Submit documents and complete fee payment to confirm admission.
+• **Required Documents:**
+  - Original Birth Certificate (for Nursery to Class I)
+  - Counter-signed Transfer Certificate (TC) & Previous Report Card (Class II onwards)
+  - Aadhaar Card copies of Student & Parents + 4 Passport-size Photographs.`,
+        voiceText: "Admissions are open to both Gadarwara town residents and township wards. Required documents include Birth Certificate, Transfer Certificate, previous Report Card, Aadhaar Card, and 4 passport photos."
+      },
+
+      // 11. AGE CRITERIA & ENTRANCE TEST
+      {
+        id: "age_entrance",
+        title: "Age Criteria & Entrance Assessment",
+        shortLabel: "👶 Age & Entrance Exam",
+        category: "Admissions & Fees",
+        followUps: ["admission_form", "admission_process", "curriculum_streams"],
+        phrases: ["entrance requirements", "age criteria", "entrance test", "minimum age for nursery", "syllabus for entrance"],
+        keywords: ["age", "criteria", "entrance", "eligibility", "nursery", "lkg", "ukg"],
+        answer: `**👶 Age Criteria & Entrance Assessment Requirements:**
+• **Age Eligibility (as of 31st March of the academic year):**
+  - **Nursery:** 3+ Years | **LKG:** 4+ Years | **UKG:** 5+ Years | **Class I:** 6+ Years (NEP 2020 norms).
+• **Entrance Assessment Pattern:**
+  - **Pre-Primary:** Friendly, stress-free interaction with child and parents (no written test).
+  - **Classes I to IX:** Written test in English, Mathematics, Hindi, and Science based on previous class NCERT syllabus.
+  - **Class XI:** Based on Class X Board Marks and stream eligibility for Science (PCM/PCB) & Commerce.`,
+        voiceText: "The minimum age as of March 31st is 3 plus years for Nursery and 6 plus years for Class 1. Pre-primary admission is through interaction, while Classes 1 and above have a written entrance test."
+      },
+
+      // 12. FEE STRUCTURE & SCHOLARSHIPS
+      {
+        id: "fees_scholarships",
+        title: "Fee Structure & Scholarships",
+        shortLabel: "💳 Fees & Scholarships",
+        category: "Admissions & Fees",
+        followUps: ["admission_form", "admission_process", "contact_portal"],
+        phrases: ["fee structure", "scholarships", "financial aid", "tuition fee", "how to pay fees", "how much is fee", "online fee payment"],
+        keywords: ["fee", "fees", "scholarship", "scholarships", "payment", "charges", "quarterly"],
+        answer: `**💳 Fee Structure, Online Payment & Scholarships:**
+• **Online Fee Payment:** Collected quarterly via the **BBPS Online Fee Portal** using UPI, Net Banking, Debit Card, or Credit Card.
+• **Transparent Slabs:** SMC-approved fee structure with separate categories for General Public residents and Township wards.
+• **Scholarships & Merit Awards:** Meritorious students excelling in CBSE Board Exams, National Olympiads, and CBSE Cluster Sports receive merit scholarships and honors as per CES norms.`,
+        voiceText: "School fees are collected quarterly via the online fee portal using UPI, cards, or net banking. Merit scholarships are awarded to top performers in academics and sports."
+      },
+
+      // 13. TRANSFER CERTIFICATE (TC) & FAQS
+      {
+        id: "tc_faqs",
+        title: "Transfer Certificate (TC) & FAQs",
+        shortLabel: "📄 Transfer Certificate",
+        category: "Admissions & Fees",
+        followUps: ["public_disclosure", "contact_portal", "admission_process"],
+        phrases: ["transfer certificate", "how to get tc", "download tc", "leaving certificate", "admission faqs"],
+        keywords: ["tc", "transfer", "leaving", "faq", "faqs"],
+        answer: `**📄 Transfer Certificate (TC) Procedure & FAQs:**
+• **How to Apply for TC:** Parents must submit a written application to the Principal along with a No-Dues Clearance from the Library, Science/Computer Labs, and Accounts Office.
+• **CBSE Verification:** All issued Transfer Certificates are uploaded with a verifiable serial and admission number as per CBSE norms.`,
+        voiceText: "To obtain a Transfer Certificate, parents should submit a written application to the Principal and clear library and accounts dues."
+      },
+
+      // 14. SCHOOL TIMINGS & OFFICE HOURS
+      {
+        id: "school_timings",
+        title: "School Timings & Office Hours",
+        shortLabel: "🕒 School Timings",
+        category: "Academics & Results",
+        followUps: ["academic_calendar", "principal_info", "transport_bus"],
+        phrases: ["school timings", "office hours", "what time does school open", "visiting hours", "school time"],
+        keywords: ["timing", "timings", "hours", "time", "open", "close", "schedule"],
+        answer: `**🕒 School Timings & Visitor Office Hours:**
+• **Student School Hours:** **7:45 AM to 2:00 PM** (Monday to Saturday; 2nd Saturday is a holiday).
+• **Admin & Fee Office Hours:** **8:30 AM to 1:30 PM** on working days.
+• **Principal Visiting Hours:** **10:00 AM to 11:30 AM** on working days.`,
+        voiceText: "BBPS Gadarwara student timings are from 7:45 AM to 2:00 PM, Monday to Saturday. The administrative office is open from 8:30 AM to 1:30 PM."
+      },
+
+      // 15. CURRICULUM & CLASS 11-12 STREAMS
+      {
+        id: "curriculum_streams",
+        title: "CBSE Curriculum & Class 11-12 Streams",
+        shortLabel: "📘 Class 11–12 Streams",
+        category: "Academics & Results",
+        followUps: ["board_results", "career_counseling", "facilities_atl"],
+        phrases: ["curriculum overview", "streams in class 11", "subjects in class 11", "class 11 and 12", "science stream", "commerce stream"],
+        keywords: ["curriculum", "stream", "streams", "subject", "subjects", "pcm", "pcb", "commerce", "science", "syllabus"],
+        answer: `**📘 CBSE Curriculum & Senior Secondary Streams (Class XI & XII):**
+• **Pre-Primary to Class V:** Play-way & experiential learning aligned with NEP 2020.
+• **Middle & Secondary (Class VI – X):** English, Hindi, Sanskrit, Mathematics, Science, Social Science, **Artificial Intelligence (AI)**, and Information Technology.
+• **Senior Secondary (Class XI & XII):**
+  1. **Science Stream:** Physics, Chemistry, Mathematics (PCM) / Biology (PCB), English Core, plus **Artificial Intelligence (AI)**, Computer Science, and Physical Education.
+  2. **Commerce Stream:** Accountancy, Business Studies, Economics, English Core, Mathematics / Informatics Practices / Physical Education.`,
+        voiceText: "In Classes 11 and 12, BBPS Gadarwara offers Science with PCM or PCB and Commerce streams, along with Artificial Intelligence, Computer Science, and Physical Education."
+      },
+
+      // 16. TEACHING APPROACH & SMART CLASSES
+      {
+        id: "teaching_approach",
+        title: "Teaching Approach & Smart Classrooms",
+        shortLabel: "💡 Teaching Approach",
+        category: "Academics & Results",
+        followUps: ["curriculum_streams", "facilities_atl", "board_results"],
+        phrases: ["teaching and learning", "teaching approach", "smart classes", "pedagogy", "nep 2020"],
+        keywords: ["teaching", "learning", "smart", "pedagogy", "nep", "experiential"],
+        answer: `**💡 Teaching & Learning Approach (NEP 2020):**
+• **Digital Smart Classrooms:** Equipped with interactive flat panels and audio-visual learning modules.
+• **Experiential Pedagogy:** Focuses on hands-on lab experiments, robotics, coding, art integration, and project-based learning rather than rote memorization.`,
+        voiceText: "Our teaching approach follows NEP 2020, utilizing interactive smart classrooms, laboratory experiments, and project-based learning."
+      },
+
+      // 17. BOARD RESULTS & ASSESSMENT POLICY
+      {
+        id: "board_results",
+        title: "CBSE Board Results & Assessment Policy",
+        shortLabel: "🏅 Board Results",
+        category: "Academics & Results",
+        followUps: ["why_choose_school", "curriculum_streams", "achievers_gallery"],
+        phrases: ["board results", "assessment policy", "exam pattern", "class 10 result", "class 12 result", "toppers"],
+        keywords: ["result", "results", "board", "assessment", "exam", "exams", "topper"],
+        answer: `**🏅 CBSE Board Results & Assessment Policy:**
+• **100% Pass Record:** BBPS Gadarwara consistently achieves a **100% pass rate** in CBSE Class X and Class XII Board Examinations, with numerous students scoring above **95%** and securing district ranks in Narsinghpur.
+• **Assessment Policy:** Continuous competency-based evaluation for primary classes; Periodic Tests, Subject Enrichment, Practical Projects, and Terminal/Pre-Board exams for senior classes.`,
+        voiceText: "BBPS Gadarwara consistently achieves a 100 percent pass result in CBSE Class 10 and Class 12 board exams, with numerous students scoring above 95 percent."
+      },
+
+      // 18. CAREER COUNSELING & GUIDANCE
+      {
+        id: "career_counseling",
+        title: "Career Counseling & JEE/NEET Guidance",
+        shortLabel: "🎓 Career Counseling",
+        category: "Academics & Results",
+        followUps: ["curriculum_streams", "board_results", "faculty_care"],
+        phrases: ["college and career counseling", "career counseling", "academic support", "jee neet", "remedial classes"],
+        keywords: ["counseling", "guidance", "college", "remedial", "support", "neet", "jee", "cuet"],
+        answer: `**🎓 Academic Support & College/Career Counseling:**
+• **Career Guidance Cell:** Regular workshops for Class IX–XII students on **JEE, NEET, CUET, CLAT, NDA, Defence, and AI/Engineering careers**.
+• **Remedial & Olympiad Support:** Personalized remedial classes for concept clarity and specialized mentorship for National Olympiads and Science Exhibitions.`,
+        voiceText: "We provide career counseling for Classes 9 to 12 covering JEE, NEET, CUET, and Defence exams, along with remedial support and Olympiad coaching."
+      },
+
+      // 19. ACADEMIC CALENDAR & HOLIDAYS
+      {
+        id: "academic_calendar",
+        title: "Academic Calendar, Circulars & Holidays",
+        shortLabel: "📅 Calendar & Holidays",
+        category: "Academics & Results",
+        followUps: ["school_timings", "contact_portal", "board_results"],
+        phrases: ["academic calendar", "holidays", "vacation", "ptm schedule", "circulars"],
+        keywords: ["calendar", "holiday", "holidays", "vacation", "circular", "circulars", "ptm"],
+        answer: `**📅 Academic Calendar, Circulars & Vacations:**
+• **Academic Session:** April to March.
+• **Major Vacations:** Summer Vacation (May–June), Dussehra & Diwali Break (October/November), and Winter Break (late December).
+• **PTM & Circulars:** Parent-Teacher Meetings are held after periodic tests; all circulars are shared via the Parent Portal.`,
+        voiceText: "The academic session runs from April to March, with summer vacation in May and June, Diwali break, and winter break in late December."
+      },
+
+      // 20. CAMPUS FACILITIES & ATL ROBOTICS LAB
+      {
+        id: "facilities_atl",
+        title: "Atal Tinkering Lab (ATL) & Science Labs",
+        shortLabel: "🔬 ATL & Science Labs",
+        category: "Facilities & Sports",
+        followUps: ["sports_activities", "why_choose_school", "curriculum_streams"],
+        phrases: ["campus facilities", "atal tinkering lab", "atl lab", "science labs", "computer lab", "library", "robotics"],
+        keywords: ["facility", "facilities", "atl", "tinkering", "lab", "labs", "robotics", "library", "infrastructure"],
+        answer: `**🔬 Campus Infrastructure, Science Labs & Atal Tinkering Lab (ATL):**
+• **Atal Tinkering Lab (ATL):** NITI Aayog innovation lab equipped with **Robotics kits, Arduino/IoT sensors, 3D Printers, and AI workstations**.
+• **Science, Math & Computer Labs:** Separate, modern **Physics, Chemistry, Biology, Mathematics, and High-Speed Computer Labs**.
+• **Library:** Thousands of reference books, NCERT textbooks, magazines, and digital learning resources.`,
+        voiceText: "BBPS Gadarwara features an Atal Tinkering Lab for robotics, 3D printing, and AI, along with dedicated Physics, Chemistry, Biology, Mathematics, and Computer labs."
+      },
+
+      // 21. SPORTS & CO-CURRICULAR ACTIVITIES
+      {
+        id: "sports_activities",
+        title: "Sports, Co-Curricular & Outward Bound",
+        shortLabel: "🏆 Sports & Clubs",
+        category: "Facilities & Sports",
+        followUps: ["achievers_gallery", "facilities_atl", "why_choose_school"],
+        phrases: ["beyond academics", "sports", "co-curricular", "outward bound", "games", "kabaddi", "football", "cricket"],
+        keywords: ["sports", "sport", "games", "football", "cricket", "basketball", "kabaddi", "yoga", "music", "dance", "outward"],
+        answer: `**🏆 Sports, Co-Curricular Activities & Outward Bound:**
+• **Sports Facilities:** Expansive playgrounds and courts for **Football, Cricket, Basketball, Volleyball, Badminton, Kabaddi, Kho-Kho, Athletics, Chess, Table Tennis, and Yoga**.
+• **Co-Curricular Clubs:** Vocal & Instrumental Music, Dance, Fine Arts, Debate & Literary Club, Eco Club, and Science/AI Club.
+• **Outward Bound:** Educational tours, adventure camps, and CBSE Cluster sports tournaments.`,
+        voiceText: "We offer grounds and courts for football, cricket, basketball, volleyball, kabaddi, athletics, and yoga, along with music, dance, and science clubs."
+      },
+
+      // 22. PHOTO, VIDEO & ACHIEVERS GALLERY
+      {
+        id: "achievers_gallery",
+        title: "Photo, Video & Achievers Gallery",
+        shortLabel: "🖼️ Campus Gallery",
+        category: "Facilities & Sports",
+        followUps: ["board_results", "sports_activities", "facilities_atl"],
+        phrases: ["photo gallery", "video gallery", "achievers gallery", "gallery", "student achievers", "recognitions"],
+        keywords: ["gallery", "photo", "photos", "video", "videos", "achiever", "achievers", "awards"],
+        answer: `**🖼️ School Photo, Video & Achievers Gallery:**
+• **Photo Gallery:** Annual Day, Investiture Ceremony, Republic & Independence Day Parades, Smart Classrooms, and Green Campus.
+• **Video Gallery:** ATL Robotics & AI Exhibitions, Cultural Dance & Music Performances, and Annual Sports Meet.
+• **Achievers Gallery:** Showcases Class X & XII CBSE Board Toppers, Olympiad Medalists, and CBSE Cluster Sports Champions.`,
+        voiceText: "Our Photo, Video, and Achievers Galleries showcase our Annual Day celebrations, ATL robotics projects, sports events, and CBSE board toppers."
+      },
+
+      // 23. TRANSPORT & SCHOOL BUS
+      {
+        id: "transport_bus",
+        title: "School Bus & Transport Facility",
+        shortLabel: "🚌 School Bus",
+        category: "Facilities & Sports",
+        followUps: ["school_timings", "contact_portal", "admission_form"],
+        phrases: ["school bus", "transport facility", "bus route", "bus from gadarwara"],
+        keywords: ["bus", "transport", "transportation", "route", "van"],
+        answer: `**🚌 School Bus & Transport Facility:**
+• **Safe Connectivity:** Supervised school bus transport operates for students commuting from **Gadarwara town and surrounding areas** as well as within the township, equipped with first-aid kits, speed governors, CCTV, and trained attendants.`,
+        voiceText: "Safe school bus and transport connectivity is available for students commuting from Gadarwara town and surrounding areas."
+      },
+
+      // 24. SCHOOL ADDRESS, CONTACT & PARENT PORTAL
+      {
+        id: "contact_portal",
+        title: "School Address, Contact & Parent Portal",
+        shortLabel: "📞 Contact & Location",
+        category: "About School & Leadership",
+        followUps: ["school_timings", "admission_form", "transport_bus"],
+        phrases: ["contact us", "contact details", "school address", "where is bbps", "parent portal login", "location map"],
+        keywords: ["contact", "address", "location", "where", "phone", "email", "portal", "login", "map"],
+        answer: `**📞 School Address, Contact Details & Parent Portal:**
+• **Address:** Bal Bharati Public School, NTPC Township, Village Gangai, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh – **487770** (~14 km from Gadarwara Railway Station).
+• **Official Website:** \`bbpsgadarwara.balbharati.org\`
+• **Admin Enquiry Email:** \`nikhilpatel6105@gmail.com\`
+• **Parent Portal Login:** Registered parents can log in via the school portal/app to check attendance, circulars, homework, report cards, and pay fees online.`,
+        voiceText: "BBPS Gadarwara is located at Village Gangai, Tehsil Gadarwara, District Narsinghpur, Madhya Pradesh, PIN 487770, about 14 kilometers from Gadarwara Railway Station."
+      },
+
+      // 25. CAREERS & TEACHING JOBS
+      {
+        id: "careers_jobs",
+        title: "Careers & Teaching Jobs at BBPS",
+        shortLabel: "💼 Jobs & Vacancies",
+        category: "About School & Leadership",
+        followUps: ["faculty_care", "contact_portal", "school_glance"],
+        phrases: ["careers at our school", "job options", "teaching jobs", "vacancy in bbps", "hiring", "recruitment"],
+        keywords: ["job", "jobs", "career", "careers", "vacancy", "vacancies", "recruitment", "hiring"],
+        answer: `**💼 Careers & Teaching Job Options at BBPS Gadarwara:**
+• **Open Positions:** We recruit qualified **PGT, TGT, PRT, and Pre-Primary Teachers**, Activity Coaches (Sports, Music, Art), Lab Assistants, and Admin Staff.
+• **Eligibility:** Post-Graduation / Graduation with **B.Ed. and CTET/STET** qualification as per CBSE & Child Education Society (CES) norms.`,
+        voiceText: "BBPS Gadarwara hires qualified PGT, TGT, and PRT teachers with B.Ed. and CTET qualifications."
+      },
+
+      // 26. SCHOOL UNIFORM & DISCIPLINE CODE
+      {
+        id: "uniform_discipline",
+        title: "School Uniform & Student Discipline Code",
+        shortLabel: "👔 Uniform & Discipline",
+        category: "About School & Leadership",
+        followUps: ["school_timings", "house_system", "faculty_care"],
+        phrases: ["school uniform", "dress code", "discipline rules", "student code of conduct"],
+        keywords: ["uniform", "dress", "discipline", "conduct", "rules"],
+        answer: `**👔 School Uniform & Student Code of Conduct:**
+• **Regular & House Uniform:** Students wear the prescribed BBPS summer/winter uniform on regular days and their respective **House Tracksuit/T-Shirt** on P.T. and House Activity days.
+• **Code of Conduct:** Punctuality (before 7:45 AM), neat grooming, respect for teachers and peers, care for school property, and strict prohibition of mobile phones or electronic gadgets during school hours.`,
+        voiceText: "Students follow the prescribed BBPS summer and winter uniform along with house uniforms on activity days, maintaining punctuality and discipline."
+      },
+
+      // 27. HOUSE SYSTEM & STUDENT COUNCIL
+      {
+        id: "house_system",
+        title: "House System & Student Council",
+        shortLabel: "🛡️ House System",
+        category: "Facilities & Sports",
+        followUps: ["sports_activities", "achievers_gallery", "uniform_discipline"],
+        phrases: ["house system", "student council", "head boy", "head girl", "investiture ceremony", "houses in bbps"],
+        keywords: ["house", "houses", "council", "prefect", "investiture", "captain"],
+        answer: `**🛡️ Four-House System & Student Council (Investiture):**
+• **Inter-House Competitions:** Students are divided into four houses that compete throughout the year in Debate, Quiz, Art, Music, Athletics, Football, Basketball, and Kabaddi.
+• **Student Council:** Elected **Head Boy, Head Girl, Sports Captains, House Captains, and Prefects** are sworn in during the annual **Investiture Ceremony** to build democratic leadership.`,
+        voiceText: "Our four-house system and elected Student Council nurture leadership through inter-house debates, quizzes, cultural events, and sports competitions."
+      },
+
+      // 28. DIGITAL LIBRARY & READING PROGRAM
+      {
+        id: "library_reading",
+        title: "Library & Reading Enrichment Program",
+        shortLabel: "📖 Library & Books",
+        category: "Facilities & Sports",
+        followUps: ["facilities_atl", "curriculum_streams", "teaching_approach"],
+        phrases: ["school library", "books in library", "reading program", "digital library"],
+        keywords: ["library", "book", "books", "reading", "magazine", "encyclopedia"],
+        answer: `**📖 School Library & Reading Program:**
+• **Collection:** Houses thousands of NCERT textbooks, JEE/NEET reference books, encyclopedias, English & Hindi literature, biographies, periodicals, and daily newspapers.
+• **Reading Habit:** Dedicated library periods for all classes encourage book reviews, storytelling, and research skills.`,
+        voiceText: "The BBPS library offers thousands of reference books, encyclopedias, periodicals, and fiction to cultivate daily reading habits."
+      },
+
+      // 29. MEDICAL INFIRMARY & CAMPUS SECURITY
+      {
+        id: "medical_security",
+        title: "Medical Infirmary & 24x7 Campus Security",
+        shortLabel: "🏥 Safety & Medical",
+        category: "Facilities & Sports",
+        followUps: ["faculty_care", "transport_bus", "why_choose_school"],
+        phrases: ["medical facility", "first aid", "campus security", "cctv security", "child safety"],
+        keywords: ["medical", "infirmary", "hospital", "cctv", "security", "guard", "health"],
+        answer: `**🏥 Medical Infirmary & 24×7 Campus Security:**
+• **Medical Care:** On-campus medical infirmary with first-aid, beds, regular health check-ups, and immediate tie-up with the Township Hospital for emergencies.
+• **3-Tier Security:** 24×7 CISF township perimeter security, school gate visitor verification, and full campus CCTV coverage.`,
+        voiceText: "Student safety is ensured through 24 by 7 security, CCTV cameras across the campus, and an on-campus medical infirmary."
+      },
+
+      // 30. OLYMPIADS, NTSE & COMPETITIVE EXAMS
+      {
+        id: "olympiads_exams",
+        title: "Olympiads, Science Exhibitions & Competitive Exams",
+        shortLabel: "🥇 Olympiads & Exams",
+        category: "Academics & Results",
+        followUps: ["board_results", "facilities_atl", "career_counseling"],
+        phrases: ["olympiad", "science exhibition", "competitive exams", "ntse", "kvpy"],
+        keywords: ["olympiad", "olympiads", "exhibition", "competition", "ntse", "sof"],
+        answer: `**🥇 National Olympiads & Science/AI Exhibitions:**
+• **Competitions:** Students actively participate and win medals in **Science, Mathematics, English, Cyber, and AI Olympiads (SOF/SilverZone)**, CBSE Heritage India Quiz, and **CBSE Regional/National Science Exhibitions**.`,
+        voiceText: "Students regularly participate and win medals in National Science, Mathematics, English, and AI Olympiads as well as CBSE Science Exhibitions."
+      },
+
+      // 31. PARENT-TEACHER MEETINGS (PTM) & COMMUNICATION
+      {
+        id: "ptm_communication",
+        title: "Parent-Teacher Meetings (PTM) & Communication",
+        shortLabel: "👨‍👩‍👧 PTM & Parent App",
+        category: "Academics & Results",
+        followUps: ["contact_portal", "academic_calendar", "board_results"],
+        phrases: ["ptm", "parent teacher meeting", "how to contact teacher", "parent communication"],
+        keywords: ["ptm", "parents", "communication", "meeting", "almanac"],
+        answer: `**👨‍👩‍👧 Parent-Teacher Meetings (PTM) & Two-Way Communication:**
+• **Scheduled PTMs:** Held after every Periodic Assessment and Term Exam to discuss academic progress and holistic growth.
+• **Digital Updates:** Daily attendance, homework, exam circulars, and fee receipts are accessible via the **BBPS Parent Portal**.`,
+        voiceText: "Regular Parent-Teacher Meetings are held after periodic exams, and daily updates are shared through the BBPS Parent Portal."
+      },
+
+      // 32. ECO CLUB, GREEN CAMPUS & COMMUNITY OUTREACH
+      {
+        id: "eco_community",
+        title: "Eco Club, Green Campus & Social Outreach",
+        shortLabel: "🌱 Eco & Green Campus",
+        category: "Facilities & Sports",
+        followUps: ["sports_activities", "vision_mission", "why_choose_school"],
+        phrases: ["eco club", "green campus", "environment club", "plantation", "social service"],
+        keywords: ["eco", "green", "environment", "plantation", "cleanliness", "swachh"],
+        answer: `**🌱 Eco Club, Green Campus & Community Outreach:**
+• **Sustainability:** Tree plantation drives, plastic-free campus campaigns, rainwater harvesting awareness, solar energy education, and community literacy outreach in nearby villages.`,
+        voiceText: "Our Eco Club leads tree plantation drives, plastic-free campus initiatives, and environmental awareness programs."
       }
     ];
 
-    const fuzzyEngine = new Fuse(STATIC_DIRECTORY, {
-      keys: ["triggers", "title", "markdown"],
-      threshold: 0.36
-    });
+    // Quick Chips displayed above the input box
+    const quickChipIds = [
+      "why_choose_school",
+      "admission_form",
+      "principal_info",
+      "school_glance",
+      "admission_process",
+      "school_timings",
+      "curriculum_streams",
+      "fees_scholarships",
+      "board_results",
+      "facilities_atl",
+      "sports_activities",
+      "contact_portal"
+    ];
 
-    // 3. NEURAL SPEECH SYNTHESIS ENGINE
-    function cleanForSpeech(raw) {
-      return raw.replace(/[*#_`>]/g, "")
-                .replace(/\n+/g, ". ")
-                .replace(/•/g, "")
-                .trim();
-    }
+    // ============================================================================
+    // 4. INITIALIZE SIDEBAR, QUICK CHIPS & DIRECTORY PAGE (100% SAFE DOM)
+    // ============================================================================
+    function buildAllMenus() {
+      // 1. Build Left Sidebar Categories
+      const sidebarGroups = [
+        {
+          title: "🌟 1. Why Apply & Admissions",
+          colorClass: "from-emerald-50/80 to-teal-50/50 border-emerald-200/80 text-emerald-900",
+          ids: ["why_choose_school", "admission_form", "admission_process", "age_entrance", "fees_scholarships", "tc_faqs"]
+        },
+        {
+          title: "🏫 2. About School & Leadership",
+          colorClass: "from-blue-50/80 to-indigo-50/50 border-blue-200/80 text-blue-900",
+          ids: ["principal_info", "school_glance", "vision_mission", "history_ces", "president_governance", "public_disclosure", "faculty_care", "uniform_discipline"]
+        },
+        {
+          title: "📘 3. Academics, Streams & Results",
+          colorClass: "from-indigo-50/80 to-purple-50/50 border-indigo-200/80 text-indigo-900",
+          ids: ["school_timings", "curriculum_streams", "teaching_approach", "board_results", "career_counseling", "olympiads_exams", "academic_calendar", "ptm_communication"]
+        },
+        {
+          title: "🏆 4. Labs, Sports, Gallery & Contact",
+          colorClass: "from-amber-50/80 to-orange-50/50 border-amber-200/80 text-amber-900",
+          ids: ["facilities_atl", "sports_activities", "house_system", "library_reading", "achievers_gallery", "transport_bus", "medical_security", "eco_community", "contact_portal", "careers_jobs"]
+        }
+      ];
 
-    function synthesizeSpeech(text) {
-      if (!isVoiceActive || !('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
+      const sidebarEl = document.getElementById('sidebar-menu-container');
+      sidebarEl.innerHTML = sidebarGroups.map(group => {
+        const buttonsHtml = group.ids.map(id => {
+          const item = schoolEntries.find(e => e.id === id);
+          if (!item) return '';
+          const isHighlight = id === 'why_choose_school' || id === 'admission_form';
+          const btnStyle = isHighlight
+            ? 'bg-emerald-600 text-white hover:bg-emerald-700 font-bold shadow-sm'
+            : 'bg-white hover:bg-blue-100 text-slate-700 border border-slate-200 font-semibold';
+          return `<button type="button" onclick="askTopicById('${item.id}')" class="text-[11px] px-2.5 py-1 rounded-lg transition ${btnStyle}">${item.shortLabel}</button>`;
+        }).join('');
 
-      const sanitized = cleanForSpeech(text);
-      const utterance = new SpeechSynthesisUtterance(sanitized);
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
-
-      const availableVoices = window.speechSynthesis.getVoices();
-      const regionalVoice = availableVoices.find(v => v.lang === "en-IN") ||
-                            availableVoices.find(v => v.name.includes("India") || v.name.includes("Neerja") || v.name.includes("Google UK English Female")) ||
-                            availableVoices[0];
-
-      if (regionalVoice) utterance.voice = regionalVoice;
-
-      const visualizer = document.getElementById("voice-indicator");
-      utterance.onstart = () => visualizer.classList.remove("hidden");
-      utterance.onend = () => visualizer.classList.add("hidden");
-      utterance.onerror = () => visualizer.classList.add("hidden");
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    document.getElementById("voice-toggle-btn").addEventListener("click", function() {
-      isVoiceActive = !isVoiceActive;
-      const icon = this.querySelector("i");
-      if (isVoiceActive) {
-        icon.className = "fa-solid fa-volume-high text-sm text-sky-400";
-      } else {
-        window.speechSynthesis.cancel();
-        icon.className = "fa-solid fa-volume-xmark text-sm text-slate-500";
-        document.getElementById("voice-indicator").classList.add("hidden");
-      }
-    });
-
-    // 4. SPEECH RECOGNITION (DICTATION)
-    function toggleSpeechRecognition() {
-      const SpeechApi = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechApi) {
-        alert("Web Speech Recognition API is unavailable in this browser. Please use Chrome or Edge.");
-        return;
-      }
-
-      if (recognitionInstance) {
-        recognitionInstance.stop();
-        recognitionInstance = null;
-        return;
-      }
-
-      recognitionInstance = new SpeechApi();
-      recognitionInstance.lang = "en-IN";
-      recognitionInstance.interimResults = false;
-
-      const mic = document.getElementById("mic-btn");
-      mic.classList.add("text-rose-500", "border-rose-500/50", "animate-pulse");
-
-      recognitionInstance.onresult = (evt) => {
-        const captured = evt.results[0][0].transcript;
-        document.getElementById("user-input").value = captured;
-        handleUserSubmit(null, captured);
-      };
-
-      recognitionInstance.onend = () => {
-        mic.classList.remove("text-rose-500", "border-rose-500/50", "animate-pulse");
-        recognitionInstance = null;
-      };
-
-      recognitionInstance.start();
-    }
-
-    // 5. INTENT RESOLUTION & REASONING PIPELINE
-    function classifyLocalIntent(query) {
-      const q = query.toLowerCase().trim();
-
-      // Explicit Admission Intake
-      if (/\b(apply|admission form|register|take admission|enrollment form)\b/i.test(q) &&
-          !/\b(why|fees|criteria|streams)\b/i.test(q)) {
-        return { type: "FORM" };
-      }
-
-      // Greetings
-      if (/^(hi|hello|hey|namaste|good morning|good afternoon|good evening)$/i.test(q)) {
-        return {
-          type: "DIRECT",
-          title: "Institutional Reception",
-          category: "Administration",
-          markdown: "Welcome to **Bal Bharati Public School, Gadarwara**. How can I assist you with your academic or campus inquiries today?",
-          voice: "Welcome to Bal Bharati Public School, Gadarwara. How can I assist you today?"
-        };
-      }
-
-      // High-confidence Directory Matching
-      const match = fuzzyEngine.search(q);
-      if (match.length > 0 && match[0].score < 0.34) {
-        const item = match[0].item;
-        return {
-          type: "DIRECT",
-          title: item.title,
-          category: item.category,
-          markdown: item.markdown,
-          voice: item.voiceText
-        };
-      }
-
-      // Requires Dynamic Contextual Reasoning
-      return { type: "REASONING" };
-    }
-
-    async function invokeGeminiWorker(prompt) {
-      try {
-        const response = await fetch(WORKER_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: prompt,
-            chatHistory: conversationHistory
-          })
-        });
-
-        if (!response.ok) throw new Error("Worker responded with status " + response.status);
-        const data = await response.json();
-        return data.reply;
-      } catch (err) {
-        console.error("Worker Proxy Failure:", err);
-        return null;
-      }
-    }
-
-    async function handleUserSubmit(evt, textOverride = null) {
-      if (evt) evt.preventDefault();
-      const inputEl = document.getElementById("user-input");
-      const userText = (textOverride || inputEl.value).trim();
-      if (!userText) return;
-
-      renderUserMessage(userText);
-      if (!textOverride) inputEl.value = "";
-
-      const decision = classifyLocalIntent(userText);
-
-      if (decision.type === "FORM") {
-        openAdmissionFormModal();
-        renderBotResponse(
-          "I have opened the official **Admission Registration Form**. Please complete the candidate credentials so our administrative department can follow up.",
-          "Admission Desk",
-          "I have opened the admission registration form on your screen."
-        );
-        queryTelemetry.admissions++;
-        refreshTelemetry();
-        return;
-      }
-
-      if (decision.type === "DIRECT") {
-        renderBotResponse(decision.markdown, decision.title, decision.voice);
-        conversationHistory.push({ role: "user", text: userText }, { role: "assistant", text: decision.markdown });
-        if (decision.category === "Excellence") queryTelemetry.excellence++;
-        else if (decision.category === "Academics") queryTelemetry.academics++;
-        else if (decision.category === "Infrastructure") queryTelemetry.infrastructure++;
-        else queryTelemetry.administration++;
-        refreshTelemetry();
-        return;
-      }
-
-      // LLM Reasoning Execution
-      const loaderId = renderThinkingLoader();
-      const llmResult = await invokeGeminiWorker(userText);
-      removeThinkingLoader(loaderId);
-
-      if (llmResult) {
-        renderBotResponse(llmResult, "Gemini 1.5 Grounded Reasoning", llmResult);
-        conversationHistory.push({ role: "user", text: userText }, { role: "assistant", text: llmResult });
-        queryTelemetry.generativeReasoned++;
-      } else {
-        const fallback = "I am currently unable to query our live neural engine. Please verify that your Cloudflare Worker is active with a valid GEMINI_API_KEY, or contact the administrative desk between 8:30 AM and 1:30 PM.";
-        renderBotResponse(fallback, "System Diagnostic", fallback);
-      }
-      refreshTelemetry();
-    }
-
-    function triggerQuickAction(text) {
-      handleUserSubmit(null, text);
-    }
-
-    // 6. DOM RENDERERS
-    function renderUserMessage(text) {
-      const vp = document.getElementById("chat-viewport");
-      const el = document.createElement("div");
-      el.className = "flex items-start justify-end gap-3.5";
-      el.innerHTML = `
-        <div class="bg-gradient-to-r from-brand-600 to-sky-600 text-white p-4 rounded-3xl rounded-tr-none max-w-xl text-sm leading-relaxed shadow-lg">
-          ${escapeString(text)}
-        </div>
-      `;
-      vp.appendChild(el);
-      vp.scrollTop = vp.scrollHeight;
-    }
-
-    function renderBotResponse(markdownText, tag, speechText) {
-      const vp = document.getElementById("chat-viewport");
-      const el = document.createElement("div");
-      el.className = "flex items-start gap-3.5";
-
-      const htmlFormatted = parseMarkdown(markdownText);
-      const spokenVoice = cleanForSpeech(speechText || markdownText);
-
-      el.innerHTML = `
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 to-sky-500 flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-md">
-          AI
-        </div>
-        <div class="glass-panel p-5 rounded-3xl rounded-tl-none max-w-2xl border border-slate-700/60 shadow-xl space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-700/50 pb-2.5">
-            <span class="text-xs font-bold text-brand-400 tracking-wide">${escapeString(tag)}</span>
-            <button onclick="synthesizeSpeech('${escapeString(spokenVoice)}')" class="text-slate-400 hover:text-sky-400 transition text-xs" title="Play Voice Audio">
-              <i class="fa-solid fa-volume-high"></i>
-            </button>
+        return `
+          <div class="p-3 rounded-2xl bg-gradient-to-br ${group.colorClass} border">
+            <div class="text-xs font-extrabold uppercase tracking-wider mb-2">${group.title}</div>
+            <div class="flex flex-wrap gap-1.5">${buttonsHtml}</div>
           </div>
-          <div class="text-sm leading-relaxed text-slate-200 space-y-2">
-            ${htmlFormatted}
+        `;
+      }).join('');
+
+      // 2. Build Quick Chips Bar
+      const chipsEl = document.getElementById('quick-chips');
+      chipsEl.innerHTML = quickChipIds.map(id => {
+        const item = schoolEntries.find(e => e.id === id);
+        if (!item) return '';
+        return `<button type="button" onclick="askTopicById('${item.id}')" class="shrink-0 text-xs bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 font-bold px-3.5 py-1.5 rounded-full border border-slate-200 transition whitespace-nowrap">${item.shortLabel}</button>`;
+      }).join('');
+
+      // 3. Build Page 3 Full Directory Grid
+      const dirGrid = document.getElementById('directory-grid');
+      if (dirGrid) {
+        dirGrid.innerHTML = schoolEntries.map((item, idx) => `
+          <div onclick="askTopicById('${item.id}')" class="card-lift cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-[11px] font-bold text-blue-600 mb-1">
+                <span>Module #${idx + 1}</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600">${item.category}</span>
+              </div>
+              <h4 class="font-extrabold text-slate-900 text-sm">${item.title}</h4>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600">
+              <span>Open in Chatbot</span>
+              <span>→</span>
+            </div>
           </div>
-        </div>
-      `;
-      vp.appendChild(el);
-      vp.scrollTop = vp.scrollHeight;
-
-      synthesizeSpeech(spokenVoice);
+        `).join('');
+      }
     }
 
-    function renderThinkingLoader() {
-      const vp = document.getElementById("chat-viewport");
-      const id = "loader-" + Date.now();
-      const el = document.createElement("div");
-      el.id = id;
-      el.className = "flex items-start gap-3.5";
-      el.innerHTML = `
-        <div class="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-400 text-xs shrink-0">
-          <i class="fa-solid fa-brain"></i>
-        </div>
-        <div class="glass-panel px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-2 border border-slate-700/60">
-          <span class="text-xs font-medium text-slate-400">Contextualizing with Institutional Standards</span>
-          <div class="flex gap-1">
-            <span class="pulse-dot"></span>
-            <span class="pulse-dot"></span>
-            <span class="pulse-dot"></span>
-          </div>
-        </div>
-      `;
-      vp.appendChild(el);
-      vp.scrollTop = vp.scrollHeight;
-      return id;
+    // ============================================================================
+    // 5. CONTEXT-AWARE LOGICAL INTENT MATCHER
+    // ============================================================================
+    function findLogicalMatch(queryText) {
+      const qLower = queryText.toLowerCase().replace(/[?.,!]/g, ' ').replace(/\s+/g, ' ').trim();
+      const qWords = qLower.split(' ');
+
+      // 1. Exact ID or Title match
+      const directMatch = schoolEntries.find(e =>
+        e.id === qLower ||
+        e.title.toLowerCase() === qLower ||
+        e.shortLabel.toLowerCase() === qLower
+      );
+      if (directMatch) return directMatch;
+
+      // 2. Priority Logical Rule: "WHY" + (apply / school / admission / choose / join / best)
+      const hasWhyWord = qWords.includes('why') || qLower.includes('what is special') || qLower.includes('benefit') || qLower.includes('reason');
+      const mentionsSchoolOrApply = qWords.some(w => ['apply', 'admission', 'school', 'bbps', 'join', 'choose', 'study', 'best', 'good'].includes(w));
+      if (hasWhyWord && mentionsSchoolOrApply) {
+        return schoolEntries.find(e => e.id === 'why_choose_school');
+      }
+
+      // 3. Explicit Form Request Rule: Only open form when "form" or "register" is asked
+      const wantsForm = qWords.includes('form') || qLower.includes('register my child') || qLower.includes('online admission enquiry');
+      if (wantsForm) {
+        return schoolEntries.find(e => e.id === 'admission_form');
+      }
+
+      // 4. "How to apply" / "Take admission" -> Admission Process & Documents
+      if ((qLower.includes('how to apply') || qLower.includes('how can i apply') || qLower.includes('take admission')) && !hasWhyWord) {
+        return schoolEntries.find(e => e.id === 'admission_process');
+      }
+
+      // 5. Weighted Phrase & Keyword Scoring across all 32 modules
+      let bestEntry = null;
+      let maxScore = 0;
+
+      for (const entry of schoolEntries) {
+        let score = 0;
+        for (const p of entry.phrases) {
+          if (qLower.includes(p)) score += 25;
+        }
+        for (const kw of entry.keywords) {
+          if (qWords.includes(kw)) score += 10;
+          else if (qLower.includes(kw)) score += 4;
+        }
+        if (score > maxScore) {
+          maxScore = score;
+          bestEntry = entry;
+        }
+      }
+
+      return maxScore >= 6 ? bestEntry : null;
     }
 
-    function removeThinkingLoader(id) {
-      const target = document.getElementById(id);
-      if (target) target.remove();
-    }
+    // ============================================================================
+    // 6. CHATBOT MESSAGE RENDERING (WITH TYPING INDICATOR & FOLLOW-UP PILLS)
+    // ============================================================================
+    function askTopicById(topicId) {
+      switchPage('chat');
+      const entry = schoolEntries.find(e => e.id === topicId);
+      if (!entry) return;
 
-    function parseMarkdown(src) {
-      return src
-        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
-        .replace(/• (.*?)(?=\n|$)/g, '<div class="flex items-start gap-2 my-1"><span class="text-sky-400 font-bold">•</span><span>$1</span></div>')
-        .replace(/\n\n/g, '<div class="h-2"></div>')
-        .replace(/\n/g, '<br>');
-    }
-
-    function escapeString(str) {
-      const d = document.createElement("div");
-      d.appendChild(document.createTextNode(str));
-      return d.innerHTML;
-    }
-
-    // 7. MODALS & TELEMETRY CHARTS
-    function toggleModal(id) {
-      document.getElementById(id).classList.toggle("hidden");
-    }
-
-    function openAdmissionFormModal() {
-      document.getElementById("admission-modal").classList.remove("hidden");
-    }
-
-    function submitAdmissionLead(evt) {
-      evt.preventDefault();
-      const sName = document.getElementById("student-name").value;
-      const sGrade = document.getElementById("target-grade").value;
-      const pPhone = document.getElementById("parent-phone").value;
-      const pEmail = document.getElementById("parent-email").value;
-
-      toggleModal("admission-modal");
-      evt.target.reset();
-
-      renderBotResponse(
-        `Official enquiry successfully recorded for **${sName}** applying for **${sGrade}**.\n\n` +
-        `• **Contact Number:** ${pPhone}\n` +
-        `• **Official Routing:** Handed over to Bal Bharati Public School Admission Cell.\n` +
-        `Our admissions counsellor will contact you shortly during administrative hours.`,
-        "Enquiry Confirmed",
-        `Thank you. The enquiry for ${sName} has been officially recorded.`
+      appendUserMessage(entry.title, false);
+      recordUserQueryLog(entry.title, entry.category, entry.title, false);
+      appendBotMessage(
+        entry.answer,
+        `Module: ${entry.title} • Logged to Analytics`,
+        entry.voiceText,
+        true,
+        entry.followUps || []
       );
     }
 
-    function refreshTelemetry() {
-      const ctx = document.getElementById("telemetryChart");
-      if (!ctx) return;
+    function clearChat() {
+      stopSpeaking();
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = '';
+      appendBotMessage(
+        "Welcome to **Bal Bharati Public School (BBPS), Gadarwara**! 🎓\n\nI am your official School AI Assistant with **32 verified modules** and **live visitor analytics**. Click any button or ask me:\n• **\"Why should I apply in this school?\"** *(Top 7 reasons & achievements)*\n• **\"Who is the Principal?\"** or **\"Class 11–12 streams\"**\n• Or click **📝 Fill Admission Form** to register your enquiry!",
+        "Official BBPS AI v4.0 Ready • All 32 Modules Active",
+        "Welcome to Bal Bharati Public School Gadarwara. How may I assist you today?",
+        false,
+        ["why_choose_school", "admission_form", "principal_info", "school_timings"]
+      );
+    }
 
-      const dataArray = [
-        queryTelemetry.excellence,
-        queryTelemetry.academics,
-        queryTelemetry.infrastructure,
-        queryTelemetry.administration,
-        queryTelemetry.admissions,
-        queryTelemetry.generativeReasoned
-      ];
+    function appendUserMessage(text, isVoice = false) {
+      const chatBox = document.getElementById('chat-box');
+      const safeText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const badge = isVoice ? `<span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded mr-1.5">🎙️ Voice</span>` : '';
+      chatBox.insertAdjacentHTML('beforeend', `
+        <div class="flex justify-end">
+          <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white text-sm px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[82%] shadow-md font-medium">
+            ${badge}${safeText}
+          </div>
+        </div>
+      `);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-      if (telemetryChart) {
-        telemetryChart.data.datasets[0].data = dataArray;
-        telemetryChart.update();
+    function appendBotMessage(text, aiRef, voiceSummary = null, shouldSpeak = true, followUpIds = []) {
+      const chatBox = document.getElementById('chat-box');
+      let formatted = text;
+      if (!text.includes('<form') && !text.includes('<div')) {
+        formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
       } else {
-        telemetryChart = new Chart(ctx, {
-          type: "doughnut",
+        formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      }
+
+      // Register speech text safely by ID (prevents any quote/apostrophe syntax bug!)
+      speechCounter++;
+      const speechId = 'sp_' + speechCounter;
+      speechRegistry[speechId] = cleanSpeechString(voiceSummary || text);
+
+      // Build Follow-Up Suggestion Pills
+      let followUpHtml = '';
+      if (Array.isArray(followUpIds) && followUpIds.length > 0) {
+        const pills = followUpIds.map(fid => {
+          const fItem = schoolEntries.find(e => e.id === fid);
+          if (!fItem) return '';
+          return `<button type="button" onclick="askTopicById('${fItem.id}')" class="text-[11px] bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 font-bold px-2.5 py-1 rounded-lg border border-slate-200 transition">${fItem.shortLabel} →</button>`;
+        }).join('');
+        followUpHtml = `<div class="pt-2 flex flex-wrap items-center gap-1.5"><span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Related:</span>${pills}</div>`;
+      }
+
+      chatBox.insertAdjacentHTML('beforeend', `
+        <div class="flex justify-start">
+          <div class="bg-white border border-slate-200/90 text-slate-800 text-sm p-4 rounded-2xl rounded-tl-sm max-w-[92%] shadow-sm space-y-2.5">
+            <div class="leading-relaxed">${formatted}</div>
+            ${followUpHtml}
+            <div class="pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+              <span class="font-medium text-slate-500">✓ ${aiRef}</span>
+              <button type="button" onclick="playRegisteredSpeech('${speechId}')" class="shrink-0 text-blue-700 hover:text-white hover:bg-blue-600 font-extrabold flex items-center gap-1.5 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full transition shadow-sm">
+                <span>🔊</span>
+                <span>Listen to Voice</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      if (shouldSpeak && autoVoiceReply) {
+        speakText(speechRegistry[speechId]);
+      }
+    }
+
+    function playRegisteredSpeech(speechId) {
+      const txt = speechRegistry[speechId];
+      if (txt) speakText(txt);
+    }
+
+    function handleUserSubmit(e, fromVoice = false) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('user-input');
+      const query = input.value.trim();
+      if (!query) return;
+
+      appendUserMessage(query, fromVoice);
+      input.value = '';
+
+      const qLower = query.toLowerCase().replace(/[?.,!]/g, ' ').trim();
+
+      // 1. Check Greetings
+      if (/^(hi|hello|hey|namaste|good morning|good afternoon|good evening)$/i.test(qLower)) {
+        recordUserQueryLog(query, "About School & Leadership", "Greeting & Welcome", fromVoice);
+        appendBotMessage(
+          "Hello! Welcome to **Bal Bharati Public School (BBPS), Gadarwara**. 🎓\n\nHow can I help you today? You can ask:\n• **\"Why should I apply in this school?\"**\n• **\"What is the admission process & fee structure?\"**\n• **\"Who is the Principal?\"** or click **📝 Fill Admission Form** below!",
+          "Greeting Logged to Analytics",
+          "Hello! Welcome to Bal Bharati Public School Gadarwara. How can I help you today?",
+          true,
+          ["why_choose_school", "admission_form", "principal_info"]
+        );
+        return;
+      }
+
+      // 2. Run Logical Intent Matcher
+      const matched = findLogicalMatch(query);
+      if (matched) {
+        recordUserQueryLog(query, matched.category, matched.title, fromVoice);
+        appendBotMessage(
+          matched.answer,
+          `Category: ${matched.category} • Logged to Analytics`,
+          matched.voiceText,
+          true,
+          matched.followUps || ["why_choose_school", "admission_form"]
+        );
+        return;
+      }
+
+      // 3. Helpful Fallback (Still logs user search query!)
+      recordUserQueryLog(query, "About School & Leadership", "General School Inquiry", fromVoice);
+      appendBotMessage(
+        `I have recorded your query (*"${query.replace(/</g, '&lt;')}"*) in our **📊 User Data & Graphs Dashboard** for the school review team.\n\n**Here are our most popular school modules you can view immediately:**\n• **🌟 Why Apply to BBPS?** 100% CBSE Board Results, Atal Tinkering Robotics Lab, Safe Green Campus & National Sports.\n• **👨‍🏫 Principal:** Dr. Anurag Pandey\n• **🕒 School Timings:** 7:45 AM – 2:00 PM (Admin Office: 8:30 AM – 1:30 PM)\n• **📝 Want to Apply?** Click **Fill Admission Form** below!`,
+        "Query Logged for Admin Review",
+        "I have recorded your question in our user analytics dashboard. You can click any related topic below or open the online admission form.",
+        true,
+        ["why_choose_school", "admission_form", "school_glance", "contact_portal"]
+      );
+    }
+
+    // ============================================================================
+    // 7. PAGE NAVIGATION & INTERACTIVE CHARTS (CHART.JS)
+    // ============================================================================
+    function switchPage(page) {
+      const chatPage = document.getElementById('page-chat');
+      const dataPage = document.getElementById('page-data');
+      const dirPage = document.getElementById('page-directory');
+
+      const chatBtn = document.getElementById('nav-chat-btn');
+      const dataBtn = document.getElementById('nav-data-btn');
+      const dirBtn = document.getElementById('nav-dir-btn');
+
+      chatPage.classList.add('hidden');
+      dataPage.classList.add('hidden');
+      if (dirPage) dirPage.classList.add('hidden');
+
+      const activeClass = "text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md";
+      const inactiveClass = "text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm";
+
+      chatBtn.className = page === 'chat' ? activeClass : inactiveClass;
+      dataBtn.className = page === 'data' ? activeClass : inactiveClass;
+      if (dirBtn) dirBtn.className = page === 'directory' ? "hidden md:flex " + activeClass : "hidden md:flex " + inactiveClass;
+
+      if (page === 'chat') {
+        chatPage.classList.remove('hidden');
+      } else if (page === 'data') {
+        dataPage.classList.remove('hidden');
+        renderAnalyticsDashboard();
+      } else if (page === 'directory' && dirPage) {
+        dirPage.classList.remove('hidden');
+      }
+    }
+
+    function recordUserQueryLog(queryText, category, matchedTopic, isVoice) {
+      const now = new Date();
+      const timeStr = now.toLocaleDateString() + ', ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      userQueryLogs.unshift({
+        id: Date.now(),
+        time: timeStr,
+        query: queryText,
+        category: category,
+        matchedTopic: matchedTopic,
+        mode: isVoice ? "🎙️ Voice" : "💬 Text"
+      });
+      localStorage.setItem('bbps_enterprise_logs_v4', JSON.stringify(userQueryLogs));
+      updateBadgeCount();
+    }
+
+    function updateBadgeCount() {
+      const badge = document.getElementById('log-count-badge');
+      if (badge) badge.textContent = userQueryLogs.length;
+    }
+
+    function filterLogs(category) {
+      currentFilter = category;
+      renderAnalyticsDashboard();
+    }
+
+    function simulateDemoQueries() {
+      const sampleQueries = [
+        { q: "What is the fee structure for Class 11 Science?", cat: "Admissions & Fees", mod: "Fee Structure & Scholarships", mode: "💬 Text" },
+        { q: "Why should I apply to BBPS Gadarwara?", cat: "About School & Leadership", mod: "Why Choose BBPS Gadarwara?", mode: "🎙️ Voice" },
+        { q: "Is school bus available from Gadarwara town?", cat: "Facilities & Sports", mod: "School Bus & Transport Facility", mode: "💬 Text" },
+        { q: "What are the documents required for admission?", cat: "Admissions & Fees", mod: "Admission Process & Required Documents", mode: "💬 Text" }
+      ];
+      const now = new Date();
+      const timeStr = now.toLocaleDateString() + ', ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      sampleQueries.forEach((sq, idx) => {
+        userQueryLogs.unshift({
+          id: Date.now() + idx,
+          time: timeStr,
+          query: sq.q,
+          category: sq.cat,
+          matchedTopic: sq.mod,
+          mode: sq.mode
+        });
+      });
+      localStorage.setItem('bbps_enterprise_logs_v4', JSON.stringify(userQueryLogs));
+      renderAnalyticsDashboard();
+    }
+
+    function renderAnalyticsDashboard() {
+      updateBadgeCount();
+      const total = userQueryLogs.length;
+      const admCount = userQueryLogs.filter(l => l.category === 'Admissions & Fees').length;
+      const abtCount = userQueryLogs.filter(l => l.category === 'About School & Leadership').length;
+      const acaCount = userQueryLogs.filter(l => l.category === 'Academics & Results').length;
+      const facCount = userQueryLogs.filter(l => l.category === 'Facilities & Sports').length;
+
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-admission').textContent = admCount;
+      document.getElementById('stat-school').textContent = abtCount + acaCount + facCount;
+      document.getElementById('stat-leads').textContent = admissionLeads.length;
+
+      // Render Interactive Chart.js Graphs
+      updateCharts(admCount, abtCount, acaCount, facCount);
+
+      // Filter Table Rows
+      const searchVal = (document.getElementById('log-search-input')?.value || '').toLowerCase().trim();
+      const filtered = userQueryLogs.filter(l => {
+        const matchesCat = currentFilter === 'ALL' || l.category === currentFilter;
+        const matchesSearch = !searchVal ||
+          l.query.toLowerCase().includes(searchVal) ||
+          l.matchedTopic.toLowerCase().includes(searchVal) ||
+          l.category.toLowerCase().includes(searchVal);
+        return matchesCat && matchesSearch;
+      });
+
+      const tbody = document.getElementById('logs-table-body');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">No matching user queries found.</td></tr>`;
+      } else {
+        tbody.innerHTML = filtered.map((log, idx) => `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-4 font-bold text-slate-400">${idx + 1}</td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-500">${log.time}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">"${log.query.replace(/</g, '&lt;')}"</td>
+            <td class="py-3 px-4">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${
+                log.category === 'Admissions & Fees' ? 'bg-blue-100 text-blue-800' :
+                log.category === 'About School & Leadership' ? 'bg-indigo-100 text-indigo-800' :
+                log.category === 'Academics & Results' ? 'bg-emerald-100 text-emerald-800' :
+                'bg-amber-100 text-amber-800'
+              }">${log.category}</span>
+            </td>
+            <td class="py-3 px-4 text-slate-600 font-semibold">${log.matchedTopic}</td>
+            <td class="py-3 px-4 whitespace-nowrap">${log.mode}</td>
+            <td class="py-3 px-4">
+              <button type="button" onclick="forwardSingleLogToGmail(${log.id})" class="text-blue-600 hover:underline font-bold">Forward ↗</button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Render Captured Admission Form Leads
+      const leadsBox = document.getElementById('leads-container');
+      if (admissionLeads.length === 0) {
+        leadsBox.innerHTML = `<div class="col-span-2 p-4 rounded-2xl bg-slate-50 text-slate-400 text-center">No admission forms submitted yet.</div>`;
+      } else {
+        leadsBox.innerHTML = admissionLeads.map(lead => `
+          <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 flex items-start justify-between gap-3">
+            <div class="space-y-1">
+              <div class="font-extrabold text-slate-900 text-sm">🎓 ${lead.name} <span class="text-xs font-bold text-blue-700">(${lead.grade})</span></div>
+              <div class="text-slate-600"><strong>Parent:</strong> ${lead.parent} • <strong>Phone:</strong> ${lead.phone}</div>
+              <div class="text-slate-500 text-[11px]"><strong>Category:</strong> ${lead.cat} • <strong>Time:</strong> ${lead.time}</div>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px]">Verified Lead</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function updateCharts(admCount, abtCount, acaCount, facCount) {
+      if (typeof Chart === 'undefined') return;
+
+      // 1. Doughnut Chart: Category Distribution
+      const ctxDoughnut = document.getElementById('categoryDoughnutChart');
+      if (ctxDoughnut) {
+        if (doughnutChartInstance) doughnutChartInstance.destroy();
+        doughnutChartInstance = new Chart(ctxDoughnut, {
+          type: 'doughnut',
           data: {
-            labels: [
-              "Excellence & Heritage",
-              "Academics & Streams",
-              "ATL & Infra",
-              "Administration",
-              "Admissions",
-              "LLM Contextual Reasoning"
-            ],
+            labels: ['Admissions & Fees', 'About & Leadership', 'Academics & Streams', 'Facilities & Sports'],
             datasets: [{
-              data: dataArray,
-              backgroundColor: [
-                "#3b82f6",
-                "#10b981",
-                "#a855f7",
-                "#f59e0b",
-                "#06b6d4",
-                "#ec4899"
-              ],
+              data: [admCount, abtCount, acaCount, facCount],
+              backgroundColor: ['#2563eb', '#4f46e5', '#10b981', '#f59e0b'],
               borderWidth: 2,
-              borderColor: "#0f172a"
+              borderColor: '#ffffff'
             }]
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-              legend: {
-                position: "bottom",
-                labels: { color: "#94a3b8", font: { size: 11, family: "Plus Jakarta Sans" } }
-              }
+              legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10, weight: 'bold' } } }
+            }
+          }
+        });
+      }
+
+      // 2. Bar Chart: Top Searched Modules
+      const topicCounts = {};
+      userQueryLogs.forEach(l => {
+        const shortName = l.matchedTopic.length > 20 ? l.matchedTopic.slice(0, 20) + '…' : l.matchedTopic;
+        topicCounts[shortName] = (topicCounts[shortName] || 0) + 1;
+      });
+      const sortedTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+      const ctxBar = document.getElementById('topTopicsBarChart');
+      if (ctxBar) {
+        if (barChartInstance) barChartInstance.destroy();
+        barChartInstance = new Chart(ctxBar, {
+          type: 'bar',
+          data: {
+            labels: sortedTopics.map(t => t[0]),
+            datasets: [{
+              label: 'Search Count',
+              data: sortedTopics.map(t => t[1]),
+              backgroundColor: '#3b82f6',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+              x: { ticks: { font: { size: 9 } } }
+            }
+          }
+        });
+      }
+
+      // 3. Line Chart: Activity Trend
+      const ctxLine = document.getElementById('activityLineChart');
+      if (ctxLine) {
+        if (lineChartInstance) lineChartInstance.destroy();
+        const totalNow = userQueryLogs.length;
+        const points = [
+          Math.max(1, Math.round(totalNow * 0.2)),
+          Math.max(2, Math.round(totalNow * 0.4)),
+          Math.max(3, Math.round(totalNow * 0.65)),
+          Math.max(4, Math.round(totalNow * 0.85)),
+          totalNow
+        ];
+        lineChartInstance = new Chart(ctxLine, {
+          type: 'line',
+          data: {
+            labels: ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Current Live'],
+            datasets: [{
+              label: 'Cumulative Visitor Queries',
+              data: points,
+              borderColor: '#8b5cf6',
+              backgroundColor: 'rgba(139, 92, 246, 0.15)',
+              fill: true,
+              tension: 0.35,
+              pointRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+              x: { ticks: { font: { size: 10 } } }
             }
           }
         });
       }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      refreshTelemetry();
+    // ============================================================================
+    // 8. GMAIL FORWARDING & CSV EXPORT
+    // ============================================================================
+    function forwardSingleLogToGmail(logId) {
+      const item = userQueryLogs.find(l => l.id === logId);
+      if (!item) return;
+      const subject = encodeURIComponent(`BBPS Chatbot User Query Review - ${item.category}`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA CHATBOT - USER QUERY LOG\n` +
+        `---------------------------------------\n` +
+        `Time: ${item.time}\n` +
+        `User Question: "${item.query}"\n` +
+        `Category: ${item.category}\n` +
+        `Matched Module: ${item.matchedTopic}\n` +
+        `Input Mode: ${item.mode}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    }
+
+    function forwardAllLogsToGmail() {
+      const summaryLines = userQueryLogs.slice(0, 30).map((l, i) =>
+        `${i + 1}. [${l.time}] "${l.query}" -> ${l.category} (${l.matchedTopic})`
+      ).join('\n');
+
+      const leadLines = admissionLeads.length
+        ? admissionLeads.map((ld, i) => `${i + 1}. ${ld.name} | Class: ${ld.grade} | Parent: ${ld.parent} | Phone: ${ld.phone}`).join('\n')
+        : "None yet";
+
+      const subject = encodeURIComponent(`BBPS Gadarwara AI Helpdesk - Complete User Query & Analytics Report (${userQueryLogs.length} Queries)`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA - USER SEARCH & ANALYTICS REPORT\n` +
+        `===============================================\n` +
+        `Total Queries Logged: ${userQueryLogs.length}\n` +
+        `Admission Forms Filled: ${admissionLeads.length}\n\n` +
+        `--- SUBMITTED ADMISSION FORM LEADS ---\n${leadLines}\n\n` +
+        `--- RECENT USER QUERIES ---\n${summaryLines}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    }
+
+    function exportLogsToCSV() {
+      let csv = "ID,Timestamp,User Query,Category,Matched Module,Input Mode\n";
+      userQueryLogs.forEach((l, idx) => {
+        const cleanQ = l.query.replace(/"/g, '""');
+        csv += `${idx + 1},"${l.time}","${cleanQ}","${l.category}","${l.matchedTopic}","${l.mode}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "BBPS_Gadarwara_User_Analytics_Report.csv";
+      a.click();
+    }
+
+    function clearAllLogs() {
+      if (!confirm("Reset user query logs?")) return;
+      userQueryLogs = [];
+      localStorage.setItem('bbps_enterprise_logs_v4', JSON.stringify(userQueryLogs));
+      renderAnalyticsDashboard();
+    }
+
+    function submitAdmissionForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('studentName').value;
+      const parent = document.getElementById('parentName').value;
+      const grade = document.getElementById('applyClass').value;
+      const phone = document.getElementById('parentPhone').value;
+      const cat = document.getElementById('studentCategory').value;
+      const notes = document.getElementById('studentNotes').value || "N/A";
+      const time = new Date().toLocaleDateString() + ', ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      admissionLeads.unshift({ name, parent, grade, phone, cat, notes, time });
+      localStorage.setItem('bbps_enterprise_leads_v4', JSON.stringify(admissionLeads));
+      recordUserQueryLog(`Submitted Admission Form: ${name} (${grade}, Phone: ${phone})`, "Admissions & Fees", "Online Admission Enquiry Form", false);
+
+      const subject = encodeURIComponent(`New BBPS Admission Enquiry (${grade}) - ${name}`);
+      const body = encodeURIComponent(
+        `BBPS GADARWARA - NEW ADMISSION ENQUIRY\n` +
+        `--------------------------------------\n` +
+        `Student Name: ${name}\n` +
+        `Parent Name: ${parent}\n` +
+        `Class Applying For: ${grade}\n` +
+        `Mobile Number: ${phone}\n` +
+        `Category: ${cat}\n` +
+        `City / Current School: ${notes}\n` +
+        `Time: ${time}\n`
+      );
+      window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
+
+      e.target.reset();
+      appendBotMessage(
+        `✅ **Admission Enquiry Recorded & Forwarded!**\n• **Student:** ${name} (${grade})\n• **Saved to Analytics Page:** Yes (Click **📊 User Data & Graphs** at the top to view it!)\n• **Forwarded to Gmail:** Your email window has opened pre-addressed to **nikhilpatel6105@gmail.com**.`,
+        "Saved to User Data Dashboard + Gmail",
+        `Thank you! The admission form for ${name} has been saved to our User Data Dashboard and prepared for our school Gmail.`,
+        true,
+        ["admission_process", "fees_scholarships", "school_timings"]
+      );
+    }
+
+    // ============================================================================
+    // 9. NATURAL NEURAL VOICE ENGINE (TTS & STT)
+    // ============================================================================
+    function loadNaturalVoices() {
+      if (!('speechSynthesis' in window)) return;
+      availableVoices = window.speechSynthesis.getVoices();
+      const select = document.getElementById('voice-select');
+      if (!select || availableVoices.length === 0) return;
+
+      const scored = availableVoices.map(v => {
+        let p = 0;
+        const n = v.name.toLowerCase();
+        const l = v.lang.toLowerCase();
+        if (n.includes('natural') || n.includes('neural') || n.includes('online')) p += 50;
+        if (n.includes('google')) p += 35;
+        if (n.includes('neerja') || n.includes('swara') || n.includes('prabhat')) p += 40;
+        if (l.includes('en-in') || l.includes('hi-in')) p += 30;
+        else if (l.startsWith('en')) p += 15;
+        return { voice: v, p };
+      }).filter(x => x.p > 0).sort((a, b) => b.p - a.p);
+
+      select.innerHTML = `<option value="auto">✨ Natural Voice (Auto)</option>` +
+        scored.slice(0, 8).map(item =>
+          `<option value="${item.voice.voiceURI}">🎙️ ${item.voice.name}</option>`
+        ).join('');
+    }
+
+    function changePreferredVoice() {
+      const sel = document.getElementById('voice-select');
+      if (sel) selectedVoiceURI = sel.value;
+    }
+
+    function cleanSpeechString(raw) {
+      return String(raw || '')
+        .replace(/<[^>]*>?/gm, ' ')
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        .replace(/[*•#`_~]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+
+      const clean = cleanSpeechString(text);
+      if (!clean) return;
+
+      const utterance = new SpeechSynthesisUtterance(clean);
+      if (!availableVoices.length) availableVoices = window.speechSynthesis.getVoices();
+
+      let chosen = null;
+      if (selectedVoiceURI !== 'auto') {
+        chosen = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+      }
+      if (!chosen) {
+        chosen =
+          availableVoices.find(v => v.lang === 'en-IN' && (v.name.includes('Natural') || v.name.includes('Neerja') || v.name.includes('Google'))) ||
+          availableVoices.find(v => v.name.includes('Google UK English Female')) ||
+          availableVoices.find(v => v.lang === 'en-IN') ||
+          availableVoices.find(v => v.lang.startsWith('en'));
+      }
+
+      if (chosen) {
+        utterance.voice = chosen;
+        utterance.lang = chosen.lang;
+      } else {
+        utterance.lang = 'en-IN';
+      }
+
+      utterance.rate = 0.98;
+      utterance.pitch = 1.02;
+
+      const waveEl = document.getElementById('voice-wave');
+      utterance.onstart = () => { if (waveEl) waveEl.classList.add('speaking-active'); };
+      utterance.onend = () => {
+        if (waveEl) waveEl.classList.remove('speaking-active');
+        if (verbalModeActive) {
+          setTimeout(() => { if (verbalModeActive) startListeningEngine(); }, 400);
+        }
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeaking() {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      const waveEl = document.getElementById('voice-wave');
+      if (waveEl) waveEl.classList.remove('speaking-active');
+    }
+
+    function toggleAutoVoice() {
+      autoVoiceReply = !autoVoiceReply;
+      const btn = document.getElementById('tts-toggle');
+      const icon = document.getElementById('tts-icon');
+      const label = document.getElementById('tts-label');
+      if (autoVoiceReply) {
+        btn.className = "hidden sm:flex text-xs font-bold px-3 py-2 rounded-xl border transition items-center gap-1.5 bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm";
+        icon.textContent = "🔊"; label.textContent = "Voice: ON";
+      } else {
+        stopSpeaking();
+        btn.className = "hidden sm:flex text-xs font-bold px-3 py-2 rounded-xl border transition items-center gap-1.5 bg-slate-100 border-slate-300 text-slate-600";
+        icon.textContent = "🔇"; label.textContent = "Voice: OFF";
+      }
+    }
+
+    function toggleVerbalMode() {
+      verbalModeActive = !verbalModeActive;
+      const banner = document.getElementById('verbal-banner');
+      const label = document.getElementById('verbal-mode-label');
+      if (verbalModeActive) {
+        autoVoiceReply = true;
+        banner.classList.remove('hidden');
+        label.textContent = "Stop Talk";
+        startListeningEngine();
+      } else {
+        banner.classList.add('hidden');
+        label.textContent = "2-Way Talk";
+        stopSpeaking();
+        if (recognitionInstance) { try { recognitionInstance.stop(); } catch (e) {} }
+      }
+    }
+
+    function startListeningEngine() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return alert("Please use Google Chrome or Microsoft Edge for Voice Recognition.");
+      stopSpeaking();
+      recognitionInstance = new SpeechRecognition();
+      recognitionInstance.lang = 'en-IN';
+      recognitionInstance.interimResults = false;
+
+      const micBtn = document.getElementById('mic-btn');
+      const inputField = document.getElementById('user-input');
+
+      recognitionInstance.onstart = () => {
+        micBtn.classList.add('bg-red-600', 'text-white', 'listening-pulse');
+        inputField.placeholder = "Listening to your voice... speak now";
+      };
+      recognitionInstance.onresult = (event) => {
+        inputField.value = event.results[0][0].transcript;
+        handleUserSubmit(new Event('submit'), true);
+      };
+      recognitionInstance.onend = () => {
+        micBtn.classList.remove('bg-red-600', 'text-white', 'listening-pulse');
+        inputField.placeholder = "Ask: 'Why should I apply in this school?', 'Principal name', 'Class 11 streams', 'Fees', 'Bus'...";
+      };
+      recognitionInstance.start();
+    }
+
+    // ============================================================================
+    // 10. INITIALIZE APPLICATION ON PAGE LOAD
+    // ============================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      buildAllMenus();
+      updateBadgeCount();
+      clearChat();
+      if ('speechSynthesis' in window) {
+        loadNaturalVoices();
+        window.speechSynthesis.onvoiceschanged = loadNaturalVoices;
+      }
     });
   </script>
 </body>
