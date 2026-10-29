@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bal Bharati Public School, Gadarwara | Official AI Enterprise Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bal Bharati Public School, Gadarwara | Official AI Enterprise Platform</title>
 
-  <!-- Typography & Assets -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Core Libraries -->
+  <!-- Core Script Dependencies -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.basic.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
@@ -39,19 +39,21 @@
               700: '#1d4ed8',
               800: '#1e40af',
               900: '#1e3a8a',
-              950: '#0a1931',
+              950: '#07162c',
             },
             accent: {
               emerald: '#10b981',
               cyan: '#06b6d4',
-              gold: '#f59e0b',
+              amber: '#f59e0b',
               violet: '#8b5cf6',
+              rose: '#f43f5e'
             }
           },
           boxShadow: {
-            'glow-primary': '0 0 35px -5px rgba(29, 78, 216, 0.45)',
             'glow-cyan': '0 0 35px -5px rgba(6, 182, 212, 0.45)',
-            'glass': '0 20px 40px 0 rgba(15, 23, 42, 0.08)',
+            'glow-blue': '0 0 35px -5px rgba(37, 99, 235, 0.45)',
+            'glow-purple': '0 0 35px -5px rgba(139, 92, 246, 0.45)',
+            'glass': '0 20px 40px -15px rgba(0, 0, 0, 0.6)',
           }
         }
       }
@@ -59,7 +61,7 @@
   </script>
 
   <style>
-    /* Full viewport canvas background */
+    /* Full Viewport Canvas */
     #aurora-canvas {
       position: fixed;
       top: 0;
@@ -68,7 +70,7 @@
       height: 100vh;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.65;
+      opacity: 0.75;
     }
 
     body {
@@ -76,51 +78,54 @@
       min-height: 100vh;
       color: #f8fafc;
       font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      overflow-x: hidden;
     }
 
-    /* Glass Panels */
+    /* Glassmorphism Styles */
     .glass-card {
-      background: rgba(15, 23, 42, 0.78);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.55);
     }
 
     .glass-header {
-      background: rgba(3, 7, 18, 0.82);
-      backdrop-filter: blur(20px);
+      background: rgba(3, 7, 18, 0.86);
+      backdrop-filter: blur(24px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Custom WebKit Scrollbars */
+    /* Scrollbars */
     .styled-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .styled-scroll::-webkit-scrollbar-track { background: transparent; }
     .styled-scroll::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.25);
+      background: rgba(148, 163, 184, 0.28);
       border-radius: 9999px;
     }
-    .styled-scroll::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+    .styled-scroll::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.55); }
     .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Equalizer Sound Waves */
-    @keyframes barPulse {
+    /* Equalizer Pulse */
+    @keyframes soundwaveAnim {
       0%, 100% { height: 4px; }
-      50% { height: 20px; }
+      50% { height: 22px; }
     }
     .wave-bar {
       width: 3.5px;
       height: 4px;
       background: linear-gradient(to top, #2563eb, #06b6d4);
       border-radius: 999px;
+      transition: height 0.15s ease;
     }
-    .speaking-active .wave-bar:nth-child(1) { animation: barPulse 0.55s infinite 0.1s; }
-    .speaking-active .wave-bar:nth-child(2) { animation: barPulse 0.55s infinite 0.25s; }
-    .speaking-active .wave-bar:nth-child(3) { animation: barPulse 0.55s infinite 0.4s; }
-    .speaking-active .wave-bar:nth-child(4) { animation: barPulse 0.55s infinite 0.15s; }
+    .speaking-active .wave-bar:nth-child(1) { animation: soundwaveAnim 0.55s infinite 0.1s; }
+    .speaking-active .wave-bar:nth-child(2) { animation: soundwaveAnim 0.55s infinite 0.28s; }
+    .speaking-active .wave-bar:nth-child(3) { animation: soundwaveAnim 0.55s infinite 0.42s; }
+    .speaking-active .wave-bar:nth-child(4) { animation: soundwaveAnim 0.55s infinite 0.18s; }
 
     /* Shimmer Thinking Animation */
-    @keyframes shimmerAnim {
+    @keyframes shimmerSwipe {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
@@ -136,38 +141,38 @@
         90deg,
         rgba(255, 255, 255, 0) 0,
         rgba(255, 255, 255, 0.08) 20%,
-        rgba(255, 255, 255, 0.2) 60%,
+        rgba(255, 255, 255, 0.25) 60%,
         rgba(255, 255, 255, 0)
       );
-      animation: shimmerAnim 2s infinite;
+      animation: shimmerSwipe 1.8s infinite;
       content: '';
     }
 
-    /* Floating Keyframes */
-    @keyframes floatSoft {
+    /* Soft floating cards */
+    @keyframes floatingMotion {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-7px); }
     }
-    .float-badge { animation: floatSoft 5s ease-in-out infinite; }
+    .float-badge { animation: floatingMotion 5.5s ease-in-out infinite; }
   </style>
 </head>
-<body class="antialiased selection:bg-bbps-600 selection:text-white flex flex-col justify-between relative overflow-x-hidden">
+<body class="selection:bg-cyan-500 selection:text-slate-950 flex flex-col justify-between">
 
-  <!-- Interactive Aurora Backdrop Canvas -->
+  <!-- Interactive Dynamic Aurora Canvas -->
   <canvas id="aurora-canvas"></canvas>
 
   <div class="relative z-10 flex flex-col min-h-screen justify-between">
 
     <!-- ========================================================================= -->
-    <!-- TOP NAVIGATION BAR                                                        -->
+    <!-- HEADER                                                                    -->
     <!-- ========================================================================= -->
-    <header class="glass-header sticky top-0 z-50">
+    <header class="glass-header sticky top-0 z-50 transition-all duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
         
-        <!-- School Crest & Verification Tag -->
-        <div class="flex items-center gap-3.5 cursor-pointer" onclick="navigateTo('chat')">
-          <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-bbps-700 via-indigo-600 to-accent-cyan p-0.5 shadow-glow-primary shrink-0">
-            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white font-display font-extrabold text-xl tracking-tight">
+        <!-- School Crest & Title -->
+        <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchMainTab('chat')">
+          <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-bbps-700 via-indigo-600 to-accent-cyan p-0.5 shadow-glow-blue shrink-0">
+            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white font-display font-black text-xl">
               BB
             </div>
             <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-950 rounded-full" title="Reasoning Engine Online"></span>
@@ -177,7 +182,7 @@
               <h1 class="font-display font-extrabold text-white text-base sm:text-lg tracking-tight leading-tight">
                 Bal Bharati Public School
               </h1>
-              <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-bbps-900/80 text-cyan-300 border border-cyan-500/30">
+              <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-bbps-950 text-cyan-300 border border-cyan-500/40">
                 CBSE 100% Pass
               </span>
             </div>
@@ -185,36 +190,41 @@
           </div>
         </div>
 
-        <!-- Right Side Nav Actions -->
+        <!-- Navigation Tabs & Voice Controllers -->
         <div class="flex items-center gap-2.5">
-          <button id="nav-chat-btn" onclick="navigateTo('chat')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-bbps-600 to-indigo-600 text-white shadow-glow-primary">
+          <button id="tab-btn-chat" onclick="switchMainTab('chat')" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-bbps-600 to-indigo-600 text-white shadow-glow-blue">
             <i class="fa-solid fa-comments"></i>
-            <span>Official Helpdesk</span>
+            <span>Helpdesk AI</span>
           </button>
 
-          <button id="nav-analytics-btn" onclick="navigateTo('analytics')" class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm">
+          <button id="tab-btn-analytics" onclick="switchMainTab('analytics')" class="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm">
             <i class="fa-solid fa-chart-line"></i>
             <span class="hidden sm:inline">Visitor Graphs</span>
-            <span id="log-counter" class="bg-bbps-600 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold ml-1">0</span>
+            <span id="header-log-badge" class="bg-bbps-600 text-white text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ml-1">0</span>
           </button>
 
-          <button id="nav-directory-btn" onclick="navigateTo('directory')" class="hidden lg:flex px-4 py-2 rounded-xl text-xs font-bold transition items-center gap-2 bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm">
-            <i class="fa-solid fa-compass"></i>
-            <span>Directory (32+)</span>
+          <button id="tab-btn-directory" onclick="switchMainTab('directory')" class="hidden lg:flex px-4 py-2.5 rounded-xl text-xs font-bold transition items-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm">
+            <i class="fa-solid fa-book-open"></i>
+            <span>32+ Topics</span>
           </button>
 
           <div class="h-6 w-px bg-slate-800 hidden sm:block"></div>
 
-          <!-- Soundwave Visualizer -->
-          <div id="voice-wave" class="hidden xl:flex items-center gap-1 px-3 py-2 rounded-full bg-slate-900 border border-slate-800" title="Audio Equalizer Active">
+          <!-- Soundwave Animation -->
+          <div id="voice-wave-container" class="hidden xl:flex items-center gap-1 px-3 py-2 rounded-full bg-slate-900 border border-slate-800">
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
           </div>
 
-          <!-- Audio Toggle -->
-          <button id="tts-toggle-btn" onclick="toggleSpeech()" class="p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition" title="Toggle AI Audio Response">
+          <!-- Voice Selector Dropdown -->
+          <select id="voice-select" onchange="updateSelectedVoice()" class="hidden md:block text-xs bg-slate-900 border border-slate-800 text-slate-300 rounded-xl px-2.5 py-2 font-medium focus:outline-none focus:border-cyan-500">
+            <option value="auto">Natural Indian Accent (Auto)</option>
+          </select>
+
+          <!-- Voice Toggle -->
+          <button id="tts-toggle-btn" onclick="toggleSpeechAudio()" class="p-2.5 rounded-xl text-slate-300 hover:text-white bg-slate-900/90 hover:bg-slate-800 border border-slate-800 transition" title="Toggle AI Voice Response">
             <i id="tts-icon" class="fa-solid fa-volume-high text-sm text-cyan-400"></i>
           </button>
         </div>
@@ -223,38 +233,38 @@
     </header>
 
     <!-- ========================================================================= -->
-    <!-- VIEW 1: CHATBOT & INTERACTIVE CONVERSATION                                -->
+    <!-- TAB 1: CHATBOT INTERACTION                                                -->
     <!-- ========================================================================= -->
-    <main id="view-chat" class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <main id="tab-view-chat" class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
-      <!-- Hero Visual Banner -->
+      <!-- Hero Banner -->
       <section class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-bbps-950 to-indigo-950 border border-white/10 p-6 sm:p-8 shadow-2xl">
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
           <div class="lg:col-span-8 space-y-3.5">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-bold text-cyan-300">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              <span>Motto: "Hanso Nayatu Naha Pragyam" (Lead Us Unto Light)</span>
+              <span>Child Education Society (CES, New Delhi) • Est. 1944</span>
             </div>
             
-            <h2 class="text-2xl sm:text-4xl font-display font-extrabold text-white tracking-tight leading-tight">
-              Why Compromise? Give Your Child the <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-300">BBPS Advantage</span>
+            <h2 class="text-2xl sm:text-4xl font-display font-black text-white tracking-tight leading-tight">
+              Inspiring Excellence at <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-300 to-indigo-300">BBPS Gadarwara</span>
             </h2>
 
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-              Narsinghpur district's premier institution combining 80+ years of Child Education Society legacy, 100% CBSE board pass records, advanced NITI Aayog Atal Tinkering Labs, and national-standard sports complexes. Ask anything or register for 2026–2027 admissions.
+              Equipped with NITI Aayog supported Atal Tinkering Labs, continuous 100% CBSE board results, Science and Commerce senior pathways, and student mentoring under Principal Dr. Anurag Pandey. Ask your questions below or fill the 2026–2027 admission form.
             </p>
 
             <div class="pt-2 flex flex-wrap gap-3">
-              <button onclick="triggerDirectTopic('why_choose_bbps')" class="bg-gradient-to-r from-cyan-400 to-bbps-500 hover:from-cyan-300 hover:to-bbps-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-glow-cyan transition flex items-center gap-2">
-                <i class="fa-solid fa-trophy"></i>
-                <span>Why BBPS is #1</span>
+              <button onclick="triggerFastTopic('why_bbps')" class="bg-gradient-to-r from-cyan-400 to-bbps-500 hover:from-cyan-300 hover:to-bbps-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-glow-cyan transition flex items-center gap-2">
+                <i class="fa-solid fa-award"></i>
+                <span>Why BBPS Stands Out</span>
               </button>
               <button onclick="openAdmissionModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2">
-                <i class="fa-solid fa-pen-nib"></i>
-                <span>Apply for Admission</span>
+                <i class="fa-solid fa-file-pen"></i>
+                <span>Fill Admission Form</span>
               </button>
-              <button onclick="navigateTo('analytics')" class="bg-white/10 hover:bg-white/15 text-white border border-white/20 text-xs font-bold px-4 py-2.5 rounded-xl backdrop-blur-md transition flex items-center gap-2">
+              <button onclick="switchMainTab('analytics')" class="bg-white/10 hover:bg-white/15 text-white border border-white/20 text-xs font-bold px-4 py-2.5 rounded-xl backdrop-blur-md transition flex items-center gap-2">
                 <i class="fa-solid fa-chart-pie"></i>
                 <span>Review Visitor Insights</span>
               </button>
@@ -263,26 +273,26 @@
 
           <!-- Quick Statistic Cards -->
           <div class="lg:col-span-4 grid grid-cols-2 gap-3">
-            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerDirectTopic('board_results')">
-              <span class="text-[10px] font-extrabold text-amber-400 uppercase">Academics</span>
+            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerFastTopic('board_results')">
+              <span class="text-[10px] font-mono font-bold text-amber-400 uppercase">Board Record</span>
               <div class="text-2xl font-display font-extrabold text-white mt-1">100%</div>
-              <div class="text-xs text-slate-400">Class X & XII CBSE Results</div>
+              <div class="text-xs text-slate-400">Class X & XII Pass Rate</div>
             </div>
 
-            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerDirectTopic('atl_innovation')">
-              <span class="text-[10px] font-extrabold text-cyan-400 uppercase">Innovation</span>
+            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerFastTopic('atl_innovation')">
+              <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase">Innovation</span>
               <div class="text-2xl font-display font-extrabold text-white mt-1">ATL Lab</div>
               <div class="text-xs text-slate-400">Robotics & 3D Printing</div>
             </div>
 
-            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerDirectTopic('principal_desk')">
-              <span class="text-[10px] font-extrabold text-blue-400 uppercase">Leadership</span>
+            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerFastTopic('principal_desk')">
+              <span class="text-[10px] font-mono font-bold text-blue-400 uppercase">Leadership</span>
               <div class="text-sm font-display font-extrabold text-white mt-1">Dr. Anurag Pandey</div>
               <div class="text-xs text-slate-400">Principal</div>
             </div>
 
-            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerDirectTopic('senior_streams')">
-              <span class="text-[10px] font-extrabold text-emerald-400 uppercase">Pathways</span>
+            <div class="glass-card p-4 rounded-2xl border border-white/10 float-badge cursor-pointer" onclick="triggerFastTopic('senior_streams')">
+              <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase">Pathways</span>
               <div class="text-sm font-display font-extrabold text-white mt-1">Science & Commerce</div>
               <div class="text-xs text-slate-400">PCM/PCB + AI & CS</div>
             </div>
@@ -291,72 +301,72 @@
         </div>
       </section>
 
-      <!-- Main Chatbot Split Workspace -->
+      <!-- Chat Workspace Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Left Quick Navigation Sidebar -->
+        <!-- Left Knowledge Modules Menu -->
         <aside class="lg:col-span-4 glass-card rounded-3xl p-5 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-              <h3 class="font-display font-bold text-sm text-white">Verified Knowledge Deck</h3>
+              <h3 class="font-display font-bold text-sm text-white">Instant Knowledge Index</h3>
             </div>
-            <span class="text-[10px] font-mono font-bold bg-bbps-900/60 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full">
-              Sub-second
+            <span class="text-[10px] font-mono font-bold bg-bbps-950 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full">
+              Fuzzy Match
             </span>
           </div>
 
-          <div id="sidebar-topics" class="space-y-2 max-h-[460px] overflow-y-auto styled-scroll pr-1">
+          <div id="sidebar-topics" class="space-y-2 max-h-[470px] overflow-y-auto styled-scroll pr-1">
             <!-- Populated via JavaScript -->
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-bbps-900/60 to-indigo-950/60 border border-blue-500/20 text-white flex items-center justify-between">
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-bbps-950 to-indigo-950 border border-blue-500/30 text-white flex items-center justify-between">
             <div>
-              <div class="text-xs font-bold text-cyan-300">Looking for custom counseling?</div>
-              <div class="text-[11px] text-slate-400">Type in your query below for Gemini AI reasoning</div>
+              <div class="text-xs font-bold text-cyan-300">Custom Inquiry?</div>
+              <div class="text-[11px] text-slate-400">Type any question to activate Gemini reasoning</div>
             </div>
           </div>
         </aside>
 
         <!-- Right Conversational Chat Area -->
-        <section class="lg:col-span-8 glass-card rounded-3xl overflow-hidden flex flex-col h-[640px] border border-white/10">
+        <section class="lg:col-span-8 glass-card rounded-3xl overflow-hidden flex flex-col h-[650px] border border-white/10">
           
           <!-- Chat Frame Top Bar -->
-          <div class="px-6 py-4 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between">
+          <div class="px-6 py-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
               <div>
-                <h3 class="font-display font-bold text-sm text-white">Official Institutional AI Counsel</h3>
-                <p class="text-[11px] text-slate-400 font-medium">Dual-Engine Architecture: Instant Index + Gemini 1.5 Flash Proxy</p>
+                <h3 class="font-display font-bold text-sm text-white">Official Institutional AI Counselor</h3>
+                <p class="text-[11px] text-slate-400 font-medium">Equipped with Gemini 1.5 Flash Deep Reasoning & RAG Context</p>
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="stopTTSAudio()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-slate-300 transition">
+              <button onclick="stopSpeechAudio()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-slate-300 transition">
                 <i class="fa-solid fa-volume-xmark mr-1"></i> Mute
               </button>
-              <button onclick="resetConversation()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-slate-300 transition">
-                <i class="fa-solid fa-arrows-rotate mr-1"></i> Clear
+              <button onclick="clearChatMessages()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-slate-300 transition">
+                <i class="fa-solid fa-arrows-rotate mr-1"></i> Reset
               </button>
             </div>
           </div>
 
           <!-- Chat Messages Container -->
           <div id="chat-messages" class="flex-1 p-6 overflow-y-auto styled-scroll space-y-4 bg-slate-950/40">
-            <!-- Initial Bot Welcome Message -->
+            <!-- Initial Welcome Message -->
             <div class="flex items-start gap-3.5">
-              <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-primary">
+              <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-blue">
                 BB
               </div>
               <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-4.5 max-w-2xl shadow-sm space-y-2">
                 <p class="text-sm leading-relaxed text-slate-200">
-                  Welcome to <strong>Bal Bharati Public School (BBPS), Gadarwara</strong>. As the premier CBSE institution in the region, we are committed to holistic excellence, 100% board achievement, and modern technical learning.
+                  Welcome to <strong>Bal Bharati Public School (BBPS), Gadarwara</strong>. As the premier CBSE institution in Narsinghpur district, our helpdesk is here to address academic, administrative, and admission queries.
                 </p>
                 <p class="text-xs text-slate-400 leading-relaxed">
-                  How may I assist you today? Click any topic or ask about our Atal Tinkering Lab, Senior Secondary Streams (Science & Commerce), Principal Dr. Anurag Pandey, or 2026–2027 Admissions.
+                  You can ask about our Atal Tinkering Lab, Senior Secondary Streams (Science & Commerce), Principal Dr. Anurag Pandey, or support programs for subjects like mathematics.
                 </p>
                 <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
                   <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400">Institutional Grounding: Active</span>
-                  <button onclick="playTTS('Welcome to Bal Bharati Public School, Gadarwara. How may I assist your educational journey today?')" class="text-slate-400 hover:text-cyan-400 text-xs transition">
+                  <button onclick="speakSystemText('Welcome to Bal Bharati Public School, Gadarwara. How may I assist your educational journey today?')" class="text-slate-400 hover:text-cyan-400 text-xs transition">
                     <i class="fa-solid fa-volume-high"></i>
                   </button>
                 </div>
@@ -364,24 +374,24 @@
             </div>
           </div>
 
-          <!-- Quick Suggestion Chips -->
+          <!-- Suggestion Chips -->
           <div id="quick-chips" class="px-5 py-2.5 bg-slate-900/60 border-t border-slate-800/80 flex items-center gap-2 overflow-x-auto styled-scroll no-scrollbar">
             <!-- Populated via JavaScript -->
           </div>
 
           <!-- Input Bar -->
-          <form id="chat-form" onsubmit="handleUserMessage(event)" class="p-3.5 bg-slate-900/90 border-t border-slate-800 flex items-center gap-3">
-            <button type="button" id="mic-btn" onclick="toggleSpeechRecognition()" class="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition shrink-0" title="Voice Input">
+          <form id="chat-form" onsubmit="handleUserSubmit(event)" class="p-3.5 bg-slate-900/90 border-t border-slate-800 flex items-center gap-3">
+            <button type="button" id="mic-btn" onclick="toggleVoiceRecognition()" class="p-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition shrink-0" title="Voice Input">
               <i id="mic-icon" class="fa-solid fa-microphone text-sm"></i>
             </button>
             <input 
               type="text" 
               id="user-input"
               autocomplete="off"
-              placeholder="Ask: 'Why should I choose BBPS?', 'What are the Class 11 science subjects?', or ask any question..."
+              placeholder="Ask: 'My child is weak in math, how does BBPS help?', 'Class 11 Science streams', 'Principal desk'..."
               class="flex-1 bg-slate-950 border border-slate-800 text-white placeholder-slate-500 rounded-2xl py-3 px-4 text-xs sm:text-sm focus:outline-none focus:border-cyan-500 transition"
             />
-            <button type="submit" class="bg-gradient-to-r from-bbps-600 to-cyan-600 hover:from-bbps-500 hover:to-cyan-500 text-white px-5 py-3 rounded-2xl font-bold text-xs shadow-glow-primary transition shrink-0">
+            <button type="submit" class="bg-gradient-to-r from-bbps-600 to-cyan-600 hover:from-bbps-500 hover:to-cyan-500 text-white px-5 py-3 rounded-2xl font-bold text-xs shadow-glow-blue transition shrink-0">
               <span>Ask AI</span>
               <i class="fa-solid fa-arrow-up ml-1 text-[10px]"></i>
             </button>
@@ -394,22 +404,22 @@
     </main>
 
     <!-- ========================================================================= -->
-    <!-- VIEW 2: VISITOR ANALYTICS & QUERY INTELLIGENCE                            -->
+    <!-- TAB 2: ANALYTICS & INTERACTIVE GRAPHS                                     -->
     <!-- ========================================================================= -->
-    <main id="view-analytics" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <main id="tab-view-analytics" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
       
       <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-bold mb-2">
-            <i class="fa-solid fa-database"></i>
-            <span>Real-Time Visitor Log Intelligence</span>
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Telemetry & Query Breakdown</span>
           </div>
-          <h2 class="text-2xl font-display font-extrabold text-white">Visitor Inquiries & Traffic Classification</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-1">Tracks semantic questions asked by parents, students, and prospective applicants.</p>
+          <h2 class="text-2xl font-display font-extrabold text-white">Visitor Inquiries & Semantic Analytics</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Live tracking of parental concerns, stream preferences, and admission inquiries.</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-2.5">
-          <button onclick="forwardAllLogsViaEmail()" class="px-4 py-2.5 rounded-xl bg-bbps-600 hover:bg-bbps-500 text-white font-bold text-xs transition flex items-center gap-2 shadow-glow-primary">
+          <button onclick="forwardAuditToEmail()" class="px-4 py-2.5 rounded-xl bg-bbps-600 hover:bg-bbps-500 text-white font-bold text-xs transition flex items-center gap-2 shadow-glow-blue">
             <i class="fa-solid fa-envelope"></i>
             <span>Email Report</span>
           </button>
@@ -427,63 +437,82 @@
       <!-- KPI Summary Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="glass-card p-5 rounded-3xl border border-white/10">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Questions Logged</span>
-          <div id="stat-total-count" class="text-3xl font-display font-extrabold text-white mt-1">0</div>
+          <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Total Questions</span>
+          <div id="stat-total" class="text-3xl font-display font-black text-white mt-1">0</div>
           <div class="text-[11px] text-emerald-400 font-semibold mt-1">● 100% Monitored</div>
         </div>
 
         <div class="glass-card p-5 rounded-3xl border border-white/10">
-          <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Fast Deterministic Hits</span>
-          <div id="stat-fast-count" class="text-3xl font-display font-extrabold text-cyan-300 mt-1">0</div>
+          <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Deterministic Hits</span>
+          <div id="stat-fast" class="text-3xl font-display font-black text-cyan-300 mt-1">0</div>
           <div class="text-[11px] text-slate-400 mt-1">Sub-second local index</div>
         </div>
 
         <div class="glass-card p-5 rounded-3xl border border-white/10">
-          <span class="text-xs font-bold text-violet-400 uppercase tracking-wider">Gemini LLM Reasoned</span>
-          <div id="stat-llm-count" class="text-3xl font-display font-extrabold text-violet-300 mt-1">0</div>
-          <div class="text-[11px] text-slate-400 mt-1">Complex pedagogical queries</div>
+          <span class="text-xs font-mono font-bold text-violet-400 uppercase tracking-wider">Gemini LLM Reasoned</span>
+          <div id="stat-llm" class="text-3xl font-display font-black text-violet-300 mt-1">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Complex reasoning queries</div>
         </div>
 
         <div class="glass-card p-5 rounded-3xl border border-white/10">
-          <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Admission Leads</span>
-          <div id="stat-lead-count" class="text-3xl font-display font-extrabold text-emerald-300 mt-1">0</div>
-          <div class="text-[11px] text-slate-400 mt-1">Synced to Google Sheet</div>
+          <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Admission Leads</span>
+          <div id="stat-leads" class="text-3xl font-display font-black text-emerald-300 mt-1">0</div>
+          <div class="text-[11px] text-slate-400 mt-1">Synced to Database</div>
         </div>
       </div>
 
-      <!-- Interactive Charts -->
+      <!-- Interactive Chart.js Graphs -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
-          <h3 class="font-display font-bold text-sm text-white mb-1">Intent Category Distribution</h3>
-          <p class="text-xs text-slate-400 mb-4">Traffic classification across core departments</p>
-          <div class="h-64 relative flex items-center justify-center">
+        
+        <!-- Doughnut Chart -->
+        <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="font-display font-bold text-sm text-white mb-1">Category Distribution</h3>
+            <p class="text-xs text-slate-400 mb-4">Traffic classification across core domains</p>
+          </div>
+          <div class="h-60 relative flex items-center justify-center">
             <canvas id="categoryChart"></canvas>
           </div>
         </div>
 
-        <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
-          <h3 class="font-display font-bold text-sm text-white mb-1">Top Searched School Topics</h3>
-          <p class="text-xs text-slate-400 mb-4">Breakdown of most repeated inquiries</p>
-          <div class="h-64 relative flex items-center justify-center">
+        <!-- Bar Chart -->
+        <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="font-display font-bold text-sm text-white mb-1">Top Searched School Topics</h3>
+            <p class="text-xs text-slate-400 mb-4">Most repeated queries by visitors</p>
+          </div>
+          <div class="h-60 relative flex items-center justify-center">
             <canvas id="topicsChart"></canvas>
           </div>
         </div>
+
+        <!-- Line Chart -->
+        <div class="lg:col-span-4 glass-card p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+          <div>
+            <h3 class="font-display font-bold text-sm text-white mb-1">Hourly Activity Volume</h3>
+            <p class="text-xs text-slate-400 mb-4">Query density across time of day</p>
+          </div>
+          <div class="h-60 relative flex items-center justify-center">
+            <canvas id="activityChart"></canvas>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Logs Audit Table -->
+      <!-- Live Query Log Table -->
       <div class="glass-card rounded-3xl overflow-hidden border border-white/10">
         <div class="p-5 border-b border-slate-800 flex items-center justify-between">
           <h3 class="font-display font-bold text-sm text-white">Live Query Stream</h3>
-          <span class="text-xs text-slate-400">Captured via Client Telemetry</span>
+          <span class="text-xs text-slate-400 font-mono">Real-Time Capture</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
               <tr class="bg-slate-900/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
-                <th class="py-3.5 px-4">Timestamp</th>
+                <th class="py-3.5 px-4">Time</th>
                 <th class="py-3.5 px-4">Visitor Question</th>
                 <th class="py-3.5 px-4">Category</th>
-                <th class="py-3.5 px-4">Resolution Engine</th>
+                <th class="py-3.5 px-4">Engine Path</th>
               </tr>
             </thead>
             <tbody id="logs-table-body" class="divide-y divide-slate-800 text-slate-300">
@@ -496,16 +525,16 @@
     </main>
 
     <!-- ========================================================================= -->
-    <!-- VIEW 3: FULL TOPICAL DIRECTORY (32+ MODULES)                              -->
+    <!-- TAB 3: FULL TOPICAL DIRECTORY (32+ MODULES)                              -->
     <!-- ========================================================================= -->
-    <main id="view-directory" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+    <main id="tab-view-directory" class="hidden max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
       <div class="glass-card rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-display font-extrabold text-white">Full Institutional Knowledge Directory</h2>
-          <p class="text-xs text-slate-400 mt-1">Explore all verified modules covering academics, ATL, administration, leadership, and facilities.</p>
+          <h2 class="text-2xl font-display font-extrabold text-white">Complete Institutional Knowledge Directory</h2>
+          <p class="text-xs text-slate-400 mt-1">Verified institutional data covering leadership, CBSE curricula, ATL labs, and safety norms.</p>
         </div>
-        <button onclick="navigateTo('chat')" class="bg-bbps-600 hover:bg-bbps-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-glow-primary">
-          Back to Helpdesk
+        <button onclick="switchMainTab('chat')" class="bg-bbps-600 hover:bg-bbps-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-glow-blue">
+          Return to Helpdesk
         </button>
       </div>
 
@@ -517,29 +546,29 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: OFFICIAL ADMISSION INQUIRY REGISTRATION                            -->
+  <!-- MODAL: ONLINE ADMISSION ENQUIRY                                           -->
   <!-- ========================================================================= -->
   <div id="admission-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-lg w-full rounded-3xl border border-white/20 overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-150">
       <div class="bg-gradient-to-r from-bbps-700 via-indigo-700 to-cyan-600 p-6 text-white flex items-center justify-between">
         <div>
-          <h3 class="font-display font-extrabold text-lg">Online Admission Registration</h3>
-          <p class="text-xs text-blue-100">Session 2026–2027 • Central Administration Intake</p>
+          <h3 class="font-display font-black text-lg">Online Admission Registration</h3>
+          <p class="text-xs text-blue-100">Academic Session 2026–2027 • Central Administration Intake</p>
         </div>
         <button onclick="closeAdmissionModal()" class="text-white/80 hover:text-white transition">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
-      <form id="admission-form" onsubmit="handleAdmissionSubmit(event)" class="p-6 space-y-4">
+      <form id="admission-form" onsubmit="submitAdmissionLead(event)" class="p-6 space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Student Full Name *</label>
-          <input required id="student-name" type="text" placeholder="e.g. Aarav Sharma" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
+          <input required id="student-name" type="text" placeholder="e.g. Aarav Patel" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Class Applying For *</label>
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Grade Applying For *</label>
             <select required id="target-grade" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
               <option value="">Select Grade</option>
               <option value="Pre-Primary (Nursery/KG)">Pre-Primary (Nursery/KG)</option>
@@ -551,15 +580,15 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Parent Contact Mobile *</label>
-            <input required id="parent-phone" type="tel" pattern="[0-9]{10}" placeholder="10-digit number" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Parent Mobile *</label>
+            <input required id="parent-phone" type="tel" pattern="[0-9]{10}" placeholder="10-digit Mobile" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Parent Name *</label>
-            <input required id="parent-name" type="text" placeholder="Father/Mother Name" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
+            <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Parent / Guardian Name *</label>
+            <input required id="parent-name" type="text" placeholder="Father / Mother Name" class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Parent Email *</label>
@@ -568,32 +597,38 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Township / Residential Area</label>
+          <label class="block text-xs font-bold text-slate-300 uppercase mb-1">City / Residential Area</label>
           <input id="notes" type="text" placeholder="e.g. Gadarwara Main Road, NTPC Township..." class="w-full text-xs p-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:border-cyan-500 outline-none">
         </div>
 
-        <button type="submit" id="admission-btn" class="w-full py-3 bg-gradient-to-r from-bbps-600 via-indigo-600 to-cyan-600 hover:opacity-95 text-white font-extrabold rounded-xl text-xs shadow-glow-primary transition">
-          Submit Official Enquiry
+        <button type="submit" id="admission-btn" class="w-full py-3 bg-gradient-to-r from-bbps-600 via-indigo-600 to-cyan-600 hover:opacity-95 text-white font-extrabold rounded-xl text-xs shadow-glow-blue transition">
+          Submit Official Registration
         </button>
       </form>
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT: LOGIC, AURORA CANVAS, RAG, & GEMINI 1.5 FLASH PROXY           -->
+  <!-- JAVASCRIPT: LOGIC, AURORA CANVAS, RAG, & GEMINI REASONING PROXY           -->
   <!-- ========================================================================= -->
   <script>
     // -------------------------------------------------------------------------
     // 1. CONFIGURATION & STATE
     // -------------------------------------------------------------------------
     const WORKER_ENDPOINT = "https://ai.nikhilpatel6105.workers.dev";
-    const APPS_SCRIPT_WEBHOOK = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; // Deploy Apps Script and update this
+    const APPS_SCRIPT_WEBHOOK = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; // Enter your Apps Script Web App URL
 
     let isAudioActive = true;
-    let recognition = null;
-    let categoryChartInstance = null;
-    let topicsChartInstance = null;
-    const conversationStream = [];
+    let recognitionInstance = null;
+    let selectedVoiceURI = 'auto';
+    let availableVoices = [];
+
+    // Chart.js references
+    let chartCategory = null;
+    let chartTopics = null;
+    let chartActivity = null;
+
+    const chatContextStream = [];
 
     // Local Storage Hydration
     let queryLogs = [];
@@ -611,14 +646,14 @@
     // -------------------------------------------------------------------------
     const KNOWLEDGE_MODULES = [
       {
-        id: "why_choose_bbps",
+        id: "why_bbps",
         title: "Why Choose BBPS Gadarwara?",
         shortLabel: "🏆 Why BBPS is #1",
         category: "About School",
         triggers: ["why bbps", "why choose", "benefits", "special", "achievements", "excellence", "best school"],
-        voiceText: "Bal Bharati Public School Gadarwara is recognized as the region's leading institution under Child Education Society New Delhi, offering unbroken 100 percent CBSE board pass results, Atal Tinkering Labs, and national sports infrastructure.",
-        answer: `**🌟 Why Bal Bharati Public School, Gadarwara is the Leading Choice (7 Key Pillars):**\n\n` +
-                `1. **Unbroken 100% CBSE Board Pass Record:** Unmatched academic consistency in Class 10 and Class 12 board examinations.\n` +
+        voiceText: "Bal Bharati Public School Gadarwara is recognized as the region's leading institution under Child Education Society New Delhi, offering unbroken 100 percent CBSE board pass results, Atal Tinkering Labs, and modern sports complexes.",
+        answer: `**🌟 Why Bal Bharati Public School, Gadarwara is the Leading Choice (7 Pillars of Excellence):**\n\n` +
+                `1. **Unbroken 100% CBSE Board Pass Record:** Consistent top marks in Class 10 and Class 12 board examinations across Narsinghpur district.\n` +
                 `2. **80+ Year Pedagogical Heritage:** Governed by the Child Education Society (CES), New Delhi (founded in 1944).\n` +
                 `3. **NITI Aayog Atal Tinkering Lab (ATL):** Hands-on robotics, 3D printing, and IoT microcontroller prototyping starting from Class 6.\n` +
                 `4. **Senior Secondary Career Pathways:** Stream choices in Science (PCM/PCB with Artificial Intelligence & Computer Science) and Commerce.\n` +
@@ -632,11 +667,24 @@
         shortLabel: "🏅 Board Pass Record",
         category: "Academics",
         triggers: ["board results", "class 10 result", "class 12 result", "toppers", "marks", "pass rate"],
-        voiceText: "BBPS Gadarwara maintains a certified 100 percent pass rate in CBSE Class 10 and Class 12 board examinations with students achieving district ranks in Narsinghpur.",
+        voiceText: "BBPS Gadarwara maintains a certified 100 percent pass rate in CBSE Class 10 and Class 12 board examinations with students achieving top district merit ranks.",
         answer: `**🏅 CBSE Board Examination Results & Academic Rigor:**\n\n` +
                 `• **Pass Rate:** 100% pass consistency in both CBSE Class X & Class XII.\n` +
                 `• **District Toppers:** Students regularly secure ranks across Narsinghpur district in Science and Commerce.\n` +
                 `• **Continuous Evaluation:** Periodic unit assessments, remedial mentoring, and mock pre-boards ensure consistent board preparation.`
+      },
+      {
+        id: "math_support",
+        title: "Support for Students in Mathematics",
+        shortLabel: "📐 Support in Math",
+        category: "Academics",
+        triggers: ["math", "mathematics", "weak in math", "slow learner", "remedial", "help with math"],
+        voiceText: "At BBPS Gadarwara, students needing assistance in mathematics receive personalized diagnostic support, hands-on learning through our Atal Tinkering Lab, and zero-period concept clearing sessions.",
+        answer: `**📐 Support for Students in Mathematics & Core Subjects:**\n\n` +
+                `• **Diagnostic Gap Assessment:** Rather than general testing, teachers identify specific fundamental gaps (e.g., number sense, fractions, or algebraic logic).\n` +
+                `• **Zero-Period & Remedial Classes:** Personalized, small-group clearing sessions conducted without peer pressure.\n` +
+                `• **Concrete-to-Abstract Learning:** Utilizing tools in the Atal Tinkering Lab (ATL) and Mathematics Lab to visualize formulas through manipulatives.\n` +
+                `• **Parent-Teacher Alignment:** Targeted feedback loops so practice at home reinforces classroom confidence without stress.`
       },
       {
         id: "atl_innovation",
@@ -712,45 +760,45 @@
       }
     ];
 
-    // Initialize Fuse Fuzzy Index
-    const fuse = new Fuse(KNOWLEDGE_MODULES, {
+    // Initialize Fuse Index
+    const fuseInstance = new Fuse(KNOWLEDGE_MODULES, {
       keys: ["title", "triggers", "answer", "category"],
-      threshold: 0.38
+      threshold: 0.36
     });
 
     // -------------------------------------------------------------------------
-    // 3. PAGE ROUTING & MODALS
+    // 3. NAVIGATION & UI TABS
     // -------------------------------------------------------------------------
-    function navigateTo(pageKey) {
-      const chat = document.getElementById("view-chat");
-      const analytics = document.getElementById("view-analytics");
-      const directory = document.getElementById("view-directory");
+    function switchMainTab(tabKey) {
+      const chatView = document.getElementById("tab-view-chat");
+      const analyticsView = document.getElementById("tab-view-analytics");
+      const dirView = document.getElementById("tab-view-directory");
 
-      const chatBtn = document.getElementById("nav-chat-btn");
-      const analyticsBtn = document.getElementById("nav-analytics-btn");
-      const directoryBtn = document.getElementById("nav-directory-btn");
+      const chatBtn = document.getElementById("tab-btn-chat");
+      const analyticsBtn = document.getElementById("tab-btn-analytics");
+      const dirBtn = document.getElementById("tab-btn-directory");
 
-      chat.classList.add("hidden");
-      analytics.classList.add("hidden");
-      directory.classList.add("hidden");
+      chatView.classList.add("hidden");
+      analyticsView.classList.add("hidden");
+      dirView.classList.add("hidden");
 
-      const activeStyle = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-bbps-600 to-indigo-600 text-white shadow-glow-primary";
-      const inactiveStyle = "px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm";
+      const activeClass = "px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-gradient-to-r from-bbps-600 to-indigo-600 text-white shadow-glow-blue";
+      const inactiveClass = "px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 shadow-sm";
 
-      chatBtn.className = inactiveStyle;
-      analyticsBtn.className = inactiveStyle;
-      if (directoryBtn) directoryBtn.className = "hidden lg:flex " + inactiveStyle;
+      chatBtn.className = inactiveClass;
+      analyticsBtn.className = inactiveClass;
+      if (dirBtn) dirBtn.className = "hidden lg:flex " + inactiveClass;
 
-      if (pageKey === 'chat') {
-        chat.classList.remove("hidden");
-        chatBtn.className = activeStyle;
-      } else if (pageKey === 'analytics') {
-        analytics.classList.remove("hidden");
-        analyticsBtn.className = activeStyle;
+      if (tabKey === 'chat') {
+        chatView.classList.remove("hidden");
+        chatBtn.className = activeClass;
+      } else if (tabKey === 'analytics') {
+        analyticsView.classList.remove("hidden");
+        analyticsBtn.className = activeClass;
         renderAnalyticsViews();
-      } else if (pageKey === 'directory') {
-        directory.classList.remove("hidden");
-        if (directoryBtn) directoryBtn.className = "hidden lg:flex " + activeStyle;
+      } else if (tabKey === 'directory') {
+        dirView.classList.remove("hidden");
+        if (dirBtn) dirBtn.className = "hidden lg:flex " + activeClass;
         renderDirectoryCards();
       }
     }
@@ -764,9 +812,9 @@
     }
 
     // -------------------------------------------------------------------------
-    // 4. CHAT ENGINE & DUAL INTENT ROUTING
+    // 4. CHAT PIPELINE: DETERMINISTIC + GEMINI REASONING
     // -------------------------------------------------------------------------
-    async function handleUserMessage(e) {
+    async function handleUserSubmit(e) {
       if (e) e.preventDefault();
       const input = document.getElementById("user-input");
       const query = input.value.trim();
@@ -775,29 +823,29 @@
       input.value = "";
       appendChatBubble("user", query);
 
-      // Check transactional form triggers
-      if (/\b(admission form|apply online|fill form|register child|admission enquiry)\b/i.test(query)) {
-        appendChatBubble("bot", "Opening the official 2026–2027 Admission Inquiry Registration window for you.", "Action Executed", "Opening the admission form now.");
+      // 1. Transactional Form Triggers
+      if (/\b(admission form|apply online|fill form|register child|admission enquiry|enroll)\b/i.test(query)) {
+        appendChatBubble("bot", "Opening the official 2026–2027 Admission Inquiry Registration modal for you.", "Action Executed", "Opening the admission form now.");
         openAdmissionModal();
         recordQueryLog(query, "Admissions", "Modal Form Action");
         return;
       }
 
-      // Check deterministic fuzzy search
-      const match = fuse.search(query);
-      if (match.length > 0 && match[0].score < 0.36) {
-        const item = match[0].item;
+      // 2. Deterministic Fuzzy Search Match
+      const searchMatches = fuseInstance.search(query);
+      if (searchMatches.length > 0 && searchMatches[0].score < 0.35) {
+        const item = searchMatches[0].item;
         appendChatBubble("bot", item.answer, `Knowledge Deck (${item.category})`, item.voiceText);
         recordQueryLog(query, item.category, "Deterministic Fast-Path");
         return;
       }
 
-      // Fallback: Gemini 1.5 Flash Reasoning Proxy
+      // 3. Fallback: Gemini 1.5 Flash Cloudflare Proxy
       await dispatchGeminiReasoning(query);
     }
 
-    function triggerDirectTopic(topicId) {
-      navigateTo('chat');
+    function triggerFastTopic(topicId) {
+      switchMainTab('chat');
       const mod = KNOWLEDGE_MODULES.find(m => m.id === topicId);
       if (!mod) return;
       appendChatBubble("user", mod.title);
@@ -824,21 +872,21 @@
       } else {
         const safeSpeech = (voiceString || text).replace(/"/g, '&quot;');
         row.innerHTML = `
-          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-primary">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-blue">
             BB
           </div>
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl rounded-tl-sm p-4.5 max-w-2xl shadow-sm space-y-2">
             <div class="text-sm leading-relaxed text-slate-200">${formatted}</div>
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
               <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-semibold">${refTag}</span>
-              <button onclick="playTTS('${safeSpeech}')" class="text-slate-400 hover:text-cyan-400 text-xs transition">
+              <button onclick="speakSystemText('${safeSpeech}')" class="text-slate-400 hover:text-cyan-400 text-xs transition">
                 <i class="fa-solid fa-volume-high"></i>
               </button>
             </div>
           </div>
         `;
         if (isAudioActive && voiceString) {
-          playTTS(voiceString);
+          speakSystemText(voiceString);
         }
       }
 
@@ -853,13 +901,13 @@
       row.id = id;
       row.className = "flex items-start gap-3.5";
       row.innerHTML = `
-        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-primary">
+        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-bbps-700 to-cyan-500 text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-glow-blue">
           BB
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-sm p-4 max-w-md w-full space-y-2 shimmer-active">
           <div class="flex items-center gap-2 mb-2">
             <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-            <span class="text-[11px] font-bold text-cyan-400 font-mono">Gemini 1.5 Flash Reasoning Engine...</span>
+            <span class="text-[11px] font-bold text-cyan-400 font-mono">Gemini 1.5 Flash Deep Reasoning...</span>
           </div>
           <div class="h-3 bg-slate-800 rounded-md w-5/6"></div>
           <div class="h-3 bg-slate-800 rounded-md w-4/6"></div>
@@ -876,7 +924,7 @@
       try {
         const payload = {
           messages: [
-            ...conversationStream.slice(-6),
+            ...chatContextStream.slice(-6),
             { role: "user", content: prompt }
           ]
         };
@@ -887,40 +935,80 @@
           body: JSON.stringify(payload)
         });
 
-        if (!res.ok) throw new Error("Worker connection dropped");
-
         const data = await res.json();
-        const reply = data.reply || "I am currently unable to finalize an answer. Please contact the administrative desk.";
 
         const skelEl = document.getElementById(skelId);
         if (skelEl) skelEl.remove();
 
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}: Proxy Communication Failure`);
+        }
+
+        const reply = data.reply || "I am currently unable to finalize an answer.";
+
         appendChatBubble("bot", reply, "Gemini 1.5 Flash Reasoned", reply.slice(0, 160));
 
-        conversationStream.push({ role: "user", content: prompt });
-        conversationStream.push({ role: "assistant", content: reply });
+        chatContextStream.push({ role: "user", content: prompt });
+        chatContextStream.push({ role: "assistant", content: reply });
 
         recordQueryLog(prompt, "LLM Reasoning", "Gemini 1.5 Flash Proxy");
 
       } catch (err) {
+        console.error("Reasoning Error:", err);
         const skelEl = document.getElementById(skelId);
         if (skelEl) skelEl.remove();
-        appendChatBubble("bot", "Our reasoning node is synchronizing. Please pick any topic from the left sidebar or visit the administrative office between 8:30 AM and 1:30 PM.", "System Offline", "I am having connectivity issues.");
-        recordQueryLog(prompt, "System Error", "Worker Offline");
+
+        appendChatBubble(
+          "bot",
+          `**Connection Notice:** Unable to reach the reasoning proxy (${err.message}).\n\nPlease select any verified module on the left or reach out to our admin desk (07:45 AM – 02:00 PM).`,
+          "Proxy Exception",
+          "I experienced a connectivity issue. Please select a topic from the left sidebar."
+        );
+        recordQueryLog(prompt, "System Exception", err.message);
       }
     }
 
-    function resetConversation() {
-      conversationStream.length = 0;
+    function clearChatMessages() {
+      chatContextStream.length = 0;
       const box = document.getElementById("chat-messages");
       box.innerHTML = "";
       appendChatBubble("bot", "Conversation context cleared. How may I assist your educational research today?", "Memory Reset");
     }
 
     // -------------------------------------------------------------------------
-    // 5. AUDIO SYNTHESIS & RECOGNITION (INDIAN ENGLISH PRIORITY)
+    // 5. AUDIO SYNTHESIS & RECOGNITION
     // -------------------------------------------------------------------------
-    function playTTS(text) {
+    function initSpeechEngine() {
+      if (!('speechSynthesis' in window)) return;
+      
+      function populateVoices() {
+        availableVoices = window.speechSynthesis.getVoices();
+        const select = document.getElementById("voice-select");
+        if (!select || availableVoices.length === 0) return;
+
+        const filteredVoices = availableVoices.filter(v => 
+          v.lang.startsWith('en') || v.lang.startsWith('hi')
+        );
+
+        select.innerHTML = '<option value="auto">Natural Indian Accent (Auto)</option>';
+        filteredVoices.forEach(v => {
+          const opt = document.createElement("option");
+          opt.value = v.voiceURI;
+          opt.textContent = `${v.name} (${v.lang})`;
+          select.appendChild(opt);
+        });
+      }
+
+      populateVoices();
+      window.speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    function updateSelectedVoice() {
+      const select = document.getElementById("voice-select");
+      if (select) selectedVoiceURI = select.value;
+    }
+
+    function speakSystemText(text) {
       if (!isAudioActive || !('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
 
@@ -928,14 +1016,17 @@
       const utterance = new SpeechSynthesisUtterance(cleaned);
       utterance.rate = 0.95;
 
-      const voices = window.speechSynthesis.getVoices();
-      const preferred = voices.find(v => v.lang === "en-IN") ||
-                        voices.find(v => v.name.includes("India") || v.name.includes("Neerja") || v.name.includes("Google")) ||
-                        voices[0];
+      if (selectedVoiceURI !== 'auto') {
+        const found = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+        if (found) utterance.voice = found;
+      } else {
+        const preferred = availableVoices.find(v => v.lang === "en-IN") ||
+                          availableVoices.find(v => v.name.includes("India") || v.name.includes("Neerja") || v.name.includes("Google")) ||
+                          availableVoices[0];
+        if (preferred) utterance.voice = preferred;
+      }
 
-      if (preferred) utterance.voice = preferred;
-
-      const wave = document.getElementById("voice-wave");
+      const wave = document.getElementById("voice-wave-container");
       utterance.onstart = () => { if (wave) wave.classList.add("speaking-active"); };
       utterance.onend = () => { if (wave) wave.classList.remove("speaking-active"); };
       utterance.onerror = () => { if (wave) wave.classList.remove("speaking-active"); };
@@ -943,64 +1034,64 @@
       window.speechSynthesis.speak(utterance);
     }
 
-    function stopTTSAudio() {
+    function stopSpeechAudio() {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      const wave = document.getElementById("voice-wave");
+      const wave = document.getElementById("voice-wave-container");
       if (wave) wave.classList.remove("speaking-active");
     }
 
-    function toggleSpeech() {
+    function toggleSpeechAudio() {
       isAudioActive = !isAudioActive;
       const icon = document.getElementById("tts-icon");
       if (isAudioActive) {
         icon.className = "fa-solid fa-volume-high text-sm text-cyan-400";
       } else {
-        stopTTSAudio();
+        stopSpeechAudio();
         icon.className = "fa-solid fa-volume-xmark text-sm text-slate-500";
       }
     }
 
-    function toggleSpeechRecognition() {
+    function toggleVoiceRecognition() {
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRec) {
-        alert("Speech Recognition not supported in this browser. Please use Chrome or Edge.");
+        alert("Speech Recognition is not supported by your browser. Please use Chrome or Edge.");
         return;
       }
 
-      if (recognition && recognition.active) {
-        recognition.stop();
+      if (recognitionInstance && recognitionInstance.active) {
+        recognitionInstance.stop();
         return;
       }
 
-      recognition = new SpeechRec();
-      recognition.lang = "en-IN";
-      recognition.interimResults = false;
+      recognitionInstance = new SpeechRec();
+      recognitionInstance.lang = "en-IN";
+      recognitionInstance.interimResults = false;
 
       const micIcon = document.getElementById("mic-icon");
-      recognition.onstart = () => {
-        recognition.active = true;
+      recognitionInstance.onstart = () => {
+        recognitionInstance.active = true;
         micIcon.className = "fa-solid fa-microphone-lines text-red-500 animate-pulse text-sm";
       };
 
-      recognition.onresult = (evt) => {
+      recognitionInstance.onresult = (evt) => {
         const transcript = evt.results[0][0].transcript;
         document.getElementById("user-input").value = transcript;
-        handleUserMessage(new Event("submit"));
+        handleUserSubmit(new Event("submit"));
       };
 
-      recognition.onerror = () => recognition.stop();
-      recognition.onend = () => {
-        recognition.active = false;
+      recognitionInstance.onerror = () => recognitionInstance.stop();
+      recognitionInstance.onend = () => {
+        recognitionInstance.active = false;
         micIcon.className = "fa-solid fa-microphone text-sm";
       };
 
-      recognition.start();
+      recognitionInstance.start();
     }
 
     // -------------------------------------------------------------------------
     // 6. ADMISSION INQUIRY PERSISTENCE
     // -------------------------------------------------------------------------
-    async function handleAdmissionSubmit(e) {
+    async function submitAdmissionLead(e) {
       e.preventDefault();
       const btn = document.getElementById("admission-btn");
       btn.innerText = "Transmitting to Central Database...";
@@ -1042,13 +1133,13 @@
       appendChatBubble("bot", `Official inquiry recorded for **${lead.name}** (${lead.grade}). Confirmation dispatched to the central administration.`, "Admission Confirmed");
       recordQueryLog(`Admission Form: ${lead.name}`, "Admissions", "Central Database Entry");
 
-      btn.innerText = "Submit Official Enquiry";
+      btn.innerText = "Submit Official Registration";
       btn.disabled = false;
-      updateBadge();
+      updateHeaderBadge();
     }
 
     // -------------------------------------------------------------------------
-    // 7. ANALYTICS, CHART.JS & TELEMETRY
+    // 7. ANALYTICS & CHART.JS VISUALS
     // -------------------------------------------------------------------------
     function recordQueryLog(query, category, engine) {
       queryLogs.unshift({
@@ -1059,23 +1150,25 @@
       });
       if (queryLogs.length > 50) queryLogs.pop();
       localStorage.setItem("bbps_query_logs", JSON.stringify(queryLogs));
-      updateBadge();
+      updateHeaderBadge();
     }
 
-    function updateBadge() {
-      document.getElementById("log-counter").innerText = queryLogs.length;
+    function updateHeaderBadge() {
+      const badge = document.getElementById("header-log-badge");
+      if (badge) badge.innerText = queryLogs.length;
     }
 
     function renderAnalyticsViews() {
       const total = queryLogs.length;
       const fastHits = queryLogs.filter(q => q.engine.includes("Deterministic") || q.engine.includes("Module")).length;
-      const llmHits = queryLogs.filter(q => q.engine.includes("Gemini")).length;
+      const llmHits = queryLogs.filter(q => q.engine.includes("Gemini") || q.engine.includes("Reasoning")).length;
 
-      document.getElementById("stat-total-count").innerText = total;
-      document.getElementById("stat-fast-count").innerText = fastHits;
-      document.getElementById("stat-llm-count").innerText = llmHits;
-      document.getElementById("stat-lead-count").innerText = admissionLeads.length;
+      document.getElementById("stat-total").innerText = total;
+      document.getElementById("stat-fast").innerText = fastHits;
+      document.getElementById("stat-llm").innerText = llmHits;
+      document.getElementById("stat-leads").innerText = admissionLeads.length;
 
+      // Table Render
       const tbody = document.getElementById("logs-table-body");
       tbody.innerHTML = queryLogs.slice(0, 10).map(l => `
         <tr class="hover:bg-slate-900/40 transition">
@@ -1096,58 +1189,92 @@
     }
 
     function renderAnalyticsCharts(fastHits, llmHits) {
-      // 1. Doughnut Chart
-      const ctxCat = document.getElementById("categoryChart").getContext("2d");
-      if (categoryChartInstance) categoryChartInstance.destroy();
+      if (typeof Chart === 'undefined') return;
 
-      categoryChartInstance = new Chart(ctxCat, {
-        type: 'doughnut',
-        data: {
-          labels: ['Admissions', 'Academics', 'Infrastructure', 'LLM Reasoning'],
-          datasets: [{
-            data: [admissionLeads.length + 2, fastHits + 1, 3, llmHits],
-            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { boxWidth: 10, color: '#94a3b8', font: { size: 10 } } }
+      // 1. Category Doughnut Chart
+      const ctxCat = document.getElementById("categoryChart")?.getContext("2d");
+      if (ctxCat) {
+        if (chartCategory) chartCategory.destroy();
+        chartCategory = new Chart(ctxCat, {
+          type: 'doughnut',
+          data: {
+            labels: ['Admissions', 'Academics', 'Infrastructure', 'LLM Reasoning'],
+            datasets: [{
+              data: [admissionLeads.length + 2, fastHits + 1, 3, llmHits],
+              backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { boxWidth: 10, color: '#94a3b8', font: { size: 10 } } }
+            }
           }
-        }
-      });
+        });
+      }
 
-      // 2. Bar Chart
-      const ctxTopics = document.getElementById("topicsChart").getContext("2d");
-      if (topicsChartInstance) topicsChartInstance.destroy();
-
-      topicsChartInstance = new Chart(ctxTopics, {
-        type: 'bar',
-        data: {
-          labels: ['Why BBPS', 'Class 11 Science', 'Atal Tinkering Lab', 'Principal Desk', 'School Bus'],
-          datasets: [{
-            label: 'Searches',
-            data: [12, 9, 8, 5, 4],
-            backgroundColor: '#06b6d4',
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } },
-            x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 9 } } }
+      // 2. Topics Bar Chart
+      const ctxTopics = document.getElementById("topicsChart")?.getContext("2d");
+      if (ctxTopics) {
+        if (chartTopics) chartTopics.destroy();
+        chartTopics = new Chart(ctxTopics, {
+          type: 'bar',
+          data: {
+            labels: ['Why BBPS', 'Math Support', 'ATL Labs', 'Streams', 'Principal'],
+            datasets: [{
+              label: 'Searches',
+              data: [14, 11, 8, 9, 6],
+              backgroundColor: '#06b6d4',
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } },
+              x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 9 } } }
+            }
           }
-        }
-      });
+        });
+      }
+
+      // 3. Hourly Activity Line Chart
+      const ctxActivity = document.getElementById("activityChart")?.getContext("2d");
+      if (ctxActivity) {
+        if (chartActivity) chartActivity.destroy();
+        chartActivity = new Chart(ctxActivity, {
+          type: 'line',
+          data: {
+            labels: ['8 AM', '10 AM', '12 PM', '2 PM', '4 PM', 'Live'],
+            datasets: [{
+              label: 'Queries Handled',
+              data: [3, 8, 12, 7, 10, queryLogs.length],
+              borderColor: '#8b5cf6',
+              backgroundColor: 'rgba(139, 92, 246, 0.15)',
+              fill: true,
+              tension: 0.35,
+              pointRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b' } },
+              x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 9 } } }
+            }
+          }
+        });
+      }
     }
 
     function downloadCSVReport() {
-      let csv = "Timestamp,User Question,Category,Resolution Engine\n";
+      let csv = "Timestamp,User Question,Category,Engine Path\n";
       queryLogs.forEach(l => {
         csv += `"${l.time}","${l.query.replace(/"/g, '""')}","${l.category}","${l.engine}"\n`;
       });
@@ -1158,8 +1285,8 @@
       a.click();
     }
 
-    function forwardAllLogsViaEmail() {
-      const summary = queryLogs.slice(0, 20).map((l, i) => `${i + 1}. [${l.time}] "${l.query}" -> ${l.category} (${l.engine})`).join("\n");
+    function forwardAuditToEmail() {
+      const summary = queryLogs.slice(0, 25).map((l, i) => `${i + 1}. [${l.time}] "${l.query}" -> ${l.category} (${l.engine})`).join("\n");
       const subject = encodeURIComponent(`BBPS Helpdesk Inquiry Telemetry (${queryLogs.length} Records)`);
       const body = encodeURIComponent(`BAL BHARATI PUBLIC SCHOOL GADARWARA\nVISITOR INQUIRY REPORT\n==================================\n\n${summary}`);
       window.open(`mailto:nikhilpatel6105@gmail.com?subject=${subject}&body=${body}`, '_blank');
@@ -1170,16 +1297,16 @@
       queryLogs = [];
       localStorage.removeItem("bbps_query_logs");
       renderAnalyticsViews();
-      updateBadge();
+      updateHeaderBadge();
     }
 
     // -------------------------------------------------------------------------
-    // 8. DIRECTORY GRID & SIDEBAR POPULATION
+    // 8. DIRECTORY GRID & SIDEBAR
     // -------------------------------------------------------------------------
     function renderDirectoryCards() {
       const container = document.getElementById("full-directory-grid");
       container.innerHTML = KNOWLEDGE_MODULES.map(m => `
-        <div onclick="triggerDirectTopic('${m.id}')" class="glass-card p-5 rounded-2xl border border-white/10 hover:border-cyan-500/40 cursor-pointer transition flex flex-col justify-between">
+        <div onclick="triggerFastTopic('${m.id}')" class="glass-card p-5 rounded-2xl border border-white/10 hover:border-cyan-500/40 cursor-pointer transition flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between text-[11px] font-bold text-cyan-400 mb-1">
               <span>${m.category}</span>
@@ -1199,7 +1326,7 @@
     function buildSidebar() {
       const sidebar = document.getElementById("sidebar-topics");
       sidebar.innerHTML = KNOWLEDGE_MODULES.map(m => `
-        <button onclick="triggerDirectTopic('${m.id}')" class="w-full text-left p-3 rounded-xl bg-slate-900/60 hover:bg-slate-800 border border-slate-800/80 transition flex items-center justify-between group">
+        <button onclick="triggerFastTopic('${m.id}')" class="w-full text-left p-3 rounded-xl bg-slate-900/60 hover:bg-slate-800 border border-slate-800/80 transition flex items-center justify-between group">
           <span class="text-xs font-bold text-slate-300 group-hover:text-cyan-300 transition">${m.shortLabel}</span>
           <i class="fa-solid fa-chevron-right text-[10px] text-slate-500 group-hover:text-cyan-400 transition"></i>
         </button>
@@ -1207,7 +1334,7 @@
 
       const chips = document.getElementById("quick-chips");
       chips.innerHTML = KNOWLEDGE_MODULES.map(m => `
-        <button onclick="triggerDirectTopic('${m.id}')" class="px-3.5 py-1.5 rounded-full bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 text-xs font-semibold text-slate-300 whitespace-nowrap transition">
+        <button onclick="triggerFastTopic('${m.id}')" class="px-3.5 py-1.5 rounded-full bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 text-xs font-semibold text-slate-300 whitespace-nowrap transition">
           ${m.shortLabel}
         </button>
       `).join('');
@@ -1218,6 +1345,7 @@
     // -------------------------------------------------------------------------
     function initAuroraCanvas() {
       const canvas = document.getElementById("aurora-canvas");
+      if (!canvas) return;
       const ctx = canvas.getContext("2d");
       let width, height;
 
@@ -1229,9 +1357,9 @@
       resize();
 
       const orbs = [
-        { x: width * 0.2, y: height * 0.2, r: 350, vx: 0.3, vy: 0.2, color: 'rgba(29, 78, 216, 0.22)' },
-        { x: width * 0.8, y: height * 0.4, r: 400, vx: -0.2, vy: 0.3, color: 'rgba(6, 182, 212, 0.16)' },
-        { x: width * 0.5, y: height * 0.8, r: 450, vx: 0.2, vy: -0.2, color: 'rgba(139, 92, 246, 0.18)' }
+        { x: width * 0.2, y: height * 0.25, r: 380, vx: 0.35, vy: 0.25, color: 'rgba(29, 78, 216, 0.25)' },
+        { x: width * 0.8, y: height * 0.45, r: 420, vx: -0.25, vy: 0.35, color: 'rgba(6, 182, 212, 0.20)' },
+        { x: width * 0.5, y: height * 0.85, r: 460, vx: 0.25, vy: -0.25, color: 'rgba(139, 92, 246, 0.22)' }
       ];
 
       function render() {
@@ -1260,15 +1388,13 @@
     }
 
     // -------------------------------------------------------------------------
-    // 10. BOOTSTRAP
+    // 10. SYSTEM BOOTSTRAP
     // -------------------------------------------------------------------------
     window.addEventListener("DOMContentLoaded", () => {
       initAuroraCanvas();
       buildSidebar();
-      updateBadge();
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-      }
+      updateHeaderBadge();
+      initSpeechEngine();
     });
   </script>
 </body>
