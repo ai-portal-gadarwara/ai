@@ -1382,6 +1382,36 @@
       submitButton.disabled = false;
     }
   });
+  <!-- BBPS AI Portal Rating System -->
+<section id="portal-rating" style="max-width: 450px; margin: 30px auto; padding: 25px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; text-align: center; font-family: Arial, sans-serif;">
+  <h3 style="margin-bottom: 15px; color: #333;">Rate our AI Portal</h3>
+  
+  <div class="stars" style="margin: 15px 0;">
+    <button type="button" data-rating="1" style="font-size: 30px; background: none; border: none; cursor: pointer; color: #ccc;">★</button>
+    <button type="button" data-rating="2" style="font-size: 30px; background: none; border: none; cursor: pointer; color: #ccc;">★</button>
+    <button type="button" data-rating="3" style="font-size: 30px; background: none; border: none; cursor: pointer; color: #ccc;">★</button>
+    <button type="button" data-rating="4" style="font-size: 30px; background: none; border: none; cursor: pointer; color: #ccc;">★</button>
+    <button type="button" data-rating="5" style="font-size: 30px; background: none; border: none; cursor: pointer; color: #ccc;">★</button>
+  </div>
+  
+  <p id="rating-text" style="font-size: 14px; color: #666;">Select a star rating</p>
+  
+  <div style="margin-bottom: 12px;">
+    <select id="rating-category" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+      <option value="General Feedback">General Feedback</option>
+      <option value="AI Accuracy">AI Accuracy</option>
+      <option value="UI/Design">UI/Design</option>
+      <option value="Bug Report">Bug Report</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <textarea id="rating-feedback" placeholder="Write your feedback here (optional)" style="width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;"></textarea>
+  </div>
+
+  <button id="submit-rating" style="background: #007bff; color: white; border: none; padding: 10px 20px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;">Submit Rating</button>
+  <p id="rating-message" style="margin-top: 12px; font-size: 14px; font-weight: bold;"></p>
+</section>
 </script>
 </body>
 </html>
