@@ -1321,5 +1321,67 @@
       initSpeechEngine();
     });
   </script>
+<script>
+  const RATING_API = "https://script.google.com/macros/s/AKfycby4QB4TpcSEqgvXEGJjdxxjds7S0BrAUOl7ET2Uv3g-Qz1dNxxwsVjEv40G8Q4P3mfQ/exec"; // <--- Replace this with your actual Web App URL ending in /exec
+
+  let selectedRating = 0;
+  const starButtons = document.querySelectorAll("#portal-rating .stars button");
+
+  starButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedRating = Number(button.dataset.rating);
+
+      starButtons.forEach((star) => {
+        if (Number(star.dataset.rating) <= selectedRating) {
+          star.classList.add("active");
+        } else {
+          star.classList.remove("active");
+        }
+      });
+
+      document.getElementById("rating-text").textContent = selectedRating + " out of 5 stars";
+    });
+  });
+
+  document.getElementById("submit-rating").addEventListener("click", async () => {
+    const message = document.getElementById("rating-message");
+    const submitButton = document.getElementById("submit-rating");
+
+    if (!selectedRating) {
+      message.textContent = "Please select a star rating.";
+      message.style.color = "red";
+      return;
+    }
+
+    const data = {
+      rating: selectedRating,
+      feedback: document.getElementById("rating-feedback").value,
+      category: document.getElementById("rating-category").value
+    };
+
+    submitButton.disabled = true;
+    message.textContent = "Submitting...";
+    message.style.color = "#333";
+
+    try {
+      const response = await fetch(RATING_API, {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) throw new Error("Submission failed");
+
+      message.textContent = "Thank you! Your rating was submitted.";
+      message.style.color = "green";
+    } catch (error) {
+      message.textContent = "Unable to submit. Please try again.";
+      message.style.color = "red";
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
