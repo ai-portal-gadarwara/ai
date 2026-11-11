@@ -1321,5 +1321,143 @@
       initSpeechEngine();
     });
   </script>
+  <script>
+  const RATING_API = "https://script.google.com/macros/s/AKfycby4QB4TpcSEqgvXEGJjdxxjds7S0BrAUOl7ET2Uv3g-Qz1dNxxwsVjEv40G8Q4P3mfQ/exec"; // <--- Replace this with your actual Web App URL ending in /exec
+
+  // Automatically inject the rating box into the page
+  const ratingContainer = document.createElement("div");
+  ratingContainer.innerHTML = `
+    <style>
+      #portal-rating {
+        max-width: 450px;
+        margin: 30px auto;
+        padding: 25px;
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+      #portal-rating h3 { margin-bottom: 15px; color: #333; }
+      #portal-rating .stars button {
+        font-size: 30px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #ccc;
+        transition: color 0.2s;
+        padding: 0 4px;
+      }
+      #portal-rating .stars button.active { color: #ffc107; }
+      #portal-rating select, #portal-rating textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+      #portal-rating button#submit-rating {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      #portal-rating button#submit-rating:hover { background: #0056b3; }
+      #portal-rating #rating-message { margin-top: 12px; font-size: 14px; font-weight: bold; }
+    </style>
+    <section id="portal-rating">
+      <h3>Rate our AI Portal</h3>
+      <div class="stars">
+        <button type="button" data-rating="1">★</button>
+        <button type="button" data-rating="2">★</button>
+        <button type="button" data-rating="3">★</button>
+        <button type="button" data-rating="4">★</button>
+        <button type="button" data-rating="5">★</button>
+      </div>
+      <p id="rating-text">Select a star rating</p>
+      <div>
+        <select id="rating-category">
+          <option value="General Feedback">General Feedback</option>
+          <option value="AI Accuracy">AI Accuracy</option>
+          <option value="UI/Design">UI/Design</option>
+          <option value="Bug Report">Bug Report</option>
+        </select>
+      </div>
+      <div>
+        <textarea id="rating-feedback" placeholder="Write your feedback here (optional)"></textarea>
+      </div>
+      <button id="submit-rating">Submit Rating</button>
+      <p id="rating-message"></p>
+    </section>
+  `;
+  
+  document.body.appendChild(ratingContainer);
+
+  let selectedRating = 0;
+  const starButtons = document.querySelectorAll("#portal-rating .stars button");
+
+  starButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedRating = Number(button.dataset.rating);
+
+      starButtons.forEach((star) => {
+        if (Number(star.dataset.rating) <= selectedRating) {
+          star.classList.add("active");
+        } else {
+          star.classList.remove("active");
+        }
+      });
+
+      document.getElementById("rating-text").textContent = selectedRating + " out of 5 stars";
+    });
+  });
+
+  document.getElementById("submit-rating").addEventListener("click", async () => {
+    const message = document.getElementById("rating-message");
+    const submitButton = document.getElementById("submit-rating");
+
+    if (!selectedRating) {
+      message.textContent = "Please select a star rating.";
+      message.style.color = "red";
+      return;
+    }
+
+    const data = {
+      rating: selectedRating,
+      feedback: document.getElementById("rating-feedback").value,
+      category: document.getElementById("rating-category").value
+    };
+
+    submitButton.disabled = true;
+    message.textContent = "Submitting...";
+    message.style.color = "#333";
+
+    try {
+      const response = await fetch(RATING_API, {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) throw new Error("Submission failed");
+
+      message.textContent = "Thank you! Your rating was submitted.";
+      message.style.color = "green";
+    } catch (error) {
+      message.textContent = "Unable to submit. Please try again.";
+      message.style.color = "red";
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
